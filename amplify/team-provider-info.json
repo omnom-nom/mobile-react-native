@@ -1,0 +1,19 @@
+{
+    "rn": {
+        "awscloudformation": {
+            "AuthRoleName": "mobile-react-native-20190216005034-authRole",
+            "UnauthRoleArn": "arn:aws:iam::868207329640:role/mobile-react-native-20190216005034-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::868207329640:role/mobile-react-native-20190216005034-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "mobile-react-native-20190216005034-deployment",
+            "UnauthRoleName": "mobile-react-native-20190216005034-unauthRole",
+            "StackName": "mobile-react-native-20190216005034",
+            "StackId": "arn:aws:cloudformation:us-west-2:868207329640:stack/mobile-react-native-20190216005034/ec6a8e90-31c7-11e9-ba56-0630890b2eee"
+        },
+        "categories": {
+            "auth": {
+                "cognitof2dfea7a": {}
+            }
+        }
+    }
+}
