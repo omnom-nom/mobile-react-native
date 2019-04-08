@@ -8,6 +8,6 @@ export const customerTypeSelection = (customer_type, navigate) => {
             type: CUSTOMER_TYPE,
             payload: customer_type
         })
-        navigate("signup")
+        navigate("signup_customer")
     }
 }

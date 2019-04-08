@@ -9,7 +9,7 @@ class LoadScreen extends Component {
     }
 
     render() {
-        console.log("loading ...");
+        this.log("loading ...");
         
         return (
             <View style={styles.container}>
@@ -19,8 +19,7 @@ class LoadScreen extends Component {
     }
 
     log = (messsage) => {
-        console.log("[LoadScreen] " + message);
-
+        console.log("[LoadScreen] " + messsage);
     }
 }
 

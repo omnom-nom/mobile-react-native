@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
 import CodeInput from 'react-native-confirmation-code-input';
 import { connect } from 'react-redux';
@@ -32,7 +32,7 @@ class CodeScreen extends Component {
                         What's the code?
                     </Text>
                     <Text style={styles.subHeaderStyle}>
-                        Enter the code sent to {this.props.email}
+                        Enter the code sent to {this.props.email.toLowerCase()}
                     </Text>
                 </View>
                 <View style={{
@@ -55,6 +55,17 @@ class CodeScreen extends Component {
                     />
                 </View>
                 {err}
+                <Button
+                    title='resend code'
+                    type="clear"
+                    titleStyle={{
+                        ...systemWeights.light,
+                        ...material.body1,
+                        color: iOSColors.blue,
+                        fontFamily: 'Futura'
+                    }}
+                    onPress={() => this.props.resend_code(this.props.email.toLowerCase())}
+                />
             </View>
 
         );
@@ -108,8 +119,6 @@ const styles = {
 };
 
 mapStateToProps = ({ auth }) => {
-    console.log(auth);
-
     let email = ""
     let code_error = false
     if (auth != undefined) {

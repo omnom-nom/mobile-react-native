@@ -13,6 +13,8 @@
     "axios": "^0.18.0",
     "email-validator": "^2.0.4",
     "expo": "^32.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-template": "^5.0.0",
     "lottie-react-native": "^2.6.1",
     "os": "^0.1.1",
     "react": "16.5.0",
@@ -29,7 +31,8 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "util": "^0.11.1",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "yargs": "^13.2.2"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"

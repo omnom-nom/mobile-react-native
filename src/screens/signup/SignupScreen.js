@@ -142,7 +142,6 @@ class SignupScreen extends Component {
                         style={styles.textInputStyle}
                         placeholder="NAME"
                         onChangeText={(name) => this.setState({ name })}
-                        errorMessage={this.state.name_error}
                     />
                     {this.error_component(this.state.name_error)}
                     <TextInputMask
@@ -169,8 +168,7 @@ class SignupScreen extends Component {
                     <TextInput
                         style={styles.textInputStyle}
                         placeholder="EMAIL"
-                        onChangeText={(email) => this.setState({ email })}
-                        errorMessage={this.state.email_error}
+                        onChangeText={(email) => this.setState({ email: email.toLowerCase() })}
                         textContentType="emailAddress"
                         autoComplete="email"
                         keyboardType="email-address"
@@ -180,7 +178,6 @@ class SignupScreen extends Component {
                         style={styles.textInputStyle}
                         placeholder="PASSWORD"
                         onChangeText={(password) => this.setState({ password })}
-                        errorMessage={this.state.password_error}
                         secureTextEntry={true}
                     />
                     {this.error_component(this.state.password_error)}
@@ -188,7 +185,6 @@ class SignupScreen extends Component {
                         style={styles.textInputStyle}
                         placeholder="CONFIRM PASSWORD"
                         onChangeText={(confirm_password) => this.setState({ confirm_password })}
-                        errorMessage={this.state.confirm_password_error}
                         secureTextEntry={true}
                     />
                     {this.error_component(this.state.confirm_password_error)}

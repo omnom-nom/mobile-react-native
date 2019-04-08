@@ -5,8 +5,6 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-    console.log(action.payload);
-
     switch (action.type) {
         case CUSTOMER_TYPE:
             console.log("CustomerInfoReducer CUSTOMER_TYPE ");

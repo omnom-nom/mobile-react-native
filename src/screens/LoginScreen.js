@@ -56,8 +56,6 @@ class LoginScreen extends Component {
     }
 
     render() {
-        console.log(this.state);
-
         return (
             <View style={styles.container}>
                 <Image style={styles.imagestyle} source={require('../../assets/logo.png')} />

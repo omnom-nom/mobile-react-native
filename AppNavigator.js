@@ -21,7 +21,7 @@ const AuthStack = createStackNavigator({
             header: null
         }
     },
-    signup: {
+    signup_customer: {
         screen: SignupScreen,
         navigationOptions: {
             header: null

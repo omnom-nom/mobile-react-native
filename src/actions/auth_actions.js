@@ -27,8 +27,6 @@ export const check_session = (navigate) => {
 export const signin = (signin_data, navigate) => {
     return async (dispatch) => {
         console.log("[AUTH_ACTION] signin");
-        console.log(signin_data);
-
         try {
             const success_data = await Auth.signIn({
                 username: signin_data.email,
@@ -38,8 +36,6 @@ export const signin = (signin_data, navigate) => {
                 type: SIGNIN,
             })
             navigate("main")
-            console.log(success_data);
-
         } catch (error) {
             console.log(error);
             dispatch({
@@ -52,7 +48,6 @@ export const signin = (signin_data, navigate) => {
 
 export const signup = (signup_data, navigate) => {
     console.log(`[AUTH_ACTION] signup`);
-    console.log(signup_data);
 
     return async (dispatch) => {
         try {
@@ -95,6 +90,17 @@ export const submit_code = (code_data, navigate) => {
             dispatch({
                 type: CODE_ERROR
             })
+        }
+    }
+}
+
+export const resend_code = (email) => {
+    console.log(`[AUTH_ACTION] resending code`);
+    return async (dispatch) => {
+        try {
+            await Auth.resendSignUp(email)
+        } catch (error) {
+            console.log(error);
         }
     }
 }
