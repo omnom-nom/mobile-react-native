@@ -15,19 +15,19 @@ class MainScreen extends Component {
         return (
             <View style={styles.container}>
                 <Button
-                        buttonStyle={{
-                            width: SCREEN_WIDTH * 0.6,
-                            borderRadius: 100,
-                        }}
-                        title="SIGN OUT"
-                        ViewComponent={LinearGradient}
-                        linearGradientProps={{
-                            colors: ['red', 'pink'],
-                            start: { x: 0, y: 0 },
-                            end: { x: 1, y: 1 },
-                        }}
-                        onPress={() => this.props.signout(this.props.navigation.navigate)}
-                    />
+                    buttonStyle={{
+                        width: SCREEN_WIDTH * 0.6,
+                        borderRadius: 100,
+                    }}
+                    title="SIGN OUT"
+                    ViewComponent={LinearGradient}
+                    linearGradientProps={{
+                        colors: ['red', 'pink'],
+                        start: { x: 0, y: 0 },
+                        end: { x: 1, y: 1 },
+                    }}
+                    onPress={() => this.props.signout(this.props.navigation.navigate)}
+                />
             </View>
         );
     }

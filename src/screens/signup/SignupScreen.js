@@ -28,6 +28,10 @@ class SignupScreen extends Component {
         phoneNumberFormat: "",
     }
 
+    componentWillUnmount = () => {
+        this.props.resetSignupErrors()
+    }
+
     reset_state = () => {
         this.setState({
             name: "",
@@ -142,6 +146,8 @@ class SignupScreen extends Component {
                         style={styles.textInputStyle}
                         placeholder="NAME"
                         onChangeText={(name) => this.setState({ name })}
+                        selectionColor="#fbb700"
+                        autoCapitalize="characters"
                     />
                     {this.error_component(this.state.name_error)}
                     <TextInputMask
@@ -162,16 +168,20 @@ class SignupScreen extends Component {
                                     dddMask: '(999) 999 - '
                                 }
                         }
+                        selectionColor="#fbb700"
                     />
                     {this.error_component(this.state.phone_number_error)}
 
                     <TextInput
                         style={styles.textInputStyle}
-                        placeholder="EMAIL"
+                        placeholder="EMAIL ADDRESS"
                         onChangeText={(email) => this.setState({ email: email.toLowerCase() })}
                         textContentType="emailAddress"
                         autoComplete="email"
                         keyboardType="email-address"
+                        autoCorrect={false}
+                        selectionColor="#fbb700"
+                        autoCapitalize="none"
                     />
                     {this.error_component(this.state.email_error)}
                     <TextInput
@@ -179,6 +189,7 @@ class SignupScreen extends Component {
                         placeholder="PASSWORD"
                         onChangeText={(password) => this.setState({ password })}
                         secureTextEntry={true}
+                        selectionColor="#fbb700"
                     />
                     {this.error_component(this.state.password_error)}
                     <TextInput
@@ -186,6 +197,7 @@ class SignupScreen extends Component {
                         placeholder="CONFIRM PASSWORD"
                         onChangeText={(confirm_password) => this.setState({ confirm_password })}
                         secureTextEntry={true}
+                        selectionColor="#fbb700"
                     />
                     {this.error_component(this.state.confirm_password_error)}
 
@@ -233,7 +245,7 @@ const styles = {
         borderBottomWidth: 1,
         width: SCREEN_WIDTH * 0.8,
         height: SCREEN_HEIGHT * 0.05,
-        padding: 10,
+        paddingHorizontal: 10,
         fontSize: SCREEN_WIDTH * 0.04,
         fontFamily: 'Futura',
         marginBottom: SCREEN_HEIGHT * 0.02,

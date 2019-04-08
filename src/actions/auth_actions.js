@@ -1,4 +1,4 @@
-import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, SESSION_EXISTS } from './types.js';
+import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR } from './types.js';
 import { Auth } from 'aws-amplify';
 
 export const check_session = (navigate) => {
@@ -38,6 +38,11 @@ export const signin = (signin_data, navigate) => {
             navigate("main")
         } catch (error) {
             console.log(error);
+            if (error.code === "UserNotConfirmedException") {
+                navigate("signin_code", {
+                    email: signin_data.email
+                })
+            }
             dispatch({
                 type: SIGNIN_ERROR,
                 payload: error.message
@@ -64,7 +69,9 @@ export const signup = (signup_data, navigate) => {
                     phone_number: signup_data.phone_number
                 }
             })
-            navigate("signup_code")
+            navigate("signup_code", {
+                email: signup_data.email
+            })
         } catch (error) {
             console.log(error);
             dispatch({
@@ -84,11 +91,12 @@ export const submit_code = (code_data, navigate) => {
             dispatch({
                 type: CODE
             })
-            navigate("login")
+            navigate("auth")
         } catch (error) {
             console.log(error);
             dispatch({
-                type: CODE_ERROR
+                type: CODE_ERROR,
+                payload: true
             })
         }
     }
@@ -105,12 +113,46 @@ export const resend_code = (email) => {
     }
 }
 
+export const forgot_password = (email, navigate) => {
+    console.log(`[AUTH_ACTION] forgot password`);
+    return async (dispatch) => {
+        try {
+            await Auth.forgotPassword(email)
+            navigate("reset_password", {
+                email
+            })
+        } catch (error) {
+            console.log(error);
+            dispatch({
+                type: FORGOT_PASSWORD_ERROR,
+                payload: error.message
+            })
+        }
+    }
+}
+
+export const reset_password = (email, password, code, navigate) => {
+    console.log(`[AUTH_ACTION] resetting password`);
+    return async (dispatch) => {
+        try {
+            await Auth.forgotPasswordSubmit(email, code, password)
+            navigate("auth")
+        } catch (error) {
+            console.log(error);
+            dispatch({
+                type: RESET_PASSWORD_ERROR,
+                payload: error.message
+            })
+        }
+    }
+}
+
 export const signout = (navigate) => {
     return async (dispatch) => {
         console.log("[AUTH_ACTION] signout");
         try {
             const success_data = await Auth.signOut()
-            navigate("login")
+            navigate("auth")
         } catch (error) {
             console.log(error);
         }

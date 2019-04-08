@@ -26,7 +26,7 @@ class CustomerTypeScreen extends Component {
                         left: width * 0.1,
                         marginBottom: height * 0.05
                     }}
-                    onPress={() => this.props.navigation.navigate('login')}
+                    onPress={() => this.props.navigation.navigate('auth')}
                 />
                 <Text style={styles.headerStyle}>
                     What are you signing up as ?

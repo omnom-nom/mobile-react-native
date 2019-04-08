@@ -1,4 +1,4 @@
-import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, SESSION_EXISTS } from '../actions/types.js';
+import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, SESSION_EXISTS, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR } from '../actions/types.js';
 
 const initialState = {
 
@@ -29,11 +29,19 @@ export default (state = initialState, action) => {
     case CODE_ERROR:
       console.log("[AuthReducer] CODE_ERROR ");
       console.log({ ...state, code_error: action.payload });
-      return { ...state, code_error: true }
+      return { ...state, code_error: action.payload }
     case CODE:
-      console.log("[AuthReducer] CODE_ERROR ");
+      console.log("[AuthReducer] CODE ");
       console.log({ ...state, code_error: "" });
       return { ...state, code_error: "" }
+    case FORGOT_PASSWORD_ERROR:
+      console.log("[AuthReducer] FORGOT_PASSWORD_ERROR ");
+      console.log({ ...state, forgot_password_error: action.payload });
+      return { ...state, forgot_password_error: action.payload }
+      case RESET_PASSWORD_ERROR:
+        console.log("[AuthReducer] RESET_PASSWORD_ERROR ");
+        console.log({ ...state, reset_password_error: action.payload });
+        return { ...state, reset_password_error: action.payload }
 
     default:
       return state

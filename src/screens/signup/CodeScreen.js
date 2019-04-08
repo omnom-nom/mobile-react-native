@@ -11,9 +11,14 @@ import { moderateScale, width, verticalScale, height } from '../../components/sc
 class CodeScreen extends Component {
     submit_code = (code) => {
         this.props.submit_code({
-            email: this.props.email,
+            // email: this.props.email,
+            email: this.props.navigation.getParam('email', ""),
             confirmationCode: code
         }, this.props.navigation.navigate)
+    }
+
+    componentWillUnmount = () => {
+        this.props.resetCodeErrors()
     }
 
     render() {
@@ -32,7 +37,7 @@ class CodeScreen extends Component {
                         What's the code?
                     </Text>
                     <Text style={styles.subHeaderStyle}>
-                        Enter the code sent to {this.props.email.toLowerCase()}
+                        Enter the code sent to {this.props.navigation.getParam('email', "").toLowerCase()}
                     </Text>
                 </View>
                 <View style={{
@@ -58,13 +63,8 @@ class CodeScreen extends Component {
                 <Button
                     title='resend code'
                     type="clear"
-                    titleStyle={{
-                        ...systemWeights.light,
-                        ...material.body1,
-                        color: iOSColors.blue,
-                        fontFamily: 'Futura'
-                    }}
-                    onPress={() => this.props.resend_code(this.props.email.toLowerCase())}
+                    titleStyle={styles.subButtonStyle}
+                    onPress={() => this.props.resend_code(this.props.navigation.getParam('email', "").toLowerCase())}
                 />
             </View>
 
@@ -109,11 +109,17 @@ const styles = {
         fontFamily: 'Futura'
     },
     subHeaderStyle: {
-        ...systemWeights.semibold,
         ...material.subheading,
+        ...systemWeights.light,
         color: materialColors.blackSecondary,
         width: width * 0.9,
         marginLeft: width * 0.11,
+        fontFamily: 'Futura'
+    },
+    subButtonStyle: {
+        ...material.body1,
+        ...systemWeights.thin,
+        color: iOSColors.purple,
         fontFamily: 'Futura'
     }
 };

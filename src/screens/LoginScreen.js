@@ -5,6 +5,7 @@ import { material, systemWeights, materialColors, iOSColors } from 'react-native
 import LinearGradient from 'expo';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import BackgroundColor from '../components/BackgroundColor';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -15,6 +16,10 @@ class LoginScreen extends Component {
         password_error: "",
         email: "",
         password: ""
+    }
+
+    componentWillUnmount = () => {
+        this.props.resetSigninErrors()
     }
 
     signin = () => {
@@ -58,6 +63,7 @@ class LoginScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
+                {/* <BackgroundColor topColor='#34e89e' bottomColor='#0f3443' /> */}
                 <Image style={styles.imagestyle} source={require('../../assets/logo.png')} />
                 <View
                     style={{
@@ -72,11 +78,14 @@ class LoginScreen extends Component {
                 >
                     <TextInput
                         style={styles.textInputStyle}
-                        placeholder="EMAIL"
+                        placeholder="EMAIL ADDRESS"
                         onChangeText={(email) => this.setState({ email })}
                         textContentType="emailAddress"
                         autoComplete="email"
                         keyboardType="email-address"
+                        selectionColor="#fbb700"
+                        autoCapitalize="none"
+                        autoCorrect={false}
                     />
                     {this.error_component(this.state.email_error)}
 
@@ -85,6 +94,7 @@ class LoginScreen extends Component {
                         placeholder="PASSWORD"
                         onChangeText={(password) => this.setState({ password })}
                         secureTextEntry
+                        selectionColor="#fbb700"
                     />
                     {this.error_component(this.state.password_error)}
 
@@ -116,19 +126,14 @@ class LoginScreen extends Component {
                         <Button
                             title='Create new account'
                             type="clear"
-                            titleStyle={{
-                                color: iOSColors.blue,
-                                fontFamily: 'Futura'
-                            }}
-                            onPress={() => this.props.navigation.navigate('signup_customer_type')}
+                            titleStyle={styles.subButtonStyle}
+                            onPress={() => this.props.navigation.navigate('signup')}
                         />
                         <Button
                             title='Forgot password'
                             type="clear"
-                            titleStyle={{
-                                color: iOSColors.blue,
-                                fontFamily: 'Futura'
-                            }}
+                            titleStyle={styles.subButtonStyle}
+                            onPress={() => this.props.navigation.navigate('password_reset')}
                         />
                     </View>
                 </View>
@@ -158,11 +163,17 @@ const styles = {
         height: SCREEN_HEIGHT * 0.1
     },
     formFieldsErrors: {
-        ...systemWeights.light,
         ...material.body1,
+        ...systemWeights.light,
         color: iOSColors.pink,
         fontFamily: 'Futura',
         marginBottom: SCREEN_HEIGHT * 0.02,
+    },
+    subButtonStyle: {
+        ...material.body1,
+        ...systemWeights.thin,
+        color: iOSColors.purple,
+        fontFamily: 'Futura'
     }
 };
 

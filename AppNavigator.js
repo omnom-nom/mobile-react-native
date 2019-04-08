@@ -5,6 +5,8 @@ import SignupScreen from './src/screens/signup/SignupScreen';
 import CodeScreen from './src/screens/signup/CodeScreen';
 import LoadScreen from './src/screens/LoadScreen';
 import CustomerTypeScreen from './src/screens/signup/CustomerTypeScreen';
+import EmailInput from './src/screens/forgot_password/EmailInput';
+import ResetPasswordScreen from './src/screens/forgot_password/ResetPasswordScreen';
 
 
 
@@ -15,6 +17,15 @@ const AuthStack = createStackNavigator({
             header: null
         }
     },
+    signin_code: {
+        screen: CodeScreen,
+        navigationOptions: {
+            header: null
+        }
+    },  
+})
+
+const SignupStack = createStackNavigator({
     signup_customer_type: {
         screen: CustomerTypeScreen,
         navigationOptions: {
@@ -29,6 +40,21 @@ const AuthStack = createStackNavigator({
     },
     signup_code: {
         screen: CodeScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+})
+
+const PasswordResetStack = createStackNavigator({
+    forgot_password_email_input: {
+        screen: EmailInput,
+        navigationOptions: {
+            header: null
+        }
+    },
+    reset_password: {
+        screen: ResetPasswordScreen,
         navigationOptions: {
             header: null
         }
@@ -50,6 +76,18 @@ const AppNavigator = createStackNavigator({
     },
     main: {
         screen: MainScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    password_reset: {
+        screen: PasswordResetStack,
+        navigationOptions: {
+            header: null
+        }
+    },
+    signup: {
+        screen: SignupStack,
         navigationOptions: {
             header: null
         }
