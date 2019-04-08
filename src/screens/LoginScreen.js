@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, Dimensions } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { Input, Button, Image } from 'react-native-elements';
+import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
 import LinearGradient from 'expo';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -17,41 +18,53 @@ class LoginScreen extends Component {
     }
 
     signin = () => {
-        let email_error = ""
-        let password_error = ""
-        let failed = false
-        if (this.state.email == "") {
-            email_error = "Email required"
-            failed = true
-        }
-        if (this.state.password == "") {
-            password_error = "Password required"
-            failed = true
-        }
-        console.log(email_error);
-        console.log(password_error);
-
-        this.setState({
-            email_error,
-            password_error
-        })
-
-        console.log(this.state);
-        if (failed) {
-            console.log("Failed");
+        if (!this.check()) {
             return
         }
-        console.log(this.state);
         this.props.signin({
             email: this.state.email,
             password: this.state.password
         }, this.props.navigation.navigate)
     }
+
+    check = () => {
+        let email_error = ""
+        let password_error = ""
+        let failed = false
+        if (this.state.email === "") {
+            email_error = "Email required"
+            failed = true
+        }
+        if (this.state.password === "") {
+            password_error = "Password required"
+            failed = true
+        }
+        this.setState({
+            email_error,
+            password_error
+        })
+        if (failed) {
+            return false
+        }
+        return true
+    }
+
+    error_component = (message) => {
+        if (message !== "") {
+            return <Text style={styles.formFieldsErrors}>{message}</Text>
+        }
+    }
+
     render() {
+        console.log(this.state);
+
         return (
             <View style={styles.container}>
+                <Image style={styles.imagestyle} source={require('../../assets/logo.png')} />
                 <View
                     style={{
+                        position: 'absolute',
+                        top: SCREEN_HEIGHT * 0.4,
                         width: SCREEN_WIDTH * 0.8,
                         height: SCREEN_WIDTH * 0.8,
                         flexDirection: 'column',
@@ -66,15 +79,17 @@ class LoginScreen extends Component {
                         textContentType="emailAddress"
                         autoComplete="email"
                         keyboardType="email-address"
-                        errorMessage={this.state.email_error}
                     />
+                    {this.error_component(this.state.email_error)}
+
                     <TextInput
                         style={styles.textInputStyle}
                         placeholder="PASSWORD"
                         onChangeText={(password) => this.setState({ password })}
                         secureTextEntry
-                        errorMessage={this.state.password_error}
                     />
+                    {this.error_component(this.state.password_error)}
+
                     <Text
                         style={{
                             color: 'red'
@@ -87,23 +102,37 @@ class LoginScreen extends Component {
                             width: SCREEN_WIDTH * 0.6,
                             borderRadius: 100,
                         }}
+                        titleStyle={{
+                            fontFamily: 'Futura'
+                        }}
                         title="SIGN IN"
                         ViewComponent={LinearGradient}
                         linearGradientProps={{
-                            colors: ['red', 'pink'],
+                            colors: ['#fbb700', '#fbb700'],
                             start: { x: 0, y: 0 },
                             end: { x: 1, y: 1 },
                         }}
                         onPress={() => this.signin()}
                     />
-                    <Button
-                        title='create an account'
-                        type="clear"
-                        titleStyle={{
-                            color: 'red',
-                        }}
-                        onPress={() => this.props.navigation.navigate('signup')}
-                    />
+                    <View>
+                        <Button
+                            title='Create new account'
+                            type="clear"
+                            titleStyle={{
+                                color: iOSColors.blue,
+                                fontFamily: 'Futura'
+                            }}
+                            onPress={() => this.props.navigation.navigate('signup_customer_type')}
+                        />
+                        <Button
+                            title='Forgot password'
+                            type="clear"
+                            titleStyle={{
+                                color: iOSColors.blue,
+                                fontFamily: 'Futura'
+                            }}
+                        />
+                    </View>
                 </View>
             </View>
         );
@@ -113,7 +142,7 @@ class LoginScreen extends Component {
 const styles = {
     container: {
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
     },
     textInputStyle: {
@@ -122,6 +151,19 @@ const styles = {
         height: SCREEN_HEIGHT * 0.05,
         padding: 5,
         fontSize: SCREEN_WIDTH * 0.04,
+        marginBottom: SCREEN_HEIGHT * 0.02,
+        fontFamily: 'Futura'
+    },
+    imagestyle: {
+        top: SCREEN_HEIGHT * 0.1,
+        width: SCREEN_WIDTH * 0.5,
+        height: SCREEN_HEIGHT * 0.1
+    },
+    formFieldsErrors: {
+        ...systemWeights.light,
+        ...material.body1,
+        color: iOSColors.pink,
+        fontFamily: 'Futura',
         marginBottom: SCREEN_HEIGHT * 0.02,
     }
 };

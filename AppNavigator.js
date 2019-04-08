@@ -1,15 +1,22 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import MainScreen from './src/screens/MainScreen';
 import LoginScreen from './src/screens/LoginScreen';
-import SignupScreen from './src/screens/SignupScreen';
-import SignupCodeScreen from './src/screens/SignupCodeScreen';
+import SignupScreen from './src/screens/signup/SignupScreen';
+import CodeScreen from './src/screens/signup/CodeScreen';
 import LoadScreen from './src/screens/LoadScreen';
+import CustomerTypeScreen from './src/screens/signup/CustomerTypeScreen';
 
 
 
 const AuthStack = createStackNavigator({
     login: {
         screen: LoginScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    signup_customer_type: {
+        screen: CustomerTypeScreen,
         navigationOptions: {
             header: null
         }
@@ -21,7 +28,7 @@ const AuthStack = createStackNavigator({
         }
     },
     signup_code: {
-        screen: SignupCodeScreen,
+        screen: CodeScreen,
         navigationOptions: {
             header: null
         }

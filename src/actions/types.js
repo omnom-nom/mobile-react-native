@@ -5,3 +5,6 @@ export const SIGNIN_ERROR='signin_error';
 export const SIGNUP_ERROR='signup_error';
 export const CODE_ERROR='code_error';
 export const SESSION_EXISTS='session_exists';
+
+// customer info
+export const CUSTOMER_TYPE='customer_type';

@@ -59,7 +59,7 @@ export const signup = (signup_data, navigate) => {
             await Auth.signUp({
                 username: signup_data.email,
                 password: signup_data.password,
-                attributes: { email: signup_data.email },
+                attributes: { email: signup_data.email, phone_number: signup_data.phone_number },
             })
             dispatch({
                 type: SIGNUP,
@@ -81,8 +81,7 @@ export const signup = (signup_data, navigate) => {
 }
 
 export const submit_code = (code_data, navigate) => {
-    console.log(`[AUTH_ACTION] submit code`);
-    console.log(code_data);
+    console.log(`[AUTH_ACTION] submit code: ` + code_data.confirmationCode);
     return async (dispatch) => {
         try {
             const { email, confirmationCode } = code_data;
@@ -94,8 +93,7 @@ export const submit_code = (code_data, navigate) => {
         } catch (error) {
             console.log(error);
             dispatch({
-                type: CODE_ERROR,
-                payload: error.message
+                type: CODE_ERROR
             })
         }
     }
@@ -112,3 +110,4 @@ export const signout = (navigate) => {
         }
     }
 }
+

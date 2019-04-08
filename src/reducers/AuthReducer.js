@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
     case CODE_ERROR:
       console.log("AuthReducer CODE_ERROR ");
       console.log({ ...state, code_error: action.payload });
-      return { ...state, code_error: action.payload }
+      return { ...state, code_error: true }
     case CODE:
       console.log("AuthReducer CODE_ERROR ");
       console.log({ ...state, code_error: "" });

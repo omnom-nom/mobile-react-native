@@ -9,11 +9,18 @@ class LoadScreen extends Component {
     }
 
     render() {
+        console.log("loading ...");
+        
         return (
             <View style={styles.container}>
                 <ActivityIndicator size="large" color="#0000ff" />
             </View>
         );
+    }
+
+    log = (messsage) => {
+        console.log("[LoadScreen] " + message);
+
     }
 }
 
