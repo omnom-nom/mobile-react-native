@@ -6,6 +6,7 @@ import LinearGradient from 'expo';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import BackgroundColor from '../components/BackgroundColor';
+import { style } from '../cmn/AppConfig'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -111,7 +112,7 @@ class LoginScreen extends Component {
                             borderRadius: 100,
                         }}
                         titleStyle={{
-                            fontFamily: 'Futura'
+                            fontFamily: style.font
                         }}
                         title="SIGN IN"
                         ViewComponent={LinearGradient}
@@ -127,13 +128,13 @@ class LoginScreen extends Component {
                             title='Create new account'
                             type="clear"
                             titleStyle={styles.subButtonStyle}
-                            onPress={() => this.props.navigation.navigate('signup')}
+                            onPress={() => this.props.navigation.navigate('signup_customer_type')}
                         />
                         <Button
                             title='Forgot password'
                             type="clear"
                             titleStyle={styles.subButtonStyle}
-                            onPress={() => this.props.navigation.navigate('password_reset')}
+                            onPress={() => this.props.navigation.navigate('forgot_password_email_input')}
                         />
                     </View>
                 </View>
@@ -155,7 +156,7 @@ const styles = {
         padding: 5,
         fontSize: SCREEN_WIDTH * 0.04,
         marginBottom: SCREEN_HEIGHT * 0.02,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     imagestyle: {
         top: SCREEN_HEIGHT * 0.1,
@@ -166,14 +167,14 @@ const styles = {
         ...material.body1,
         ...systemWeights.light,
         color: iOSColors.pink,
-        fontFamily: 'Futura',
+        fontFamily: style.font,
         marginBottom: SCREEN_HEIGHT * 0.02,
     },
     subButtonStyle: {
         ...material.body1,
         ...systemWeights.thin,
         color: iOSColors.purple,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     }
 };
 

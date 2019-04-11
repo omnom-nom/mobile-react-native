@@ -5,7 +5,8 @@ import { material, systemWeights, materialColors, iOSColors } from 'react-native
 import CodeInput from 'react-native-confirmation-code-input';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { moderateScale, width, verticalScale, height } from '../../components/scaling';
+import { style } from '../../cmn/AppConfig'
+import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
 
 
 class CodeScreen extends Component {
@@ -92,13 +93,13 @@ const styles = {
         borderWidth: 2,
         borderColor: "black",
         borderRadius: 4,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     errorCodeStyle: {
         ...systemWeights.light,
         ...material.body1,
         color: iOSColors.pink,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     headerStyle: {
         ...material.headline,
@@ -106,21 +107,21 @@ const styles = {
         color: materialColors.blackPrimary,
         width: width * 0.9,
         marginLeft: width * 0.1,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     subHeaderStyle: {
-        ...material.subheading,
+        fontSize: style.subheading,
         ...systemWeights.light,
         color: materialColors.blackSecondary,
         width: width * 0.9,
         marginLeft: width * 0.11,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     subButtonStyle: {
         ...material.body1,
         ...systemWeights.thin,
         color: iOSColors.purple,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     }
 };
 

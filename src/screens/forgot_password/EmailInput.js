@@ -7,8 +7,9 @@ import * as EmailValidator from 'email-validator';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import { style } from '../../cmn/AppConfig'
 import LinearGradient from 'expo';
-import { moderateScale, width, verticalScale, height } from '../../components/scaling';
+import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
 
 // create a component
 class EmailInput extends Component {
@@ -40,7 +41,6 @@ class EmailInput extends Component {
     render() {
         let err = null
         if (this.props.forgot_password_error !== "") {
-            console.log(this.props.forgot_password_error);
             err = <Text style={styles.errorCodeStyle}> {this.props.forgot_password_error} </Text>
         }
         return (
@@ -52,7 +52,7 @@ class EmailInput extends Component {
                         left: width * 0.1,
                         marginBottom: height * 0.05
                     }}
-                    onPress={() => this.props.navigation.navigate('auth')}
+                    onPress={() => this.props.navigation.navigate('login')}
                 />
                 <View style={{
                     marginBottom: verticalScale(40),
@@ -91,7 +91,7 @@ class EmailInput extends Component {
                             borderRadius: 100,
                         }}
                         titleStyle={{
-                            fontFamily: 'Futura'
+                            fontFamily: style.font
                         }}
                         title="NEXT"
                         ViewComponent={LinearGradient}
@@ -126,13 +126,13 @@ const styles = {
         borderWidth: 2,
         borderColor: "black",
         borderRadius: 4,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     errorCodeStyle: {
         ...systemWeights.light,
         ...material.body1,
         color: iOSColors.pink,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     headerStyle: {
         ...material.headline,
@@ -140,21 +140,21 @@ const styles = {
         color: materialColors.blackPrimary,
         width: width * 0.9,
         marginLeft: width * 0.1,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     subHeaderStyle: {
-        ...material.subheading,
+        fontSize: style.subheading,
         ...systemWeights.light,
         color: materialColors.blackSecondary,
         width: width * 0.9,
         marginLeft: width * 0.11,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     subButtonStyle: {
         ...material.body1,
         ...systemWeights.light,
         color: iOSColors.purple,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     textInputStyle: {
         borderBottomWidth: 1,
@@ -162,14 +162,14 @@ const styles = {
         height: height * 0.05,
         paddingHorizontal: 10,
         fontSize: width * 0.04,
-        fontFamily: 'Futura',
+        fontFamily: style.font,
         marginBottom: height * 0.02,
     },
     formFieldsErrors: {
         ...material.body1,
         ...systemWeights.light,
         color: iOSColors.pink,
-        fontFamily: 'Futura',
+        fontFamily: style.font,
         marginBottom: height * 0.02,
     },
 };

@@ -4,6 +4,7 @@ import { Input, Button } from 'react-native-elements';
 import LinearGradient from 'expo';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
+import { style } from '../../components/AppConfig'
 import * as actions from '../../actions';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;

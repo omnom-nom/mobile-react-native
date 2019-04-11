@@ -1,6 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { style } from '../components/AppConfig'
 
 // create a component
 class WelcomeScreen extends Component {

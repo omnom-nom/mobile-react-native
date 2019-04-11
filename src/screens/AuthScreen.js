@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, Modal, Dimensions } from 'react-native';
 import { Input, Button } from "react-native-elements";
 import { Auth } from 'aws-amplify';
 import { LinearGradient } from 'expo';
+import { style } from '../components/AppConfig'
 
 
 const SCREEN_WIDTH = Dimensions.get('window').width;

@@ -6,7 +6,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
-import { moderateScale, width, verticalScale, height } from '../../components/scaling';
+import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
+import { style } from '../../cmn/AppConfig'
 
 
 // create a component
@@ -26,7 +27,7 @@ class CustomerTypeScreen extends Component {
                         left: width * 0.1,
                         marginBottom: height * 0.05
                     }}
-                    onPress={() => this.props.navigation.navigate('auth')}
+                    onPress={() => this.props.navigation.navigate('login')}
                 />
                 <Text style={styles.headerStyle}>
                     What are you signing up as ?
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
         color: materialColors.blackPrimary,
         width: width * 0.9,
         marginLeft: width * 0.1,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     imagestyle: {
         height: width * 0.3,
@@ -82,11 +83,11 @@ const styles = StyleSheet.create({
     },
     selectionTextStyle: {
         ...systemWeights.semibold,
-        ...material.subheading,
+        fontSize: style.subheading,
         color: materialColors.blackSecondary,
         // width: width * 0.9,
         // marginLeft: width * 0.11,
-        fontFamily: 'Futura',
+        fontFamily: style.font,
         textAlign: 'center',
         padding: 10
     }

@@ -10,3 +10,12 @@ export const RESET_PASSWORD_ERROR ='reset_password_error';
 
 // customer info
 export const CUSTOMER_TYPE='customer_type';
+export const CUSTOMER_INFO='customer_info';
+export const CUSTOMER_DELIVERY_LOCATION='customer_delivery_location';
+export const CUSTOMER_ADDRESSES='customer_addresses';
+
+// session tokens
+export const GOOGLE_PLACES_API_SESSION_TOKEN="google_places_api_session_token";
+
+// api keys
+export const GOOGLE_PLACES_API_KEY="google_places_api_key";

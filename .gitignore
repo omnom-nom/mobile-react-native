@@ -6,6 +6,9 @@ npm-debug.*
 *.key
 *.mobileprovision
 
+# api keys
+.env
+
 #amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -16,3 +19,4 @@ dist/
 node_modules/
 aws-exports.js
 awsconfiguration.json
+dev-docs

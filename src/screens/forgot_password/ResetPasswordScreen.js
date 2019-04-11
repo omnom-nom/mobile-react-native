@@ -8,7 +8,8 @@ import LinearGradient from 'expo'
 import CodeInput from 'react-native-confirmation-code-input';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { moderateScale, width, verticalScale, height } from '../../components/scaling';
+import { style } from '../../cmn/AppConfig'
+import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
 
 
 class ResetPasswordScreen extends Component {
@@ -87,7 +88,7 @@ class ResetPasswordScreen extends Component {
                         left: width * 0.1,
                         marginBottom: height * 0.05
                     }}
-                    onPress={() => this.props.navigation.navigate('auth')}
+                    onPress={() => this.props.navigation.navigate('forgot_password_email_input')}
                 />
                 <View style={{
                     marginBottom: verticalScale(20)
@@ -153,7 +154,7 @@ class ResetPasswordScreen extends Component {
                             marginTop: height * 0.1
                         }}
                         titleStyle={{
-                            fontFamily: 'Futura'
+                            fontFamily: style.font
                         }}
                         title="RESET"
                         ViewComponent={LinearGradient}
@@ -192,13 +193,13 @@ const styles = {
         borderWidth: 2,
         borderColor: "black",
         borderRadius: 4,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     errorCodeStyle: {
         ...systemWeights.light,
         ...material.body1,
         color: iOSColors.pink,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     headerStyle: {
         ...material.headline,
@@ -206,15 +207,15 @@ const styles = {
         color: materialColors.blackPrimary,
         width: width * 0.9,
         marginLeft: width * 0.1,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     subHeaderStyle: {
-        ...material.subheading,
+        fontSize: style.subheading,
         ...systemWeights.light,
         color: materialColors.blackSecondary,
         width: width * 0.9,
         marginLeft: width * 0.11,
-        fontFamily: 'Futura'
+        fontFamily: style.font
     },
     textInputStyle: {
         borderBottomWidth: 1,
@@ -222,14 +223,14 @@ const styles = {
         height: height * 0.05,
         padding: 10,
         fontSize: width * 0.04,
-        fontFamily: 'Futura',
+        fontFamily: style.font,
         marginBottom: height * 0.02,
     },
     formFieldsErrors: {
         ...material.body1,
         ...systemWeights.light,
         color: iOSColors.pink,
-        fontFamily: 'Futura',
+        fontFamily: style.font,
         marginBottom: height * 0.02,
     },
 };

@@ -6,9 +6,10 @@ import * as EmailValidator from 'email-validator';
 import LinearGradient from 'expo';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
-import { moderateScale, width, verticalScale, height } from '../../components/scaling';
+import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import { style } from '../../cmn/AppConfig'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -204,7 +205,7 @@ class SignupScreen extends Component {
                     <Text
                         style={{
                             color: iOSColors.pink,
-                            fontFamily: 'Futura'
+                            fontFamily: style.font
                         }}
                     >
                         {this.props.auth.signup_error}
@@ -217,7 +218,7 @@ class SignupScreen extends Component {
                             borderRadius: 100,
                         }}
                         titleStyle={{
-                            fontFamily: 'Futura'
+                            fontFamily: style.font
                         }}
                         title="SIGN UP"
                         ViewComponent={LinearGradient}
@@ -247,14 +248,14 @@ const styles = {
         height: SCREEN_HEIGHT * 0.05,
         paddingHorizontal: 10,
         fontSize: SCREEN_WIDTH * 0.04,
-        fontFamily: 'Futura',
+        fontFamily: style.font,
         marginBottom: SCREEN_HEIGHT * 0.02,
     },
     formFieldsErrors: {
         ...systemWeights.light,
         ...material.body1,
         color: iOSColors.pink,
-        fontFamily: 'Futura',
+        fontFamily: style.font,
         marginBottom: SCREEN_HEIGHT * 0.02,
     }
 };

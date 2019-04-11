@@ -1,43 +1,54 @@
-import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR } from './types.js';
-import { Auth } from 'aws-amplify';
+import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, CUSTOMER_INFO, GOOGLE_PLACES_API_KEY } from './types.js';
+import { Auth, Logger } from 'aws-amplify';
+import { getSecret } from '../apis/aws'
+import { loggerConfig } from '../cmn/AppConfig'
+
+logger = new Logger("[AuthAction]", loggerConfig.level)
 
 export const check_session = (navigate) => {
     return async (dispatch) => {
-        console.log("[AUTH_ACTION] check_session");
+        logger.debug("checking app session")
         try {
             let data = await Auth.currentSession()
-            // data has all the tokens
+            await fetch_api_key(dispatch, 'google_places', GOOGLE_PLACES_API_KEY)
             navigate("main")
-            // dispatch({
-            //     type: SESSION_EXISTS,
-            //     payload: true
-            // })
         } catch (error) {
-            console.log(`[AUTH_ACTION] check_session : ${error}`);
-            // in case of no user session
+            logger.error("an error occured: ", error)
             navigate("auth")
-            // dispatch({
-            //     type: SESSION_EXISTS,
-            //     payload: false
-            // })
         }
     }
 }
 
+fetch_api_key = async (dispatch, secret_name, type) => {
+    const api_key = await getSecret(secret_name)
+    dispatch({
+        type: type,
+        payload: api_key
+    })
+}
+
 export const signin = (signin_data, navigate) => {
+    logger.debug("signing in")
     return async (dispatch) => {
-        console.log("[AUTH_ACTION] signin");
         try {
             const success_data = await Auth.signIn({
                 username: signin_data.email,
                 password: signin_data.password,
             })
+            await fetch_api_key(dispatch, 'google_places', GOOGLE_PLACES_API_KEY)
+            // TODO: 1) Make a request to users api to get the user information
+            // 2) dispatch it to CustomerInfoReducer:
+            // example
+            // dispatch({
+            //     type: CUSTOMER_INFO,
+            //     payload: {payload from server}
+            // })
             dispatch({
                 type: SIGNIN,
             })
             navigate("main")
         } catch (error) {
-            console.log(error);
+            logger.error("an error occured: ", error)
             if (error.code === "UserNotConfirmedException") {
                 navigate("signin_code", {
                     email: signin_data.email
@@ -52,8 +63,7 @@ export const signin = (signin_data, navigate) => {
 }
 
 export const signup = (signup_data, navigate) => {
-    console.log(`[AUTH_ACTION] signup`);
-
+    logger.debug("signing up")
     return async (dispatch) => {
         try {
             await Auth.signUp({
@@ -73,7 +83,7 @@ export const signup = (signup_data, navigate) => {
                 email: signup_data.email
             })
         } catch (error) {
-            console.log(error);
+            logger.error("an error occured: ", error)
             dispatch({
                 type: SIGNUP_ERROR,
                 payload: error.message
@@ -83,7 +93,7 @@ export const signup = (signup_data, navigate) => {
 }
 
 export const submit_code = (code_data, navigate) => {
-    console.log(`[AUTH_ACTION] submit code: ` + code_data.confirmationCode);
+    logger.debug("submitting code")
     return async (dispatch) => {
         try {
             const { email, confirmationCode } = code_data;
@@ -91,9 +101,9 @@ export const submit_code = (code_data, navigate) => {
             dispatch({
                 type: CODE
             })
-            navigate("auth")
+            navigate("login")
         } catch (error) {
-            console.log(error);
+            logger.error("an error occured: ", error)
             dispatch({
                 type: CODE_ERROR,
                 payload: true
@@ -103,18 +113,18 @@ export const submit_code = (code_data, navigate) => {
 }
 
 export const resend_code = (email) => {
-    console.log(`[AUTH_ACTION] resending code`);
+    logger.debug("resending code request")
     return async (dispatch) => {
         try {
             await Auth.resendSignUp(email)
         } catch (error) {
-            console.log(error);
+            logger.error("an error occured: ", error)
         }
     }
 }
 
 export const forgot_password = (email, navigate) => {
-    console.log(`[AUTH_ACTION] forgot password`);
+    logger.debug("forgot password")
     return async (dispatch) => {
         try {
             await Auth.forgotPassword(email)
@@ -122,7 +132,7 @@ export const forgot_password = (email, navigate) => {
                 email
             })
         } catch (error) {
-            console.log(error);
+            logger.error("an error occured: ", error)
             dispatch({
                 type: FORGOT_PASSWORD_ERROR,
                 payload: error.message
@@ -132,13 +142,13 @@ export const forgot_password = (email, navigate) => {
 }
 
 export const reset_password = (email, password, code, navigate) => {
-    console.log(`[AUTH_ACTION] resetting password`);
+    logger.debug("resetting password")
     return async (dispatch) => {
         try {
             await Auth.forgotPasswordSubmit(email, code, password)
             navigate("auth")
         } catch (error) {
-            console.log(error);
+            logger.error("an error occured: ", error)
             dispatch({
                 type: RESET_PASSWORD_ERROR,
                 payload: error.message
@@ -154,7 +164,7 @@ export const signout = (navigate) => {
             const success_data = await Auth.signOut()
             navigate("auth")
         } catch (error) {
-            console.log(error);
+            logger.error("an error occured: ", error)
         }
     }
 }

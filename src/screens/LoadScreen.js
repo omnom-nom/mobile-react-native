@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import { style } from '../cmn/AppConfig'
 
 class LoadScreen extends Component {
     componentDidMount = () => {
@@ -10,7 +11,6 @@ class LoadScreen extends Component {
 
     render() {
         this.log("loading ...");
-        
         return (
             <View style={styles.container}>
                 <ActivityIndicator size="large" color="#0000ff" />

@@ -1,47 +1,39 @@
 import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, SESSION_EXISTS, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR } from '../actions/types.js';
-
+import { loggerConfig } from '../cmn/AppConfig'
+import { Logger } from 'aws-amplify';
 const initialState = {
 
 }
-
+const logger = new Logger("[AuthReducer]", loggerConfig.debug)
 export default (state = initialState, action) => {
-  console.log(action.payload);
-
   switch (action.type) {
     case SESSION_EXISTS:
-      console.log("[AuthReducer] SESSION_EXISTS ");
-      console.log({ ...state, session_exists: action.payload });
+      logger.debug("SESSION_EXISTS ");
       return { ...state, session_exists: action.payload }
     case SIGNIN:
-      console.log("[AuthReducer] SIGNIN ");
-      console.log({ ...state, signin_error: "" });
+      logger.debug("SIGNIN ");
       return { ...state, signin_error: "" }
     case SIGNIN_ERROR:
-      console.log("[AuthReducer] SIGNIN_ERROR ");
-      console.log({ ...state, signin_error: action.payload });
+      logger.debug("SIGNIN_ERROR ");
       return { ...state, signin_error: action.payload }
     case SIGNUP_ERROR:
+      logger.debug("SIGNUP_ERROR ");
       return { ...state, signup_error: action.payload }
     case SIGNUP:
-      console.log("[AuthReducer] SIGNUP ");
-      console.log({ ...state, ...action.payload, signup_error: "" });
+      logger.debug("SIGNUP ");
       return { ...state, ...action.payload, signup_error: "" }
     case CODE_ERROR:
-      console.log("[AuthReducer] CODE_ERROR ");
-      console.log({ ...state, code_error: action.payload });
+      logger.debug("CODE_ERROR ");
       return { ...state, code_error: action.payload }
     case CODE:
-      console.log("[AuthReducer] CODE ");
-      console.log({ ...state, code_error: "" });
+      logger.debug("CODE ");
       return { ...state, code_error: "" }
     case FORGOT_PASSWORD_ERROR:
-      console.log("[AuthReducer] FORGOT_PASSWORD_ERROR ");
-      console.log({ ...state, forgot_password_error: action.payload });
+      logger.debug("FORGOT_PASSWORD_ERROR ");
       return { ...state, forgot_password_error: action.payload }
-      case RESET_PASSWORD_ERROR:
-        console.log("[AuthReducer] RESET_PASSWORD_ERROR ");
-        console.log({ ...state, reset_password_error: action.payload });
-        return { ...state, reset_password_error: action.payload }
+    case RESET_PASSWORD_ERROR:
+      logger.debug("RESET_PASSWORD_ERROR ");
+      return { ...state, reset_password_error: action.payload }
 
     default:
       return state
