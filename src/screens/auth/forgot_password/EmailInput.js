@@ -6,10 +6,10 @@ import { material, systemWeights, materialColors, iOSColors } from 'react-native
 import * as EmailValidator from 'email-validator';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
-import { style } from '../../cmn/AppConfig'
+import * as actions from '../../../actions';
+import { style } from '../../../cmn/AppConfig'
 import LinearGradient from 'expo';
-import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
+import { moderateScale, width, verticalScale, height } from '../../../cmn/Scaling';
 
 // create a component
 class EmailInput extends Component {

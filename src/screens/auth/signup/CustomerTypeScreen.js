@@ -4,10 +4,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Input, Button, Image } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import * as actions from '../../../actions';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
-import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
-import { style } from '../../cmn/AppConfig'
+import { moderateScale, width, verticalScale, height } from '../../../cmn/Scaling';
+import { style } from '../../../cmn/AppConfig'
 
 
 // create a component
@@ -39,14 +39,14 @@ class CustomerTypeScreen extends Component {
                     marginTop: height * 0.1
                 }}>
                     <TouchableOpacity onPress={() => this.onSelect("cook")}>
-                        <Image style={styles.imagestyle} source={require('../../../assets/chef_hat.png')} />
+                        <Image style={styles.imagestyle} source={require('../../../../assets/chef_hat.png')} />
                         <Text style={styles.selectionTextStyle}>
                             Cook
                         </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => this.onSelect("customer")}>
-                        <Image style={styles.imagestyle} source={require('../../../assets/fork.png')} />
+                        <Image style={styles.imagestyle} source={require('../../../../assets/fork.png')} />
                         <Text style={styles.selectionTextStyle}>
                             Customer
                         </Text>

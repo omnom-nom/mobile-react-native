@@ -6,10 +6,10 @@ import * as EmailValidator from 'email-validator';
 import LinearGradient from 'expo';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
-import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
+import { moderateScale, width, verticalScale, height } from '../../../cmn/Scaling';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
-import { style } from '../../cmn/AppConfig'
+import * as actions from '../../../actions';
+import { style } from '../../../cmn/AppConfig'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;

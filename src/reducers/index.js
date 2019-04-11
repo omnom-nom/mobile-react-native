@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import AuthReducer from './AuthReducer';
 import CustomerInfoReducer from './CustomerInfoReducer';
-import GoogleSessionReducer from './GoogleSessionReducer';
 import ApiKeyReducer from './ApiKeyReducer';
+import DeliveryAddressReducer from './DeliveryAddressReducer';
+import SessionTokenReducer from './SessionTokenReducer';
 
 export default combineReducers({
     auth: AuthReducer,
     customer_info: CustomerInfoReducer,
-    google_api_session_info: GoogleSessionReducer,
-    api_keys: ApiKeyReducer
+    session_tokens: SessionTokenReducer,
+    api_keys: ApiKeyReducer,
+    delivery_info: DeliveryAddressReducer
 });

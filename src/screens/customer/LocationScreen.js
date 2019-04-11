@@ -47,10 +47,10 @@ class LocationScreen extends Component {
     };
 
     handleMapRegionChangeComplete = region => {
-        const val = this.dragging._value
-        if (val > 0) {
-            this.props.customerDeliveryLocationCoordinate(region)
-        }
+        // const val = this.dragging._value
+        // if (val > 0) {
+        //     this.props.customerDeliveryLocationCoordinate(region)
+        // }
         Animated.spring(
             this.dragging, {
                 toValue: 0,
@@ -69,7 +69,7 @@ class LocationScreen extends Component {
 
         let location = await Location.getCurrentPositionAsync({});
         const loc = { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
-        await this.props.customerDeliveryLocationCoordinate(loc)
+        await this.props.customerCurrentLocationCoordinate(loc)
         this.setState({ location: loc});
     };
 
@@ -172,7 +172,7 @@ class LocationScreen extends Component {
     set_map_to_current_location = async () => {
         let location = await Location.getCurrentPositionAsync({});
         const loc = { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }
-        this.props.customerDeliveryLocationCoordinate(loc)
+        this.props.customerCurrentLocationCoordinate(loc)
         this.setState({ location: loc });
     }
 }

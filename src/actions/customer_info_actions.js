@@ -20,7 +20,7 @@ export const customerTypeSelection = (customer_type, navigate) => {
     }
 }
 
-export const customerDeliveryLocationCoordinate = (location) => {
+export const customerCurrentLocationCoordinate = (location) => {
     logger.debug("customer delivery locaiton: ", location)
     return async (dispatch, getState) => {
         const { google_places_api_key } = getState().api_keys
@@ -80,9 +80,9 @@ export const createSessionTokenForGooglePlaceApi = () => {
 
 export const autocompleteAddress = (address_string) => {
     return async (dispatch, getState) => {
-        const { places_session_token } = getState().google_api_session_info
+        const { google_places_session_token } = getState().session_tokens
         const { google_places_api_key } = getState().api_keys
-        addresses = await autoCompleteAddress(address_string, places_session_token, google_places_api_key)
+        addresses = await autoCompleteAddress(address_string, google_places_session_token, google_places_api_key)
         dispatch({
             type: CUSTOMER_ADDRESSES,
             payload: addresses
@@ -95,9 +95,9 @@ export const autocompleteAddress = (address_string) => {
 export const selectAddress = (place_id) => {
     logger.debug("customer selected an address")
     return async (dispatch, getState) => {
-        const { places_session_token } = getState().google_api_session_info
+        const { google_places_session_token } = getState().session_tokens
         const { google_places_api_key } = getState().api_keys
-        const address = await fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id + '&key=' + google_places_api_key + '&sessiontoken=' + places_session_token)
+        const address = await fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id + '&key=' + google_places_api_key + '&sessiontoken=' + google_places_session_token)
         const addressJson = await address.json()
     }
 }

@@ -4,9 +4,9 @@ import { View, Text, Button } from 'react-native';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
 import CodeInput from 'react-native-confirmation-code-input';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
-import { style } from '../../cmn/AppConfig'
-import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
+import * as actions from '../../../actions';
+import { style } from '../../../cmn/AppConfig'
+import { moderateScale, width, verticalScale, height } from '../../../cmn/Scaling';
 
 
 class CodeScreen extends Component {

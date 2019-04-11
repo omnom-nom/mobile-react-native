@@ -7,9 +7,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'expo'
 import CodeInput from 'react-native-confirmation-code-input';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
-import { style } from '../../cmn/AppConfig'
-import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
+import * as actions from '../../../actions';
+import { style } from '../../../cmn/AppConfig'
+import { moderateScale, width, verticalScale, height } from '../../../cmn/Scaling';
 
 
 class ResetPasswordScreen extends Component {

@@ -4,9 +4,9 @@ import { Input, Button, Image } from 'react-native-elements';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
 import LinearGradient from 'expo';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
-import BackgroundColor from '../components/BackgroundColor';
-import { style } from '../cmn/AppConfig'
+import * as actions from '../../actions';
+import BackgroundColor from '../../components/BackgroundColor';
+import { style } from '../../cmn/AppConfig'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -65,7 +65,7 @@ class LoginScreen extends Component {
         return (
             <View style={styles.container}>
                 {/* <BackgroundColor topColor='#34e89e' bottomColor='#0f3443' /> */}
-                <Image style={styles.imagestyle} source={require('../../assets/logo.png')} />
+                <Image style={styles.imagestyle} source={require('../../../assets/logo.png')} />
                 <View
                     style={{
                         position: 'absolute',

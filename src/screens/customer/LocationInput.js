@@ -241,15 +241,15 @@ const styles = {
     }
 };
 
-mapStateToProps = ({ customer_info }) => {
-    if (customer_info === undefined) {
+mapStateToProps = ({ delivery_info }) => {
+    if (delivery_info === undefined) {
         return {
             delivery_address: ""
         }
     }
     return {
-        delivery_address: customer_info["customer_delivery_address"],
-        delivery_autocomplete_addresses: customer_info["customer_delivery_autocomplete_addresses"]
+        delivery_address: delivery_info["customer_delivery_address"],
+        delivery_autocomplete_addresses: delivery_info["customer_delivery_autocomplete_addresses"]
     }
 }
 

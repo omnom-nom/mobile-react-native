@@ -11,7 +11,7 @@ export const check_session = (navigate) => {
         try {
             let data = await Auth.currentSession()
             await fetch_api_key(dispatch, 'google_places', GOOGLE_PLACES_API_KEY)
-            navigate("main")
+            navigate("customer")
         } catch (error) {
             logger.error("an error occured: ", error)
             navigate("auth")
@@ -36,7 +36,8 @@ export const signin = (signin_data, navigate) => {
                 password: signin_data.password,
             })
             await fetch_api_key(dispatch, 'google_places', GOOGLE_PLACES_API_KEY)
-            // TODO: 1) Make a request to users api to get the user information
+            // TODO: 
+            // 1) Make a request to users api to get the user information
             // 2) dispatch it to CustomerInfoReducer:
             // example
             // dispatch({
@@ -46,7 +47,7 @@ export const signin = (signin_data, navigate) => {
             dispatch({
                 type: SIGNIN,
             })
-            navigate("main")
+            navigate("customer")
         } catch (error) {
             logger.error("an error occured: ", error)
             if (error.code === "UserNotConfirmedException") {
