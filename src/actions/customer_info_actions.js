@@ -90,6 +90,8 @@ export const autocompleteAddress = (address_string) => {
     }
 }
 
+// TODO: Possiblly move the google apis to a server on aws and use that
+
 export const selectAddress = (place_id) => {
     logger.debug("customer selected an address")
     return async (dispatch, getState) => {
