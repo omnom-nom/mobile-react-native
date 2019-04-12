@@ -61,7 +61,7 @@ class LocationInput extends Component {
                         <Icon
                             name='location-on'
                             size={moderateScale(25)}
-                            color={iOSColors.yellow}
+                            color={style.color}
                         />
                     }
                 />
@@ -192,8 +192,8 @@ class LocationInput extends Component {
                     leftIcon={
                         <Icon
                             name='search'
-                            size={moderateScale(15)}
-                            color={iOSColors.yellow}
+                            size={moderateScale(20)}
+                            color={style.color}
                         />
                     }
                     value={this.state.location}
@@ -209,7 +209,7 @@ class LocationInput extends Component {
                             this.props.autocompleteAddress(text)
                         }
                     }}
-                    selectionColor="#fbb700"
+                    selectionColor={style.color}
                 />
                 {addressList}
             </Animated.View>

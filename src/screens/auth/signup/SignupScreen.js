@@ -147,7 +147,7 @@ class SignupScreen extends Component {
                         style={styles.textInputStyle}
                         placeholder="NAME"
                         onChangeText={(name) => this.setState({ name })}
-                        selectionColor="#fbb700"
+                        selectionColor={style.color}
                         autoCapitalize="characters"
                     />
                     {this.error_component(this.state.name_error)}
@@ -169,7 +169,7 @@ class SignupScreen extends Component {
                                     dddMask: '(999) 999 - '
                                 }
                         }
-                        selectionColor="#fbb700"
+                        selectionColor={style.color}
                     />
                     {this.error_component(this.state.phone_number_error)}
 
@@ -181,7 +181,7 @@ class SignupScreen extends Component {
                         autoComplete="email"
                         keyboardType="email-address"
                         autoCorrect={false}
-                        selectionColor="#fbb700"
+                        selectionColor={style.color}
                         autoCapitalize="none"
                     />
                     {this.error_component(this.state.email_error)}
@@ -190,7 +190,7 @@ class SignupScreen extends Component {
                         placeholder="PASSWORD"
                         onChangeText={(password) => this.setState({ password })}
                         secureTextEntry={true}
-                        selectionColor="#fbb700"
+                        selectionColor={style.color}
                     />
                     {this.error_component(this.state.password_error)}
                     <TextInput
@@ -198,7 +198,7 @@ class SignupScreen extends Component {
                         placeholder="CONFIRM PASSWORD"
                         onChangeText={(confirm_password) => this.setState({ confirm_password })}
                         secureTextEntry={true}
-                        selectionColor="#fbb700"
+                        selectionColor={style.color}
                     />
                     {this.error_component(this.state.confirm_password_error)}
 
@@ -223,7 +223,7 @@ class SignupScreen extends Component {
                         title="SIGN UP"
                         ViewComponent={LinearGradient}
                         linearGradientProps={{
-                            colors: ['#fbb700', '#fbb700'],
+                            colors: [style.color, style.color],
                             start: { x: 0, y: 0 },
                             end: { x: 1, y: 1 },
                         }}

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import LottieView from 'lottie-react-native';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { style } from '../cmn/AppConfig'
+import { moderateScale, width, verticalScale, height } from '../cmn/Scaling';
+
 
 class LoadScreen extends Component {
     componentDidMount = () => {
@@ -13,7 +16,16 @@ class LoadScreen extends Component {
         this.log("loading ...");
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large" color="#0000ff" />
+                {/* <ActivityIndicator size="large" color="#0000ff" /> */}
+                <LottieView
+                    source={require('../../assets/circle_loading.json')}
+                    autoPlay
+                    loop
+                    style={{
+                        width: moderateScale(200),
+                        height: moderateScale(200),
+                    }}
+                />
             </View>
         );
     }

@@ -1,67 +1,58 @@
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
-import MainScreen from './src/screens/MainScreen';
-import LoginScreen from './src/screens/LoginScreen';
-import SignupScreen from './src/screens/signup/SignupScreen';
-import CodeScreen from './src/screens/signup/CodeScreen';
+import LoginScreen from './src/screens/auth/LoginScreen';
+import SignupScreen from './src/screens/auth/signup/SignupScreen';
+import CodeScreen from './src/screens/auth/signup/CodeScreen';
 import LoadScreen from './src/screens/LoadScreen';
-import CustomerTypeScreen from './src/screens/signup/CustomerTypeScreen';
-import EmailInput from './src/screens/forgot_password/EmailInput';
-import ResetPasswordScreen from './src/screens/forgot_password/ResetPasswordScreen';
+import CustomerTypeScreen from './src/screens/auth/signup/CustomerTypeScreen';
+import EmailInput from './src/screens/auth/forgot_password/EmailInput';
+import ResetPasswordScreen from './src/screens/auth/forgot_password/ResetPasswordScreen';
 import LocationScreen from './src/screens/customer/LocationScreen';
+import MenuScreen from './src/screens/customer/MenuScreen';
 
+const nullHeader = {
+    header: null
+}
 
 
 const AuthStack = createStackNavigator({
     login: {
         screen: LoginScreen,
-        navigationOptions: {
-            header: null
-        }
+        navigationOptions: nullHeader
     },
     signin_code: {
         screen: CodeScreen,
-        navigationOptions: {
-            header: null
-        }
+        navigationOptions: nullHeader
     },
     signup_customer_type: {
         screen: CustomerTypeScreen,
-        navigationOptions: {
-            header: null
-        }
+        navigationOptions: nullHeader
     },
     signup_customer: {
         screen: SignupScreen,
-        navigationOptions: {
-            header: null
-        }
+        navigationOptions: nullHeader
     },
     signup_code: {
         screen: CodeScreen,
-        navigationOptions: {
-            header: null
-        }
+        navigationOptions: nullHeader
     },
     forgot_password_email_input: {
         screen: EmailInput,
-        navigationOptions: {
-            header: null
-        }
+        navigationOptions: nullHeader
     },
     reset_password: {
         screen: ResetPasswordScreen,
-        navigationOptions: {
-            header: null
-        }
+        navigationOptions: nullHeader
     }
 })
 
 const CustomerStack = createStackNavigator({
-    customer_location: {
+    delivery_location: {
         screen: LocationScreen,
-        navigationOptions: {
-            header: null
-        }
+        navigationOptions: nullHeader
+    },
+    menu: {
+        screen: MenuScreen,
+        navigationOptions: nullHeader
     }
 })
 
@@ -69,25 +60,18 @@ const AppNavigator = createSwitchNavigator(
     {
         auth_load: {
             screen: LoadScreen,
-            navigationOptions: {
-                header: null
-            }
+            navigationOptions: nullHeader
         },
         auth: {
             screen: AuthStack,
-            navigationOptions: {
-                header: null
-            }
+            navigationOptions: nullHeader
         },
-        main: {
+        customer: {
             screen: CustomerStack,
-            navigationOptions: {
-                header: null
-            }
+            navigationOptions: nullHeader
         },
     },
     {
-        // initialRouteName: 'main',
         initialRouteName: 'auth_load',
     }
 );

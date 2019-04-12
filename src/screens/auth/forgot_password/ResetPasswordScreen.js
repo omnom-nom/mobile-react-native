@@ -136,7 +136,7 @@ class ResetPasswordScreen extends Component {
                         placeholder="PASSWORD"
                         onChangeText={(password) => this.setState({ password })}
                         secureTextEntry={true}
-                        selectionColor="#fbb700"
+                        selectionColor={style.color}
                     />
                     {this.error_component(this.state.password_error)}
                     <TextInput
@@ -144,7 +144,7 @@ class ResetPasswordScreen extends Component {
                         placeholder="CONFIRM PASSWORD"
                         onChangeText={(confirm_password) => this.setState({ confirm_password })}
                         secureTextEntry={true}
-                        selectionColor="#fbb700"
+                        selectionColor={style.color}
                     />
                     {this.error_component(this.state.confirm_password_error)}
                     <Button
@@ -159,7 +159,7 @@ class ResetPasswordScreen extends Component {
                         title="RESET"
                         ViewComponent={LinearGradient}
                         linearGradientProps={{
-                            colors: ['#fbb700', '#fbb700'],
+                            colors: [style.color, style.color],
                             start: { x: 0, y: 0 },
                             end: { x: 1, y: 1 },
                         }}

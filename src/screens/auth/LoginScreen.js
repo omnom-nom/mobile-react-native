@@ -84,7 +84,7 @@ class LoginScreen extends Component {
                         textContentType="emailAddress"
                         autoComplete="email"
                         keyboardType="email-address"
-                        selectionColor="#fbb700"
+                        selectionColor={style.color}
                         autoCapitalize="none"
                         autoCorrect={false}
                     />
@@ -95,7 +95,7 @@ class LoginScreen extends Component {
                         placeholder="PASSWORD"
                         onChangeText={(password) => this.setState({ password })}
                         secureTextEntry
-                        selectionColor="#fbb700"
+                        selectionColor={style.color}
                     />
                     {this.error_component(this.state.password_error)}
 
@@ -117,7 +117,7 @@ class LoginScreen extends Component {
                         title="SIGN IN"
                         ViewComponent={LinearGradient}
                         linearGradientProps={{
-                            colors: ['#fbb700', '#fbb700'],
+                            colors: [style.color, style.color],
                             start: { x: 0, y: 0 },
                             end: { x: 1, y: 1 },
                         }}

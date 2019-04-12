@@ -80,7 +80,7 @@ class EmailInput extends Component {
                         autoComplete="email"
                         keyboardType="email-address"
                         autoCorrect={false}
-                        selectionColor="#fbb700"
+                        selectionColor={style.color}
                         autoCapitalize="none"
                     />
                     {this.error_component(this.state.email_error)}
@@ -96,7 +96,7 @@ class EmailInput extends Component {
                         title="NEXT"
                         ViewComponent={LinearGradient}
                         linearGradientProps={{
-                            colors: ['#fbb700', '#fbb700'],
+                            colors: [style.color, style.color],
                             start: { x: 0, y: 0 },
                             end: { x: 1, y: 1 },
                         }}

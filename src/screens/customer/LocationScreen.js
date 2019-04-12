@@ -47,10 +47,10 @@ class LocationScreen extends Component {
     };
 
     handleMapRegionChangeComplete = region => {
-        // const val = this.dragging._value
-        // if (val > 0) {
-        //     this.props.customerDeliveryLocationCoordinate(region)
-        // }
+        const val = this.dragging._value
+        if (val > 0) {
+            this.props.customerCurrentLocationCoordinate(region)
+        }
         Animated.spring(
             this.dragging, {
                 toValue: 0,
@@ -115,9 +115,8 @@ class LocationScreen extends Component {
                 position: 'absolute',
                 left: width * 0.5 - moderateScale(1),
                 top: map_height * 0.5 - moderateScale(2),
-                borderWidth: 0,
-                // justifyContent: "center",
-                alignItems: 'center'
+                borderWidth: 1,
+                alignItems: 'center',
             }}>
                 <Animated.View
                     style={{
