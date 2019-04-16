@@ -40,15 +40,12 @@ class LocationInput extends Component {
         const keyExtractor = (item, index) => item["place_id"]
         const renderItem = ({ item }) => (
             <TouchableOpacity onPress={() => {
-                this.props.selectAddress(item["place_id"])
-                this.props.createSessionTokenForGooglePlaceApi()
-                // TODO: select and move to next screen
+                this.props.selectAddress(item["place_id"], this.props.navigate)
             }}
             >
                 <ListItem
                     title={item["description"]}
                     titleStyle={{
-                        // fontSize: style.subheading,,
                         fontSize: moderateScale(15),
                         fontFamily: style.font
                     }}

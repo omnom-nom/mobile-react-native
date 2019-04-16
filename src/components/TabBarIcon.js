@@ -11,8 +11,8 @@ class TabBarIcon extends Component {
         return (
             <View style={styles.container}>
                 <Icon
-                    name='bars'
-                    type='font-awesome'
+                    name='menu'
+                    type='ionicons'
                     onPress={this.props.onPress}
                     size={moderateScale(30)}
                 />
@@ -29,7 +29,7 @@ const styles = {
         alignItems: 'center',
         position: 'absolute',
         top: height * 0.05,
-        left: width * 0.05,
+        left: moderateScale(10),
     },
 };
 

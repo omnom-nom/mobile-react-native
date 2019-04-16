@@ -14,6 +14,9 @@ export const CUSTOMER_INFO='customer_info';
 export const CUSTOMER_DELIVERY_LOCATION='customer_delivery_location';
 export const CUSTOMER_ADDRESSES='customer_addresses';
 
+// order indo
+export const ORDER_DELIVERY_ADDRESS='delivery_address';
+
 // session tokens
 export const GOOGLE_PLACES_API_SESSION_TOKEN="google_places_api_session_token";
 

@@ -1,5 +1,5 @@
 
-import { CUSTOMER_TYPE, CUSTOMER_DELIVERY_LOCATION, GOOGLE_PLACES_API_SESSION_TOKEN, CUSTOMER_ADDRESSES } from './types.js';
+import { CUSTOMER_TYPE, CUSTOMER_DELIVERY_LOCATION, GOOGLE_PLACES_API_SESSION_TOKEN, CUSTOMER_ADDRESSES, ORDER_DELIVERY_ADDRESS } from './types.js';
 import { MapView, Location, Permissions, Constants } from 'expo'
 import uuidv4 from 'uuid/v4'
 import { Logger } from 'aws-amplify'
@@ -69,13 +69,17 @@ export const customerCurrentLocation = () => {
 
 export const createSessionTokenForGooglePlaceApi = () => {
     return (dispatch) => {
-        session_token = uuidv4()
-        logger.debug(`google place api session key rotated ${session_token}`);
-        dispatch({
-            type: GOOGLE_PLACES_API_SESSION_TOKEN,
-            payload: session_token
-        })
+        updateGoogleApiSessionToken(dispatch)
     }
+}
+
+updateGoogleApiSessionToken = (dispatch) => {
+    session_token = uuidv4()
+    logger.debug(`google place api session key rotated ${session_token}`);
+    dispatch({
+        type: GOOGLE_PLACES_API_SESSION_TOKEN,
+        payload: session_token
+    })
 }
 
 export const autocompleteAddress = (address_string) => {
@@ -92,13 +96,39 @@ export const autocompleteAddress = (address_string) => {
 
 // TODO: Possiblly move the google apis to a server on aws and use that
 
-export const selectAddress = (place_id) => {
-    logger.debug("customer selected an address")
+export const selectAddress = (place_id, navigate) => {
+    logger.debug("customer selected an address 1")
     return async (dispatch, getState) => {
-        const { google_places_session_token } = getState().session_tokens
-        const { google_places_api_key } = getState().api_keys
-        const address = await fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id + '&key=' + google_places_api_key + '&sessiontoken=' + google_places_session_token)
-        const addressJson = await address.json()
+        try {
+            const { google_places_session_token } = getState().session_tokens
+            const { google_places_api_key } = getState().api_keys
+            const address = await fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id + '&key=' + google_places_api_key + '&sessiontoken=' + google_places_session_token)
+            const addressJson = await address.json()
+            logger.debug(addressJson["result"]["address_components"])
+            const finalDeliveryAddress = getDeliveryAddress(addressJson)
+            await dispatch({
+                type: ORDER_DELIVERY_ADDRESS,
+                payload: finalDeliveryAddress
+            })
+            navigate("customer_main")
+            updateGoogleApiSessionToken(dispatch)
+        } catch (error) {
+            logger.error("unable to fetch detailed info for place id: ", place_id, error)
+        }
+    }
+}
+
+getDeliveryAddress = (addressJson) => {
+    const components = addressJson["result"]["address_components"]
+    street_number = components.filter((c) => c["types"][0] === "street_number")
+    street_name = components.filter((c) => c["types"][0] === "route")
+    city = components.filter((c) => c["types"][0] === "locality")
+    postal_code = components.filter((c) => c["types"][0] === "postal_code")
+    return {
+        street_number: _.isUndefined(street_number) || _.isEmpty(street_number) ? null : street_number[0]["long_name"],
+        street_name: _.isUndefined(street_name) || _.isEmpty(street_name) ? null : street_name[0]["long_name"],
+        city: _.isUndefined(city) || _.isEmpty(city) ? null : city[0]["long_name"],
+        postal_code: _.isUndefined(postal_code) || _.isEmpty(postal_code) ? null : postal_code[0]["long_name"],
     }
 }
 
@@ -107,6 +137,7 @@ getCustomerDeliveryLocation = async (lat, lon, api_key) => {
     try {
         const address = await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + lat + ',' + lon + '&key=' + api_key)
         const addressJson = await address.json()
+        logger.debug(addressJson)
         return convertoResultToAddress(addressJson)
     } catch (error) {
         logger.error("an error occured ", error)

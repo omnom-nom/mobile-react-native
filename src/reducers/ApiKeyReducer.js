@@ -4,7 +4,7 @@ import { Logger } from 'aws-amplify';
 const initialState = {
 
 }
-const logger = new Logger("[ApiKeyReducer]", loggerConfig.debug)
+const logger = new Logger("[ApiKeyReducer]", loggerConfig.level)
 export default (state = initialState, action) => {
     switch (action.type) {
         case GOOGLE_PLACES_API_KEY:

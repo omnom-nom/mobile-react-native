@@ -4,7 +4,7 @@ import { Logger } from 'aws-amplify';
 const initialState = {
 
 }
-const logger = new Logger("[AuthReducer]", loggerConfig.debug)
+const logger = new Logger("[AuthReducer]", loggerConfig.level)
 export default (state = initialState, action) => {
   switch (action.type) {
     case SESSION_EXISTS:

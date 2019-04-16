@@ -163,7 +163,7 @@ class LocationScreen extends Component {
                     color={iOSColors.blue}
                 />
                 {this.map_pin()}
-                <LocationInput style={styles.inputContainerStyle} />
+                <LocationInput style={styles.inputContainerStyle} navigate={this.props.navigation.navigate}/>
             </View>
         );
     }

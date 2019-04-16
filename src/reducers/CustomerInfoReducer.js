@@ -1,9 +1,9 @@
-import { CUSTOMER_TYPE, CUSTOMER_INFO, CUSTOMER_DELIVERY_LOCATION, CUSTOMER_ADDRESSES } from '../actions/types.js';
+import { CUSTOMER_TYPE, CUSTOMER_INFO, CUSTOMER_ADDRESSES } from '../actions/types.js';
 import { loggerConfig } from '../cmn/AppConfig'
 import { Logger } from 'aws-amplify';
 
 const initialState = {}
-const logger = new Logger("[CustomerInfoReducer]", loggerConfig.debug)
+const logger = new Logger("[CustomerInfoReducer]", loggerConfig.level)
 export default (state = initialState, action) => {
     switch (action.type) {
         case CUSTOMER_TYPE:

@@ -1,0 +1,166 @@
+{
+    "cooks": [
+        {
+            "bid": "3aa25d0b-456c-4bbf-91be-3a5cd394ee00",
+            "name": "Dosaz",
+            "cuisine": "Indian",
+            "short_description": "", 
+            "items": [
+                {
+                    "name": "Masala Dosa",
+                    "images": [
+                        "https://static01.nyt.com/images/2015/01/28/dining/28KITCHEN1/28KITCHEN1-articleLarge.jpg",
+                    ],
+                    "description": "A properly made crisp and savory Indian dosa is wonderfully delicious, and fairly simple to make at home, with this caveat: the batter must be fermented overnight for the correct texture and requisite sour flavor. However, once the batter is ready, it can be refrigerated and kept for several days, even a week. With a traditional spicy potato filling, dosas makes a perfect vegetarian breakfast or lunch. Serve them with your favorite chutney.",
+                    "tags": [
+                        "Contains nuts",
+                        "Gluten free",
+                        "vegan"
+                    ],
+                    "details": [
+                        {
+                            "Masala Dosa": "1"
+                        },
+                        {
+                            "Coconut Chutni": "1"
+                        },
+                        {
+                            "Tomato Chutni": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Onion Dosa",
+                    "images": [
+                        "https://c.ndtvimg.com/3jbsmmp_dosa_625x300_30_August_18.jpg"
+                    ],
+                    "description": "A properly made crisp and savory Indian dosa is wonderfully delicious, and fairly simple to make at home, with this caveat: the batter must be fermented overnight for the correct texture and requisite sour flavor. However, once the batter is ready, it can be refrigerated and kept for several days, even a week. With a traditional spicy potato filling, dosas makes a perfect vegetarian breakfast or lunch. Serve them with your favorite chutney.",
+                    "tags": [
+                        "Contains nuts",
+                        "Gluten free",
+                        "vegan"
+                    ],
+                    "details": [
+                        {
+                            "Masala Dosa": "1"
+                        },
+                        {
+                            "Coconut Chutni": "1"
+                        },
+                        {
+                            "Tomato Chutni": "1"
+                        }
+                    ]
+                }
+            ],
+            "reviews": {
+                "rating": "4.5",
+                "total": "300",
+                "top5": [
+                    {
+                        "rating": "4.9",
+                        "comment": "Good food",
+                        "date": "04/20/2019"
+                    },
+                    {
+                        "rating": "4.9",
+                        "comment": "Bland food",
+                        "date": "04/20/2019"
+                    }
+                ]
+            }
+        },
+        {
+            "bid": "58b35622-1bb1-4b1c-ba5b-8e727da9a6de",
+            "name": "My Little Kitchin",
+            "cuisine": "Indian",
+            "short_description": "",
+            "items": [
+                {
+                    "name": "Aloo paratha",
+                    "images": [
+                        "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg"
+                    ],
+                    "description": "Aloo parathas consist of unleavened dough stuffed with a mixture of mashed potato and spices, which is rolled out and cooked on a hot tawa with butter or ghee. Aloo paratha is usually served with butter, chutney, or Indian pickles in different parts of northern and western India.",
+                    "tags": [
+                        "Contains nuts"
+                    ],
+                    "details": [
+                        {
+                            "Aloo Paratha": "2"
+                        },
+                        {
+                            "Small Yogurt": "1"
+                        },
+                        {
+                            "Pickle": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Paneer paratha",
+                    "images": [
+                        "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg"
+                    ],
+                    "description": "Aloo parathas consist of unleavened dough stuffed with a mixture of mashed potato and spices, which is rolled out and cooked on a hot tawa with butter or ghee. Aloo paratha is usually served with butter, chutney, or Indian pickles in different parts of northern and western India.",
+                    "tags": [
+                        "Contains nuts"
+                    ],
+                    "details": [
+                        {
+                            "Aloo Paratha": "2"
+                        },
+                        {
+                            "Small Yogurt": "1"
+                        },
+                        {
+                            "Pickle": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Noth Indian Lunch Box",
+                    "images": [
+                        "data:image/jpeg;base64,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"
+                    ],
+                    "description": "Aloo parathas consist of unleavened dough stuffed with a mixture of mashed potato and spices, which is rolled out and cooked on a hot tawa with butter or ghee. Aloo paratha is usually served with butter, chutney, or Indian pickles in different parts of northern and western India.",
+                    "tags": [
+                    ],
+                    "details": [
+                        {
+                            "Roti": "2"
+                        },
+                        {
+                            "Rice": "1"
+                        },
+                        {
+                            "Dal Makhani": "1"
+                        },
+                        {
+                            "Vegitable Curry": "1"
+                        },
+                        {
+                            "Sweet": "1"
+                        }
+                    ]
+                }
+            ],
+            "reviews": {
+                "rating": "4.5",
+                "total": "300",
+                "top5": [
+                    {
+                        "rating": "4.9",
+                        "comment": "Good food",
+                        "date": "04/20/2019"
+                    },
+                    {
+                        "rating": "4.9",
+                        "comment": "Spicy food",
+                        "date": "04/20/2019"
+                    }
+                ]
+            }
+        }
+    ]
+}
