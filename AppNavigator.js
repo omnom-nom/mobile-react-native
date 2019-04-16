@@ -15,6 +15,8 @@ import LocationScreen from './src/screens/customer/LocationScreen';
 import MenuScreen from './src/screens/customer/MenuScreen';
 import CartScreen from './src/screens/customer/CartScreen';
 import OrdersScreen from './src/screens/customer/OrdersScreen';
+import AccountScreen from './src/screens/account/AccountScreen';
+import PersonalInformationScreen from './src/screens/account/PersonalInformationScreen';
 
 const nullHeader = {
     header: null
@@ -48,6 +50,17 @@ const AuthStack = createStackNavigator({
     },
     reset_password: {
         screen: ResetPasswordScreen,
+        navigationOptions: nullHeader
+    }
+})
+
+const AccountStack = createStackNavigator({
+    account: {
+        screen: AccountScreen,
+        navigationOptions: nullHeader
+    },
+    acc_info: {
+        screen: PersonalInformationScreen,
         navigationOptions: nullHeader
     }
 })
@@ -94,6 +107,20 @@ const CustomerMainStack = createBottomTabNavigator(
                     />
                 ),
                 tabBarLabel: "Orders"
+            }
+        },
+        account: {
+            screen: AccountStack,
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => (
+                    <Icon
+                        name="account-outline"
+                        type="material-community"
+                        size={moderateScale(20)}
+                        color={tintColor}
+                    />
+                ),
+                tabBarLabel: "Account"
             }
         },
     },

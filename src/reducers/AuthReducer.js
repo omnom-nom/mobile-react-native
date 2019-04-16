@@ -1,4 +1,4 @@
-import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, SESSION_EXISTS, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR } from '../actions/types.js';
+import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, SESSION_EXISTS, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, RESET } from '../actions/types.js';
 import { loggerConfig } from '../cmn/AppConfig'
 import { Logger } from 'aws-amplify';
 const initialState = {
@@ -34,7 +34,9 @@ export default (state = initialState, action) => {
     case RESET_PASSWORD_ERROR:
       logger.debug("RESET_PASSWORD_ERROR ");
       return { ...state, reset_password_error: action.payload }
-
+    case RESET:
+      logger.debug("RESET_PASSWORD_ERROR ");
+      return {  }
     default:
       return state
   }

@@ -145,7 +145,6 @@ class MenuScreen extends Component {
             <View style={styles.container}>
                 {this.renderDilveryAddress()}
                 {view}
-                <TabBarIcon></TabBarIcon>
             </View>
         );
     }

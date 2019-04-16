@@ -1,4 +1,4 @@
-import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, CUSTOMER_INFO, GOOGLE_PLACES_API_KEY } from './types.js';
+import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, RESET, GOOGLE_PLACES_API_KEY } from './types.js';
 import { Auth, Logger } from 'aws-amplify';
 import { getSecret } from '../apis/aws'
 import { loggerConfig } from '../cmn/AppConfig'
@@ -59,6 +59,21 @@ export const signin = (signin_data, navigate) => {
                 type: SIGNIN_ERROR,
                 payload: error.message
             })
+        }
+    }
+}
+
+export const signout = (navigate) => {
+    logger.debug("signing out")
+    return async (dispatch) => {
+        try {
+            await Auth.signOut()
+            // dispatch({
+            //     type: RESET,
+            // })
+            navigate("auth")
+        } catch (error) {
+            logger.error("an error occured: ", error)
         }
     }
 }
@@ -157,16 +172,3 @@ export const reset_password = (email, password, code, navigate) => {
         }
     }
 }
-
-export const signout = (navigate) => {
-    return async (dispatch) => {
-        console.log("[AUTH_ACTION] signout");
-        try {
-            const success_data = await Auth.signOut()
-            navigate("auth")
-        } catch (error) {
-            logger.error("an error occured: ", error)
-        }
-    }
-}
-
