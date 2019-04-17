@@ -39,14 +39,14 @@ class CustomerTypeScreen extends Component {
                     marginTop: height * 0.1
                 }}>
                     <TouchableOpacity onPress={() => this.onSelect("cook")}>
-                        <Image style={styles.imagestyle} source={require('../../../../assets/chef_hat.png')} />
+                        <Image containerStyle={style.shadow} style={styles.imagestyle} source={require('../../../../assets/chef_hat.png')} />
                         <Text style={styles.selectionTextStyle}>
                             Cook
                         </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => this.onSelect("customer")}>
-                        <Image style={styles.imagestyle} source={require('../../../../assets/fork.png')} />
+                        <Image containerStyle={style.shadow} style={styles.imagestyle} source={require('../../../../assets/fork.png')} />
                         <Text style={styles.selectionTextStyle}>
                             Customer
                         </Text>

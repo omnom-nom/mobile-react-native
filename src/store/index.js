@@ -9,7 +9,7 @@ const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
     stateReconciler: hardSet,
-    whitelist: [],
+    whitelist: ["customer_info"],
 };
 
 const pReducer = persistReducer(persistConfig, reducers);

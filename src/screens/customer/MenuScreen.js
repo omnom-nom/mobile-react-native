@@ -6,7 +6,7 @@ import { Icon, Image } from 'react-native-elements';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { Logger } from 'aws-amplify'
-import { loggerConfig, colors } from '../../cmn/AppConfig'
+import { loggerConfig, colors, infoAbsent } from '../../cmn/AppConfig'
 import TabBarIcon from '../../components/TabBarIcon';
 import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
@@ -17,7 +17,6 @@ import NotFoundComponent from '../../components/NotFoundComponent';
 
 
 const logger = new Logger("[MenuScreen]", loggerConfig.level)
-
 const IMAGES = {
     "all": require('../../../assets/cuisines/all.png'),
     "indian": require('../../../assets/cuisines/indian.png'),
@@ -120,7 +119,7 @@ class MenuScreen extends Component {
                         textAlign: 'center'
                     }}
                 >
-                    {this.props.delivery_address["street_number"]} {this.props.delivery_address["street_name"]}, {this.props.delivery_address["city"]}
+                    {this.getAddressString()}
                 </Text>
             </TouchableOpacity>
         )
@@ -129,7 +128,6 @@ class MenuScreen extends Component {
     render() {
         const cuisines = this.getCuisines()
         const merchants = this.getMerchants(this.state.current_cuisine)
-        // const merchants = []
         let view = <NotFoundComponent message="No cooks in your region, please try again later" />
         if (!_.isEmpty(merchants)) {
             view = <ScrollView style={{
@@ -162,6 +160,19 @@ class MenuScreen extends Component {
             return _.isEqual(_.lowerCase(m["cuisine"]), current_cuisine)
         })
     }
+
+    getAddressString = () => {
+        const components = _.remove(
+            [
+                this.props.delivery_address["street_number"],
+                this.props.delivery_address["street_name"],
+                this.props.delivery_address["city"]
+            ],
+            function (n) {
+                return !_.isNull(n) && !_.isUndefined(n) && !_.isEmpty(n);
+            })
+        return _.join(components, ", ")
+    }
 }
 
 const styles = {
@@ -169,7 +180,7 @@ const styles = {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "rgba(51, 153, 255, 0.05)",
+        backgroundColor: style.backgroundColor,
         paddingTop: height * 0.05,
     },
     headerStyle: {
@@ -203,110 +214,25 @@ const styles = {
     }
 };
 
-mapStateToProps = ({ order_info }) => {
-    console.log("MenuScreen");
-    console.log(order_info);
-
-    if (order_info === undefined) {
-        return {
-            delivery_address: {
-                street_number: "1323",
-                street_name: "Steelhead Cmn",
-                city: "Fremont",
-                postal_code: "94536"
-            },
-            merchants: merchants_summary["merchants"]
-        }
+mapStateToProps = ({ order_info, merchant_info }) => {
+    let delivery_address = {
+        street_number: "1323",
+        street_name: "Steelhead Cmn",
+        city: "Fremont",
+        postal_code: "94536"
+    }
+    let merchants = []
+    if (!infoAbsent(order_info)) {
+        delivery_address = order_info["delivery_address"]
+    }
+    if (!infoAbsent(merchant_info)) {
+        merchants = merchant_info.merchants
     }
     return {
-        delivery_address: order_info["delivery_address"],
-        merchants: merchants_summary["merchants"]
+        delivery_address,
+        merchants
     }
 }
 
-export default connect(mapStateToProps, actions)(MenuScreen);
 
-const merchants_summary = {
-    "merchants": [
-        {
-            "id": "3aa25d0b-456c-4bbf-91be-3a5cd394ee00",
-            "name": "Dosaz",
-            "cuisine": "Indian",
-            "short_description": "",
-            "images": [
-                "https://static01.nyt.com/images/2015/01/28/dining/28KITCHEN1/28KITCHEN1-articleLarge.jpg",
-                "https://c.ndtvimg.com/3jbsmmp_dosa_625x300_30_August_18.jpg"
-            ],
-            "reviews": {
-                "rating": "4.5",
-                "total": "300",
-                "top5": [
-                    {
-                        "rating": "4.9",
-                        "comment": "Good food",
-                        "date": "04/20/2019"
-                    },
-                    {
-                        "rating": "4.9",
-                        "comment": "Bland food",
-                        "date": "04/20/2019"
-                    }
-                ]
-            }
-        },
-        {
-            "id": "58b35622-1bb1-4b1c-ba5b-8e727da9a6de",
-            "name": "My Little Kitchin",
-            "cuisine": "Chinese",
-            "short_description": "",
-            "images": [
-                // "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg",
-                // "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg",
-                // "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"
-            ],
-            "reviews": {
-                "rating": "4.5",
-                "total": "23",
-                "top5": [
-                    {
-                        "rating": "4.9",
-                        "comment": "Good food",
-                        "date": "04/20/2019"
-                    },
-                    {
-                        "rating": "4.9",
-                        "comment": "Spicy food",
-                        "date": "04/20/2019"
-                    }
-                ]
-            }
-        },
-        {
-            "id": "58b35622-1bb1-4b1c-ba5b-2345",
-            "name": "Home Kitchin",
-            "cuisine": "Chinese",
-            "short_description": "",
-            "images": [
-                "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg",
-                "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg",
-                "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"
-            ],
-            "reviews": {
-                "rating": "4.5",
-                "total": "23",
-                "top5": [
-                    {
-                        "rating": "4.9",
-                        "comment": "Good food",
-                        "date": "04/20/2019"
-                    },
-                    {
-                        "rating": "4.9",
-                        "comment": "Spicy food",
-                        "date": "04/20/2019"
-                    }
-                ]
-            }
-        }
-    ]
-}
+export default connect(mapStateToProps, actions)(MenuScreen);

@@ -14,6 +14,16 @@ import _ from 'lodash'
 
 const logger = new Logger("[AccountScreen]", loggerConfig.level)
 class AccountScreen extends Component {
+    state = {
+        customer_info: null
+    }
+
+    componentWillMount = () => {
+        this.setState({
+            customer_info: this.props.customer_info,
+        })
+    }
+
     renderItem = (item) => {
         return (
             <ListItem
@@ -24,6 +34,7 @@ class AccountScreen extends Component {
                 containerStyle={{
                     paddingHorizontal: moderateScale(20),
                     borderBottomWidth: 0.5,
+                    backgroundColor: 'rgba(0,0,0,0)'
                 }}
                 rightIcon={<Icon
                     name='chevron-right'
@@ -39,12 +50,13 @@ class AccountScreen extends Component {
         )
     }
     render() {
+        logger.debug(this.state)
         return (
             <View style={styles.container}>
                 <ScrollView>
                     <ScreenHeader header="Account" size={25} />
                     {this.renderItem({
-                        title: "Kashish Tayal", // get it from redux state
+                        title: this.state.customer_info.name,
                         onPress: () => {
                             this.props.navigation.navigate("acc_info")
                         },
@@ -67,6 +79,7 @@ const styles = {
     container: {
         flex: 1,
         alignItems: 'center',
+        backgroundColor: style.backgroundColor
     },
     itemTitleStyle: {
         fontFamily: style.font
@@ -78,4 +91,19 @@ const styles = {
     }
 };
 
-export default connect(null, actions)(AccountScreen);
+mapStateToProps = ({ customer_info }) => {
+    logger.debug(customer_info)
+    if (_.isUndefined(customer_info) || _.isEmpty(customer_info) || _.isNull(customer_info)) {
+        return {
+            customer_info: {
+                name: "",
+                phone: "",
+                email: ""
+            }
+        }
+    }
+    return {
+        customer_info
+    }
+}
+export default connect(mapStateToProps, actions)(AccountScreen);

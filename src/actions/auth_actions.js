@@ -1,4 +1,4 @@
-import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, RESET, GOOGLE_PLACES_API_KEY } from './types.js';
+import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, CUSTOMER_INFO, GOOGLE_PLACES_API_KEY } from './types.js';
 import { Auth, Logger } from 'aws-amplify';
 import { getSecret } from '../apis/aws'
 import { loggerConfig } from '../cmn/AppConfig'
@@ -10,6 +10,19 @@ export const check_session = (navigate) => {
         logger.debug("checking app session")
         try {
             let data = await Auth.currentSession()
+            // TODO: 
+            // 1) Make a request to users api to get the user information
+            // 2) dispatch it to CustomerInfoReducer:
+            // example
+            // make sure to check the user info data returned by server
+            dispatch({
+                type: CUSTOMER_INFO,
+                payload: {
+                    name: 'Kashish Tayal',
+                    phone: '4129536877',
+                    email: 'ktkashish@gmail.com'
+                }
+            })
             await fetch_api_key(dispatch, 'google_places', GOOGLE_PLACES_API_KEY)
             navigate("customer")
         } catch (error) {
@@ -40,10 +53,15 @@ export const signin = (signin_data, navigate) => {
             // 1) Make a request to users api to get the user information
             // 2) dispatch it to CustomerInfoReducer:
             // example
-            // dispatch({
-            //     type: CUSTOMER_INFO,
-            //     payload: {payload from server}
-            // })
+            // make sure to check the user info data returned by server
+            dispatch({
+                type: CUSTOMER_INFO,
+                payload: {
+                    name: 'Kashish Tayal',
+                    phone: '4129536877',
+                    email: 'ktkashish@gmail.com'
+                }
+            })
             dispatch({
                 type: SIGNIN,
             })

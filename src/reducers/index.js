@@ -5,6 +5,7 @@ import ApiKeyReducer from './ApiKeyReducer';
 import DeliveryAddressReducer from './DeliveryAddressReducer';
 import SessionTokenReducer from './SessionTokenReducer';
 import OrderReducer from './OrderReducer';
+import MerchantReducer from './MerchantReducer';
 
 export default combineReducers({
     auth: AuthReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     session_tokens: SessionTokenReducer,
     api_keys: ApiKeyReducer,
     delivery_info: DeliveryAddressReducer,
-    order_info: OrderReducer
+    order_info: OrderReducer,
+    merchant_info: MerchantReducer
 });

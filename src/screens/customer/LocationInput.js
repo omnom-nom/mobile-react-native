@@ -198,7 +198,9 @@ class LocationInput extends Component {
                         Animated.spring(
                             this.expand, {
                                 toValue: 2,
-                            }).start()
+                            }).start(() => {
+                                this.props.autocompleteAddress(this.state.location)
+                            })
                     }}
                     onChangeText={(text) => {
                         this.props.updateCustomerDeliveryLocation(text)

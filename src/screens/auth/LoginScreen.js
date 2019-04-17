@@ -107,6 +107,7 @@ class LoginScreen extends Component {
                         {this.props.auth.signin_error}
                     </Text>
                     <Button
+                        containerStyle={style.shadow}
                         buttonStyle={{
                             width: SCREEN_WIDTH * 0.6,
                             borderRadius: 100,

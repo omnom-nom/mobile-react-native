@@ -1,4 +1,5 @@
 import { moderateScale, width, verticalScale, height } from './Scaling';
+import _ from 'lodash'
 
 export const style = {
     font: "Futura",
@@ -7,10 +8,11 @@ export const style = {
     color: "#fbb700",
     shadow: {
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: moderateScale(2) },
+        shadowOffset: { width: 0, height: moderateScale(1) },
         shadowOpacity: 0.3,
-        shadowRadius: moderateScale(2),
-    }
+        shadowRadius: moderateScale(1),
+    },
+    backgroundColor: "rgba(51, 153, 255, 0.05)"
 }
 
 export const loggerConfig = {
@@ -36,4 +38,8 @@ export const colors = {
     outrageousOrange: '#FF6037',
     eerieBlack: '#1B1B1B',
     blackshows: '#BFAFB2'
+}
+
+export const infoAbsent = (data) => {
+    return _.isUndefined(data) || _.isEmpty(data) || _.isNull(data)
 }

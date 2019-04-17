@@ -1,5 +1,5 @@
 
-import { CUSTOMER_TYPE, CUSTOMER_DELIVERY_LOCATION, GOOGLE_PLACES_API_SESSION_TOKEN, CUSTOMER_ADDRESSES, ORDER_DELIVERY_ADDRESS } from './types.js';
+import { CUSTOMER_TYPE, CUSTOMER_DELIVERY_LOCATION, GOOGLE_PLACES_API_SESSION_TOKEN, CUSTOMER_ADDRESSES, ORDER_DELIVERY_ADDRESS, MERCHANTS } from './types.js';
 import { MapView, Location, Permissions, Constants } from 'expo'
 import uuidv4 from 'uuid/v4'
 import { Logger } from 'aws-amplify'
@@ -110,6 +110,11 @@ export const selectAddress = (place_id, navigate) => {
                 type: ORDER_DELIVERY_ADDRESS,
                 payload: finalDeliveryAddress
             })
+            // TODO: get the merchants info using apis
+            await dispatch({
+                type: MERCHANTS,
+                payload: merchants_summary.merchants
+            })
             navigate("customer_main")
             updateGoogleApiSessionToken(dispatch)
         } catch (error) {
@@ -180,3 +185,89 @@ getLocationAsync = async () => {
     let location = await Location.getCurrentPositionAsync({});
     return location
 };
+
+
+const merchants_summary = {
+    merchants: [
+        {
+            "id": "3aa25d0b-456c-4bbf-91be-3a5cd394ee00",
+            "name": "Dosaz",
+            "cuisine": "Indian",
+            "short_description": "",
+            "images": [
+                "https://static01.nyt.com/images/2015/01/28/dining/28KITCHEN1/28KITCHEN1-articleLarge.jpg",
+                "https://c.ndtvimg.com/3jbsmmp_dosa_625x300_30_August_18.jpg"
+            ],
+            "reviews": {
+                "rating": "4.5",
+                "total": "300",
+                "top5": [
+                    {
+                        "rating": "4.9",
+                        "comment": "Good food",
+                        "date": "04/20/2019"
+                    },
+                    {
+                        "rating": "4.9",
+                        "comment": "Bland food",
+                        "date": "04/20/2019"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "58b35622-1bb1-4b1c-ba5b-8e727da9a6de",
+            "name": "My Little Kitchin",
+            "cuisine": "Chinese",
+            "short_description": "",
+            "images": [
+                // "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg",
+                // "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg",
+                // "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"
+            ],
+            "reviews": {
+                "rating": "4.5",
+                "total": "23",
+                "top5": [
+                    {
+                        "rating": "4.9",
+                        "comment": "Good food",
+                        "date": "04/20/2019"
+                    },
+                    {
+                        "rating": "4.9",
+                        "comment": "Spicy food",
+                        "date": "04/20/2019"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "58b35622-1bb1-4b1c-ba5b-2345",
+            "name": "Home Kitchin",
+            "cuisine": "Chinese",
+            "short_description": "",
+            "images": [
+                "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg",
+                "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg",
+                "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"
+            ],
+            "reviews": {
+                "rating": "4.5",
+                "total": "23",
+                "top5": [
+                    {
+                        "rating": "4.9",
+                        "comment": "Good food",
+                        "date": "04/20/2019"
+                    },
+                    {
+                        "rating": "4.9",
+                        "comment": "Spicy food",
+                        "date": "04/20/2019"
+                    }
+                ]
+            }
+        }
+    ]
+}

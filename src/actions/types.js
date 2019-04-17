@@ -23,3 +23,6 @@ export const GOOGLE_PLACES_API_SESSION_TOKEN="google_places_api_session_token";
 
 // api keys
 export const GOOGLE_PLACES_API_KEY="google_places_api_key";
+
+// merchants
+export const MERCHANTS="merchants";
