@@ -213,7 +213,8 @@ const merchants_summary = {
                         "date": "04/20/2019"
                     }
                 ]
-            }
+            },
+            "price": "15"
         },
         {
             "id": "58b35622-1bb1-4b1c-ba5b-8e727da9a6de",
@@ -240,7 +241,8 @@ const merchants_summary = {
                         "date": "04/20/2019"
                     }
                 ]
-            }
+            },
+            "price": "10"
         },
         {
             "id": "58b35622-1bb1-4b1c-ba5b-2345",
@@ -267,7 +269,8 @@ const merchants_summary = {
                         "date": "04/20/2019"
                     }
                 ]
-            }
+            },
+            "price": "12.45"
         }
     ]
 }

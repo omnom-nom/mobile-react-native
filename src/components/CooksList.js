@@ -4,6 +4,8 @@ import { Icon, Image } from 'react-native-elements';
 import { moderateScale, width, verticalScale, height } from '../cmn/Scaling';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
 import { style, colors } from '../cmn/AppConfig'
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 // create a component
 const ratingColor = colors.mountainMedow
@@ -36,8 +38,7 @@ class CooksList extends Component {
                 />
                 <TouchableOpacity
                     onPress={() => {
-                        logger.debug("selected a merchant")
-                        logger.debug(item)
+                        this.props.addToCart(item)
                     }}
                     style={{
                         paddingHorizontal: moderateScale(15),
@@ -134,5 +135,5 @@ const styles = {
     }
 };
 
-//make this component available to the app
-export default CooksList;
+
+export default connect(null, actions)(CooksList);

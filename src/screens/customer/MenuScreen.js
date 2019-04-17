@@ -221,8 +221,8 @@ mapStateToProps = ({ order_info, merchant_info }) => {
         city: "Fremont",
         postal_code: "94536"
     }
-    let merchants = []
-    if (!infoAbsent(order_info)) {
+    let merchants = merchants_summary.merchants
+    if (!infoAbsent(order_info) && !infoAbsent(order_info.delivery_address)) {
         delivery_address = order_info["delivery_address"]
     }
     if (!infoAbsent(merchant_info)) {
@@ -236,3 +236,91 @@ mapStateToProps = ({ order_info, merchant_info }) => {
 
 
 export default connect(mapStateToProps, actions)(MenuScreen);
+
+const merchants_summary = {
+    merchants: [
+        {
+            "id": "3aa25d0b-456c-4bbf-91be-3a5cd394ee00",
+            "name": "Dosaz",
+            "cuisine": "Indian",
+            "short_description": "",
+            "images": [
+                "https://static01.nyt.com/images/2015/01/28/dining/28KITCHEN1/28KITCHEN1-articleLarge.jpg",
+                "https://c.ndtvimg.com/3jbsmmp_dosa_625x300_30_August_18.jpg"
+            ],
+            "reviews": {
+                "rating": "4.5",
+                "total": "300",
+                "top5": [
+                    {
+                        "rating": "4.9",
+                        "comment": "Good food",
+                        "date": "04/20/2019"
+                    },
+                    {
+                        "rating": "4.9",
+                        "comment": "Bland food",
+                        "date": "04/20/2019"
+                    }
+                ]
+            },
+            "price": "15"
+        },
+        {
+            "id": "58b35622-1bb1-4b1c-ba5b-8e727da9a6de",
+            "name": "My Little Kitchin",
+            "cuisine": "Chinese",
+            "short_description": "",
+            "images": [
+                // "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg",
+                // "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg",
+                // "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"
+            ],
+            "reviews": {
+                "rating": "4.5",
+                "total": "23",
+                "top5": [
+                    {
+                        "rating": "4.9",
+                        "comment": "Good food",
+                        "date": "04/20/2019"
+                    },
+                    {
+                        "rating": "4.9",
+                        "comment": "Spicy food",
+                        "date": "04/20/2019"
+                    }
+                ]
+            },
+            "price": "10"
+        },
+        {
+            "id": "58b35622-1bb1-4b1c-ba5b-2345",
+            "name": "Home Kitchin",
+            "cuisine": "Chinese",
+            "short_description": "",
+            "images": [
+                "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg",
+                "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg",
+                "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"
+            ],
+            "reviews": {
+                "rating": "4.5",
+                "total": "23",
+                "top5": [
+                    {
+                        "rating": "4.9",
+                        "comment": "Good food",
+                        "date": "04/20/2019"
+                    },
+                    {
+                        "rating": "4.9",
+                        "comment": "Spicy food",
+                        "date": "04/20/2019"
+                    }
+                ]
+            },
+            "price": "12.45"
+        }
+    ]
+}

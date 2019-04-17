@@ -17,6 +17,7 @@ import CartScreen from './src/screens/customer/CartScreen';
 import OrdersScreen from './src/screens/customer/OrdersScreen';
 import AccountScreen from './src/screens/account/AccountScreen';
 import PersonalInformationScreen from './src/screens/account/PersonalInformationScreen';
+import CheckoutScreen from './src/screens/customer/CheckoutScreen';
 
 const nullHeader = {
     header: null
@@ -65,6 +66,22 @@ const AccountStack = createStackNavigator({
     }
 })
 
+const CheckoutStack = createStackNavigator(
+    {
+        cart: {
+            screen: CartScreen,
+            navigationOptions: nullHeader
+        },
+        checkout: {
+            screen: CheckoutScreen,
+            navigationOptions: nullHeader
+        },
+    },
+    {
+        initialRouteName: 'cart',
+    }
+)
+
 const CustomerMainStack = createBottomTabNavigator(
     {
         food: {
@@ -82,7 +99,7 @@ const CustomerMainStack = createBottomTabNavigator(
             }
         },
         cart: {
-            screen: CartScreen,
+            screen: CheckoutStack,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => (
                     <Icon
@@ -144,7 +161,7 @@ const CustomerStack = createStackNavigator(
         }
     },
     {
-        initialRouteName: 'customer_main',
+        initialRouteName: 'delivery_location',
     }
 )
 
@@ -164,7 +181,7 @@ const AppNavigator = createSwitchNavigator(
         },
     },
     {
-        initialRouteName: 'customer',
+        initialRouteName: 'auth_load',
     }
 );
 

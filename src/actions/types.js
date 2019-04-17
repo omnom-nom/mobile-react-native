@@ -18,6 +18,11 @@ export const CUSTOMER_ADDRESSES='customer_addresses';
 // order indo
 export const ORDER_DELIVERY_ADDRESS='delivery_address';
 
+// cart info
+export const ADD_TO_CART='add_to_cart';
+export const REMOVE_FROM_CART='remove_from_cart';
+export const DELETE_FROM_CART='delete_from_cart';
+
 // session tokens
 export const GOOGLE_PLACES_API_SESSION_TOKEN="google_places_api_session_token";
 
