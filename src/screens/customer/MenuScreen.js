@@ -182,6 +182,7 @@ const styles = {
         alignItems: 'center',
         backgroundColor: style.backgroundColor,
         paddingTop: height * 0.05,
+        paddingBottom: moderateScale(40),
     },
     headerStyle: {
         ...material.subheading,

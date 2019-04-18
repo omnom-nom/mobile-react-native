@@ -135,6 +135,9 @@ class PersonalInformationScreen extends Component {
                         borderRadius: 100,
                         backgroundColor: color
                     }}
+                    containerStyle={{
+                        ...style.shadow
+                    }}
                     titleStyle={{
                         fontFamily: style.font
                     }}

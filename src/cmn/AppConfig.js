@@ -43,3 +43,7 @@ export const colors = {
 export const infoAbsent = (data) => {
     return _.isUndefined(data) || _.isEmpty(data) || _.isNull(data)
 }
+
+export const numberAbsent = (number) => {
+    return _.isUndefined(number) || _.isNull(number) || _.isNaN(number)
+}

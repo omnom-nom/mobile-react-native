@@ -5,7 +5,7 @@ import { Button, Icon, Image } from 'react-native-elements';
 import { Logger } from 'aws-amplify'
 import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
-import { style, colors, loggerConfig, infoAbsent } from '../../cmn/AppConfig'
+import { style, colors, loggerConfig, infoAbsent, numberAbsent } from '../../cmn/AppConfig'
 import ScreenHeader from '../../components/ScreenHeader';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
@@ -65,12 +65,20 @@ class CartScreen extends Component {
     renderCartItem = (item) => {
         return (
             <View key={item.id} style={styles.cartItemContainerStyle}>
-                <Image
-                    style={styles.cartItemImageStyle}
-                    source={{
-                        uri: item.images[0]
+                <View
+                    style={{
+                        ...styles.cartItemImageStyle,
+                        ...style.shadow
                     }}
-                />
+                >
+                    <Image
+                        style={styles.cartItemImageStyle}
+                        source={{
+                            uri: item.images[0]
+                        }}
+                    />
+                </View>
+
                 <View style={styles.cartItemInfoStyle}>
                     <View style={{
                         flexDirection: 'row',
@@ -198,6 +206,9 @@ class CartScreen extends Component {
     }
 
     renderCheckoutButton = () => {
+        if (this.state.total <= 0) {
+            return null
+        }
         return (
             <Button
                 containerStyle={styles.checkoutButtonContainerStyle}
@@ -258,7 +269,8 @@ const styles = {
     checkoutButtonContainerStyle: {
         width,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        ...style.shadow
     },
     checkoutButtonTitleStyle: {
         fontFamily: style.font
@@ -276,7 +288,8 @@ const styles = {
     cartItemImageStyle: {
         height: itemHeight,
         width: width * 0.3,
-        borderRadius: moderateScale(20)
+        borderRadius: moderateScale(20),
+        // ...style.shadow
     },
     cartItemInfoStyle: {
         height: itemHeight,
@@ -300,10 +313,10 @@ const styles = {
 
 mapStateToProps = ({ order_info }) => {
     const items = infoAbsent(order_info) || infoAbsent(order_info.items) ? [] : order_info.items
-    const subTotal = infoAbsent(order_info) || _.isUndefined(order_info.subTotal) || _.isNaN(order_info.subTotal) ? 0 : order_info.subTotal
-    const taxAndFees = infoAbsent(order_info) || _.isUndefined(order_info.taxAndFees) || _.isNaN(order_info.taxAndFees) ? 0 : order_info.taxAndFees
-    const delivery = infoAbsent(order_info) || _.isUndefined(order_info.delivery) || _.isNaN(order_info.delivery) ? 0 : order_info.delivery
-    const total = infoAbsent(order_info) || _.isUndefined(order_info.total) || _.isNaN(order_info.total) ? 0 : order_info.total
+    const subTotal = infoAbsent(order_info) || numberAbsent(order_info.subTotal) ? 0 : order_info.subTotal
+    const taxAndFees = infoAbsent(order_info) || numberAbsent(order_info.taxAndFees) ? 0 : order_info.taxAndFees
+    const delivery = infoAbsent(order_info) || numberAbsent(order_info.delivery) ? 0 : order_info.delivery
+    const total = infoAbsent(order_info) || numberAbsent(order_info.total) ? 0 : order_info.total
     return {
         items,
         subTotal,
