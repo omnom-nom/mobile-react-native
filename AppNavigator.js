@@ -18,11 +18,13 @@ import OrdersScreen from './src/screens/customer/OrdersScreen';
 import AccountScreen from './src/screens/account/AccountScreen';
 import PersonalInformationScreen from './src/screens/account/PersonalInformationScreen';
 import CheckoutScreen from './src/screens/customer/CheckoutScreen';
+import BottomTabBarIcon from './src/components/BottomTabBarIcon';
+import { connect } from 'react-redux';
+
 
 const nullHeader = {
     header: null
 }
-
 
 const AuthStack = createStackNavigator({
     login: {
@@ -102,12 +104,7 @@ const CustomerMainStack = createBottomTabNavigator(
             screen: CheckoutStack,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => (
-                    <Icon
-                        name="cart-outline"
-                        type="material-community"
-                        size={moderateScale(20)}
-                        color={tintColor}
-                    />
+                    <BottomTabBarIcon color={tintColor} />
                 ),
                 tabBarLabel: "Cart"
             }
@@ -145,6 +142,9 @@ const CustomerMainStack = createBottomTabNavigator(
         tabBarOptions: {
             activeTintColor: colors.radicalRed,
             inactiveTintColor: iOSColors.gray,
+            style: {
+                height: moderateScale(50)
+            }
         }
     }
 )
