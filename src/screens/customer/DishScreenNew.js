@@ -175,7 +175,6 @@ class DishScreenNewNewNew extends Component {
                             marginVertical: moderateScale(10),
                             justifyContent: 'center',
                             alignItems: 'center',
-                            // ...style.shadow()
                         }}>
                             <View style={{
                                 width: width * 0.8,
@@ -187,7 +186,6 @@ class DishScreenNewNewNew extends Component {
                                 paddingHorizontal: moderateScale(20),
                                 paddingVertical: moderateScale(10),
                                 backgroundColor: style.backgroundColor(0.09),
-                                // borderWidth: 1
                             }}>
                                 <Icon
                                     name='plus'

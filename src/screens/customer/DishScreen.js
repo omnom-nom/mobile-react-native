@@ -9,6 +9,7 @@ import { style, colors, loggerConfig, infoAbsent } from '../../cmn/AppConfig'
 import ScreenHeader from '../../components/ScreenHeader';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import { Haptic } from 'expo';
 import _ from 'lodash'
 
 const logger = new Logger("[DishScreen]", loggerConfig.level)
@@ -49,10 +50,12 @@ class DishScreen extends Component {
     }
 
     addMoreItemToCart = (item) => {
+        Haptic.impact(Haptic.ImpactFeedbackStyle.Light)
         this.props.addToCart(item)
     }
 
-    removeItemCount = (item) => {
+    removeItemCount = (item) => {        
+        Haptic.impact(Haptic.ImpactFeedbackStyle.Light)
         this.props.removeFromCart(item)
     }
 
@@ -189,28 +192,40 @@ class DishScreen extends Component {
                         <View style={{
                             marginVertical: moderateScale(10),
                             justifyContent: 'center',
-                            alignItems: 'center'
+                            alignItems: 'center',
                         }}>
                             <View style={{
-                                width: moderateScale(120),
+                                width: width * 0.8,
                                 marginVertical: moderateScale(10),
                                 flexDirection: 'row',
                                 justifyContent: 'space-between',
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                borderRadius: moderateScale(100),
+                                paddingHorizontal: moderateScale(20),
+                                paddingVertical: moderateScale(10),
+                                backgroundColor: style.backgroundColor(0.09),
                             }}>
                                 <Icon
-                                    name='plus-box'
+                                    name='plus'
                                     type="material-community"
-                                    size={moderateScale(50)}
+                                    size={moderateScale(30)}
                                     color={colors.caribbreanGreen}
                                     onPress={() => this.addMoreItemToCart(dish)}
+                                    underlayColor="transparent"
                                 />
+                                <Text style={{
+                                    fontFamily: style.font,
+                                    fontSize: moderateScale(20)
+                                }}>
+                                    {1}
+                                </Text>
                                 <Icon
-                                    name='minus-box' x
+                                    name='minus'
                                     type="material-community"
-                                    size={moderateScale(50)}
+                                    size={moderateScale(30)}
                                     color={colors.caribbreanGreen}
                                     onPress={() => this.removeItemCount(dish)}
+                                    underlayColor="transparent"
                                 />
                             </View>
                         </View>
