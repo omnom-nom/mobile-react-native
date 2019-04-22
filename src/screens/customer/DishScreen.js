@@ -32,10 +32,8 @@ class DishScreen extends Component {
                 }
                 return (
                     <View style={{
-                        padding: moderateScale(5),
                         backgroundColor: iOSColors.white,
                         marginHorizontal: moderateScale(5),
-                        marginLeft
                     }}>
                         <Text style={{
                             fontFamily: style.font,
@@ -107,9 +105,13 @@ class DishScreen extends Component {
                     borderRadius: 1,
                     ...style.shadow(),
                     alignItems: 'center',
-                    paddingHorizontal: moderateScale(20)
                 }}>
                     <ScrollView
+                        style={{
+                            width: width * 0.95,
+                            paddingHorizontal: moderateScale(20),
+                            borderWidth: 0
+                        }}
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}
                     >
@@ -150,7 +152,7 @@ class DishScreen extends Component {
                         </View>
                         <View style={{
                             flexDirection: 'row',
-                            justifyContent: 'center',
+                            flexWrap: "wrap",
                             alignItems: 'center',
                             borderWidth: 0
                         }}>

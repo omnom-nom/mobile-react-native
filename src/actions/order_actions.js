@@ -80,6 +80,8 @@ dish_details = {
             "tags": [
                 "Contains nuts",
                 "Gluten free",
+                "vegan","Contains nuts",
+                "Gluten free",
                 "vegan"
             ],
             "content": [
