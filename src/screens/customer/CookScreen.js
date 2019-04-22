@@ -28,6 +28,9 @@ class CookScreen extends Component {
     }
 
     renderMerchantImages = () => {
+        if (_.isEmpty(this.state.merchant.images)) {
+            return null
+        }
         return (
             <View
                 style={{
