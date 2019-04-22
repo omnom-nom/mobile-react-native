@@ -200,7 +200,7 @@ class CartScreen extends Component {
     }
 
     renderCartItemsList = () => {
-        return [...this.state.items.values()].map((i) => {
+        return this.state.items.map((i) => {
             return this.renderCartItem(i)
         })
     }
@@ -233,7 +233,7 @@ class CartScreen extends Component {
                         fontSize: moderateScale(15)
                     }}
                     onPress={() => {
-                        //TODO update the current cook
+                        this.props.currentCook(this.state.items[0].cook)
                         this.props.navigation.navigate("cook")
                     }}
                 > Add more items
@@ -335,7 +335,7 @@ const styles = {
 };
 
 mapStateToProps = ({ order_info }) => {
-    const items = infoAbsent(order_info) || infoAbsent(order_info.items) ? [] : order_info.items
+    const items = infoAbsent(order_info) || infoAbsent(order_info.items) ? [] : [...order_info.items.values()]
     const subTotal = infoAbsent(order_info) || numberAbsent(order_info.subTotal) ? 0 : order_info.subTotal
     const taxAndFees = infoAbsent(order_info) || numberAbsent(order_info.taxAndFees) ? 0 : order_info.taxAndFees
     const delivery = infoAbsent(order_info) || numberAbsent(order_info.delivery) ? 0 : order_info.delivery
