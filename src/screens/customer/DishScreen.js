@@ -33,13 +33,9 @@ class DishScreen extends Component {
                 return (
                     <View style={{
                         padding: moderateScale(5),
-                        // borderWidth: 1,
-                        // borderColor: colors.caribbreanGreen,
                         backgroundColor: iOSColors.white,
                         marginHorizontal: moderateScale(5),
-                        // borderRadius: moderateScale(20),
-                        marginLeft,
-                        // ...style.shadow()
+                        marginLeft
                     }}>
                         <Text style={{
                             fontFamily: style.font,
@@ -60,92 +56,6 @@ class DishScreen extends Component {
 
     removeItemCount = (item) => {
         this.props.removeFromCart(item)
-    }
-
-
-    render1 = () => {
-        const { dish } = this.state
-        return (
-            <View
-                style={styles.container}
-            >
-                <ScreenHeader header={dish.name} size={20} back={{
-                    show: true,
-                    navigate: () => {
-                        this.props.navigation.navigate("cook")
-                    }
-                }} />
-                <View style={{
-                    flexDirection: 'row',
-                    marginVertical: moderateScale(10)
-                }}>
-                    {this.renderTags()}
-                </View>
-                <View style={{
-                    marginVertical: moderateScale(15)
-                }}>
-                    <Text style={{
-                        fontFamily: style.font,
-                        fontSize: moderateScale(13),
-                        textAlign: 'justify'
-                    }}>
-                        {dish.description}
-                    </Text>
-                </View>
-                <View style={{
-                    height: height * 0.35
-                }}>
-                    <FlatList
-                        pagingEnabled
-                        horizontal
-                        data={dish.images}
-                        keyExtractor={(item) => item.id}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={{
-                                    marginHorizontal: width * 0.01,
-                                    marginBottom: moderateScale(10),
-                                    borderRadius: moderateScale(20),
-                                }}>
-                                    <Image
-                                        style={{
-                                            height: height * 0.3,
-                                            width: width * 0.98 - moderateScale(20),
-                                            borderRadius: moderateScale(10),
-                                            ...style.shadow(5)
-                                        }}
-                                        source={{ uri: item }}
-                                    />
-                                </View>
-                            )
-                        }}
-                    />
-                </View>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                    width: width,
-                }}>
-
-                    <Icon
-                        name='plus-box'
-                        type="material-community"
-                        size={moderateScale(50)}
-                        color={colors.caribbreanGreen}
-                        onPress={() => this.addMoreItemToCart(dish)}
-                    />
-                    <Icon
-                        name='minus-box' x
-                        type="material-community"
-                        size={moderateScale(50)}
-                        color={colors.caribbreanGreen}
-                        onPress={() => this.removeItemCount(dish)}
-                    />
-                </View>
-            </View>
-        )
     }
 
     render = () => {
@@ -342,11 +252,8 @@ class DishScreen extends Component {
 const styles = {
     container: {
         flex: 1,
-        // justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: style.backgroundColor,
-        // paddingHorizontal: moderateScale(15),
-        // paddingTop: height * 0.05
     },
 };
 
