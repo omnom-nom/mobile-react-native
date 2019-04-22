@@ -45,10 +45,18 @@ export default (state = initialState, action) => {
     }
 };
 
+itemFromSameCook = (inState, item) => {
+    return !_.isEmpty(inState.items) && inState.items.values().next().value.cook === item.cook
+}
+
 addToCart = (inState, item) => {
-    const v = inState.items.has(item.id) ? inState.items.get(item.id).count : 0
-    inState.items.set(item.id, { ...item, count: v + 1 })
-    return copyMap(inState.items)
+    let oldItems = inState.items
+    if (!itemFromSameCook(inState, item)) {
+        oldItems = new Map()
+    }
+    const v = oldItems.has(item.id) ? oldItems.get(item.id).count : 0
+    oldItems.set(item.id, { ...item, count: v + 1 })
+    return copyMap(oldItems)
 }
 
 removeFromCart = (inState, item) => {

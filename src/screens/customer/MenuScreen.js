@@ -35,7 +35,7 @@ class MenuScreen extends Component {
         return (
             <View style={{
                 width,
-                // marginVertical: moderateScale(20),
+                marginVertical: moderateScale(30),
             }}>
                 <Text style={{
                     ...styles.headerStyle

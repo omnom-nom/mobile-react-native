@@ -38,7 +38,7 @@ class CooksList extends Component {
                 />
                 <TouchableOpacity
                     onPress={() => {
-                        this.props.currentCook(item)
+                        this.props.currentCook(item.id)
                         this.props.navigate("cook")
                     }}
                     style={{

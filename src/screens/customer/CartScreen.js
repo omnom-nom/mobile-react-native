@@ -220,6 +220,28 @@ class CartScreen extends Component {
         )
     }
 
+    renderAddMoreItemsButtom = () => {
+        return (
+            <View style={{
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+                <Text
+                    style={{
+                        fontFamily: style.font,
+                        color: colors.radicalRed,
+                        fontSize: moderateScale(15)
+                    }}
+                    onPress={() => {
+                        //TODO update the current cook
+                        this.props.navigation.navigate("cook")
+                    }}
+                > Add more items
+                </Text>
+            </View>
+        )
+    }
+
     renderItemsComponent = () => {
         if (_.isEmpty(this.state.items)) {
             return null
@@ -227,6 +249,7 @@ class CartScreen extends Component {
         return (
             <ScrollView>
                 {this.renderCartItemsList()}
+                {this.renderAddMoreItemsButtom()}
                 {this.renderSummary()}
                 {this.renderCheckoutButton()}
             </ScrollView>

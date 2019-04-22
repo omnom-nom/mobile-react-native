@@ -37,11 +37,11 @@ export const deleteFromCart = (item) => {
     }
 }
 
-export const currentCook = (cook) => {
-    logger.debug("updating current cook ", cook)
+export const currentCook = (cook_id) => {
+    logger.debug("updating current cook ", cook_id)
     // TODO get the entire cook information and dispatch that as payload
     curr_cook = _.filter(merchants_detail.merchants, (c) => {
-        return c.id == cook.id
+        return c.id == cook_id
     })[0]
     return (dispatch) => {
         dispatch({
@@ -68,6 +68,7 @@ export const currentDish = (dish) => {
 dish_details = {
     items: [
         {
+            "cook": "3aa25d0b-456c-4bbf-91be-3a5cd394ee00",
             "id": "1",
             "name": "Masala Dosa",
             "price": "7",
@@ -98,6 +99,7 @@ dish_details = {
             ]
         },
         {
+            "cook": "3aa25d0b-456c-4bbf-91be-3a5cd394ee00",
             "id": "2",
             "name": "Onion Dosa",
             "price": "7",
@@ -126,6 +128,7 @@ dish_details = {
             ]
         },
         {
+            "cook": "58b35622-1bb1-4b1c-ba5b-8e727da9a6de",
             "id": "3",
             "name": "Aloo paratha",
             "price": "3",
@@ -152,6 +155,7 @@ dish_details = {
             ]
         },
         {
+            "cook": "58b35622-1bb1-4b1c-ba5b-8e727da9a6de",
             "id": "4",
             "name": "Paneer paratha",
             "price": "3",
@@ -178,6 +182,7 @@ dish_details = {
             ]
         },
         {
+            "cook": "58b35622-1bb1-4b1c-ba5b-8e727da9a6de",
             "id": "5",
             "name": "Noth Indian Lunch Box Box Box",
             "price": "12",
