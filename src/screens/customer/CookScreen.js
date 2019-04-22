@@ -127,11 +127,8 @@ class CookScreen extends Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                     paddingHorizontal: moderateScale(30),
-                    // backgroundColor: sectionBackgroundColor,
                     paddingVertical: moderateScale(20),
-                    paddingTop: imageHeight,
                     ...styles.borderBottomStyle
-                    // ...style.shadow()
                 }}
             >
                 <Text
@@ -271,12 +268,13 @@ class CookScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
+                {this.renderMerchantImages()}
                 <ScrollView style={{
                     position: 'absolute',
-                    height: height - moderateScale(50),
+                    top: imageHeight,
+                    height: height - moderateScale(50) - imageHeight,
                     width,
                 }}>
-                    {this.renderMerchantImages()}
                     {this.renderMerchantInfo()}
                     {this.renderReviews()}
                     {this.renderItemsList()}
