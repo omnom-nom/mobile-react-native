@@ -13,10 +13,11 @@ import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { Haptic } from 'expo';
 import _ from 'lodash'
 
-const logger = new Logger("[DishScreenNewNewNew]", loggerConfig.level)
-class DishScreenNewNewNew extends Component {
+const logger = new Logger("[DishScreenNew]", loggerConfig.level)
+class DishScreenNew extends Component {
     state = {
-        dish: {}
+        dish: {},
+        dish_order_count: 0
     }
     componentWillMount = () => {
         this.setState({ dish: this.props.dish, dish_order_count: this.props.dish_order_count })
@@ -199,7 +200,7 @@ class DishScreenNewNewNew extends Component {
                                     fontFamily: style.font,
                                     fontSize: moderateScale(20)
                                 }}>
-                                    {1}
+                                    {this.state.dish_order_count}
                                 </Text>
                                 <Icon
                                     name='minus'
@@ -260,15 +261,18 @@ const styles = {
 mapStateToProps = ({ dish_info, order_info }) => {
     let dish = {}
     let dish_order_count = 0
+    const items = infoAbsent(order_info) || infoAbsent(order_info.items) ? [] : [...order_info.items.values()]
     if (!infoAbsent(dish_info) && !infoAbsent(dish_info.dish_current)) {
         dish = dish_info.dish_current
+        const item = _.find(items, function (i) { return i.id === dish.id });
+        if (!_.isUndefined(item)) {
+            dish_order_count = item.count
+        }
     }
-    // if (!infoAbsent(order_info) && !infoAbsent(order_info.items) && order_info.items.get()) {
-    //     dish = dish_info.dish_current
-    // }
+
     return {
         dish,
         dish_order_count
     }
 }
-export default connect(mapStateToProps, actions)(DishScreenNewNewNew);
+export default connect(mapStateToProps, actions)(DishScreenNew);
