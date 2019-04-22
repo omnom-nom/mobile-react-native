@@ -100,6 +100,7 @@ export const signup = (signup_data, navigate) => {
     logger.debug("signing up")
     return async (dispatch) => {
         try {
+            // TODO: find a way to authenticate the phone number
             await Auth.signUp({
                 username: signup_data.email,
                 password: signup_data.password,

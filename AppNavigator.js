@@ -180,7 +180,7 @@ const CustomerStack = createStackNavigator(
         }
     },
     {
-        initialRouteName: 'customer_main',
+        initialRouteName: 'delivery_location',
     }
 )
 
@@ -200,7 +200,7 @@ const AppNavigator = createSwitchNavigator(
         },
     },
     {
-        initialRouteName: 'customer',
+        initialRouteName: 'auth_load',
     }
 );
 
