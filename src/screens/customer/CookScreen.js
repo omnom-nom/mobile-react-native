@@ -15,7 +15,7 @@ import _ from 'lodash'
 
 const logger = new Logger("[CookScreen]", loggerConfig.level)
 const imageHeight = height * 0.3
-const sectionBackgroundColor = style.backgroundColor
+const sectionBackgroundColor = style.backgroundColor()
 class CookScreen extends Component {
     state = {
         merchant: {}
@@ -31,7 +31,7 @@ class CookScreen extends Component {
         return (
             <View
                 style={{
-                    position: 'absolute',
+                    // position: 'absolute',
                     height: imageHeight
                 }}
             >
@@ -268,13 +268,13 @@ class CookScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                {this.renderMerchantImages()}
                 <ScrollView style={{
                     position: 'absolute',
-                    top: imageHeight,
-                    height: height - moderateScale(50) - imageHeight,
+                    // top: imageHeight,
+                    height: height - moderateScale(50),
                     width,
                 }}>
+                    {this.renderMerchantImages()}
                     {this.renderMerchantInfo()}
                     {this.renderReviews()}
                     {this.renderItemsList()}
@@ -294,7 +294,7 @@ class CookScreen extends Component {
 const styles = {
     container: {
         flex: 1,
-        backgroundColor: style.backgroundColor
+        backgroundColor: style.backgroundColor()
     },
     imageViewStyle: {
         height: imageHeight,

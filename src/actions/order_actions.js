@@ -80,9 +80,7 @@ dish_details = {
             "tags": [
                 "Contains nuts",
                 "Gluten free",
-                "vegan","Contains nuts",
-                "Gluten free",
-                "vegan"
+                "Vegan"
             ],
             "content": [
                 {
@@ -181,7 +179,7 @@ dish_details = {
         },
         {
             "id": "5",
-            "name": "Noth Indian Lunch Box Box",
+            "name": "Noth Indian Lunch Box Box Box",
             "price": "12",
             "images": [
                 "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"

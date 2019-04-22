@@ -9,10 +9,12 @@ import { style, colors, loggerConfig, infoAbsent } from '../../cmn/AppConfig'
 import ScreenHeader from '../../components/ScreenHeader';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
+import { Haptic } from 'expo';
 import _ from 'lodash'
 
-const logger = new Logger("[DishScreen]", loggerConfig.level)
-class DishScreen extends Component {
+const logger = new Logger("[DishScreenNewNewNew]", loggerConfig.level)
+class DishScreenNewNewNew extends Component {
     state = {
         dish: {}
     }
@@ -27,12 +29,26 @@ class DishScreen extends Component {
         return (
             this.state.dish.tags.map((tag, index) => {
                 let marginLeft = moderateScale(5)
-                if (index == 0) {
+                let seperator = seperator = <Icon
+                    name='checkbox-blank-circle'
+                    type="material-community"
+                    size={moderateScale(5)}
+                    color={colors.caribbreanGreen}
+                    containerStyle={{
+                        marginLeft: moderateScale(10)
+                    }}
+                />
+                if (index === 0) {
                     marginLeft = 0
+
+                }
+                if (index === this.state.dish.tags.length - 1) {
+                    seperator = null
                 }
                 return (
                     <View style={{
-                        backgroundColor: iOSColors.white,
+                        flexDirection: 'row',
+                        alignItems: 'center',
                         marginHorizontal: moderateScale(5),
                     }}>
                         <Text style={{
@@ -40,8 +56,9 @@ class DishScreen extends Component {
                             fontSize: moderateScale(12),
                             color: colors.caribbreanGreen
                         }}>
-                            {tag}
+                            {_.capitalize(tag)}
                         </Text>
+                        {seperator}
                     </View>
                 )
             })
@@ -49,112 +66,79 @@ class DishScreen extends Component {
     }
 
     addMoreItemToCart = (item) => {
+        Haptic.impact(Haptic.ImpactFeedbackStyle.Light)
         this.props.addToCart(item)
     }
 
     removeItemCount = (item) => {
+        Haptic.impact(Haptic.ImpactFeedbackStyle.Light)
         this.props.removeFromCart(item)
+    }
+
+    renderImages({ item, index }, parallaxProps) {
+        return (
+            <View style={{
+                ...style.shadow()
+            }}>
+                <ParallaxImage
+                    source={{ uri: item }}
+                    containerStyle={{
+                        width: width * 0.8,
+                        height: height * 0.3,
+                        borderRadius: moderateScale(20)
+                    }}
+                    style={{
+                        borderRadius: moderateScale(20)
+                    }}
+                    parallaxFactor={0}
+                    {...parallaxProps}
+                />
+            </View>
+        );
     }
 
     render = () => {
         const { dish } = this.state
         return (
             <View style={styles.container}>
-
-                <View style={{
-                    position: 'absolute',
-                    height: height * 0.5
+                <ScreenHeader
+                    header={dish.name}
+                    size={20}
+                    back={{
+                        show: true,
+                        navigate: () => {
+                            this.props.navigation.navigate("cook")
+                        }
+                    }}
+                    containerStyle={{
+                        borderBottomWidth: 1,
+                        borderBottomColor: iOSColors.lightGray,
+                    }}
+                />
+                <ScrollView style={{
+                    marginTop: moderateScale(20)
                 }}>
-                    <FlatList
-                        pagingEnabled
-                        horizontal
+                    <Carousel
+                        itemWidth={width * 0.8}
+                        sliderWidth={width}
+                        itemHeight={height * 0.3}
+                        sliderHeight={height * 0.3}
                         data={dish.images}
-                        keyExtractor={(item) => item.id}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={{
-                                }}>
-                                    <Image
-                                        style={{
-                                            height: height * 0.5,
-                                            width,
-                                            ...style.shadow(5)
-                                        }}
-                                        source={{ uri: item }}
-                                    />
-                                </View>
-                            )
-                        }}
+                        renderItem={this.renderImages}
+                        hasParallaxImages={true}
                     />
-                </View>
-                <ScreenHeader size={20} back={{
-                    show: true,
-                    navigate: () => {
-                        this.props.navigation.navigate("cook")
-                    }
-                }} />
-                <View style={{
-                    position: 'absolute',
-                    height: height * 0.5,
-                    bottom: 0,
-                    width: width * 0.95,
-                    borderTopLeftRadius: moderateScale(20),
-                    borderTopRightRadius: moderateScale(20),
-                    backgroundColor: iOSColors.white,
-                    borderRadius: 1,
-                    ...style.shadow(),
-                    alignItems: 'center',
-                }}>
-                    <ScrollView
-                        style={{
-                            width: width * 0.95,
-                            paddingHorizontal: moderateScale(20),
-                            borderWidth: 0
-                        }}
-                        showsVerticalScrollIndicator={false}
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        <View style={{
-                            flexDirection: 'row',
-                            marginVertical: moderateScale(15),
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderWidth: 0
-                        }}>
-                            <View style={{
-                                borderWidth: 0,
-                                width: width * 0.7,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
-                                <Text style={{
-                                    fontFamily: style.font,
-                                    fontSize: moderateScale(20),
-                                    fontWeight: 'bold',
-                                    textAlign: 'center'
-                                }}>
-                                    {dish.name}
-                                </Text>
-                            </View>
-                            <View style={{
-                                borderWidth: 0,
-                                width: width * 0.1
-                            }}>
-                                <Text style={{
-                                    fontFamily: style.font,
-                                    fontSize: moderateScale(15),
-                                    color: colors.caribbreanGreen
-                                }}>
-                                    {dish.price} $
-                            </Text>
-                            </View>
-                        </View>
+                    <View style={{
+                        width,
+                        paddingHorizontal: moderateScale(20),
+                        borderWidth: 0
+                    }}>
                         <View style={{
                             flexDirection: 'row',
                             flexWrap: "wrap",
                             alignItems: 'center',
-                            borderWidth: 0
+                            justifyContent: 'center',
+                            borderWidth: 0,
+                            marginVertical: moderateScale(15)
                         }}>
                             {this.renderTags()}
                         </View>
@@ -166,7 +150,8 @@ class DishScreen extends Component {
                             <Text style={{
                                 fontFamily: style.font,
                                 fontSize: moderateScale(13),
-                                textAlign: 'justify'
+                                textAlign: 'justify',
+                                color: colors.eerieBlack
                             }}>
                                 {dish.description}
                             </Text>
@@ -189,33 +174,48 @@ class DishScreen extends Component {
                         <View style={{
                             marginVertical: moderateScale(10),
                             justifyContent: 'center',
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            // ...style.shadow()
                         }}>
                             <View style={{
-                                width: moderateScale(120),
+                                width: width * 0.8,
                                 marginVertical: moderateScale(10),
                                 flexDirection: 'row',
                                 justifyContent: 'space-between',
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                borderRadius: moderateScale(100),
+                                paddingHorizontal: moderateScale(20),
+                                paddingVertical: moderateScale(10),
+                                backgroundColor: style.backgroundColor(0.09),
+                                // borderWidth: 1
                             }}>
                                 <Icon
-                                    name='plus-box'
+                                    name='plus'
                                     type="material-community"
-                                    size={moderateScale(50)}
+                                    size={moderateScale(30)}
                                     color={colors.caribbreanGreen}
                                     onPress={() => this.addMoreItemToCart(dish)}
+                                    underlayColor="transparent"
                                 />
+                                <Text style={{
+                                    fontFamily: style.font,
+                                    fontSize: moderateScale(20)
+                                }}>
+                                    {1}
+                                </Text>
                                 <Icon
-                                    name='minus-box' x
+                                    name='minus'
                                     type="material-community"
-                                    size={moderateScale(50)}
+                                    size={moderateScale(30)}
                                     color={colors.caribbreanGreen}
                                     onPress={() => this.removeItemCount(dish)}
+                                    underlayColor="transparent"
                                 />
                             </View>
                         </View>
-                    </ScrollView>
-                </View>
+
+                    </View>
+                </ScrollView>
             </View>
         )
     }
@@ -273,4 +273,4 @@ mapStateToProps = ({ dish_info, order_info }) => {
         dish_order_count
     }
 }
-export default connect(mapStateToProps, actions)(DishScreen);
+export default connect(mapStateToProps, actions)(DishScreenNewNewNew);

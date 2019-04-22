@@ -22,6 +22,7 @@ import PersonalInformationScreen from './src/screens/account/PersonalInformation
 import CheckoutScreen from './src/screens/customer/CheckoutScreen';
 import BottomTabBarIcon from './src/components/BottomTabBarIcon';
 import { connect } from 'react-redux';
+import DishScreenNew from './src/screens/customer/DishScreenNew';
 
 
 const nullHeader = {
@@ -97,7 +98,7 @@ const FoodStack = createStackNavigator(
             navigationOptions: nullHeader
         },
         dish: {
-            screen: DishScreen,
+            screen: DishScreenNew,
             navigationOptions: nullHeader
         },
     },
@@ -145,7 +146,7 @@ const CustomerMainStack = createBottomTabNavigator(
             inactiveTintColor: iOSColors.gray,
             style: {
                 height: verticalScale(50),
-                backgroundColor: style.backgroundColor
+                backgroundColor: style.backgroundColor()
             }
         }
     }

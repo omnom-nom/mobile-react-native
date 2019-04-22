@@ -222,7 +222,7 @@ const styles = {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: style.backgroundColor,
+        backgroundColor: style.backgroundColor(),
         paddingTop: height * 0.05,
     },
     headerStyle: {

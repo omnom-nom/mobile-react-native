@@ -170,7 +170,7 @@ const styles = {
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: style.backgroundColor
+        backgroundColor: style.backgroundColor()
     },
     textInputStyle: {
         borderRadius: moderateScale(20),

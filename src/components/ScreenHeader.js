@@ -21,7 +21,8 @@ class ScreenHeader extends Component {
                 containerStyle={{
                     position: 'absolute',
                     borderWidth: 0,
-                    left: moderateScale(10)
+                    left: 0,
+                    borderWidth: 0
                 }}
                 underlayColor={'transparent'}
             />
@@ -29,13 +30,16 @@ class ScreenHeader extends Component {
         return (
             <View style={{
                 borderWidth: 0,
-                width,
                 flexDirection: 'row',
-                justifyContent: '',
+                justifyContent: 'center',
                 alignItems: 'center',
                 marginTop: height * 0.03,
-                paddingVertical: moderateScale(15)
+                paddingVertical: moderateScale(15),
+                marginHorizontal: moderateScale(15),
+                width: width * 0.9,
+                ...this.props.containerStyle
             }}>
+                {backButton}
                 <Text style={{
                     ...styles.headerStyle,
                     ...this.props.headerStyle,
@@ -43,7 +47,6 @@ class ScreenHeader extends Component {
                 }}>
                     {this.props.header}
                 </Text>
-                {backButton}
             </View>
         );
     }
@@ -55,8 +58,8 @@ const styles = {
         color: colors.eerieBlack,
         fontFamily: style.font,
         textAlign: 'center',
-        width,
-        borderWidth: 0
+        borderWidth: 0,
+        marginLeft: moderateScale(20),
     },
 };
 

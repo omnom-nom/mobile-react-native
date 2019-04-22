@@ -14,7 +14,9 @@ export const style = {
             shadowRadius: moderateScale(size),
         }
     },
-    backgroundColor: "rgba(51, 153, 255, 0.05)"
+    backgroundColor: (opacity = 0.05) => {
+        return `rgba(51, 153, 255, ${opacity})`
+    }
 }
 
 export const loggerConfig = {

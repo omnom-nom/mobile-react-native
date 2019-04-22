@@ -259,7 +259,7 @@ const styles = {
         flex: 1,
         alignItems: 'center',
         // justifyContent: 'center',
-        backgroundColor: style.backgroundColor,
+        backgroundColor: style.backgroundColor(),
     },
     checkoutButtonStyle: {
         width: width * 0.6,
