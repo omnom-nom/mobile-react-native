@@ -23,6 +23,7 @@ class ScreenHeader extends Component {
                     borderWidth: 0,
                     left: moderateScale(10)
                 }}
+                underlayColor={'transparent'}
             />
         }
         return (

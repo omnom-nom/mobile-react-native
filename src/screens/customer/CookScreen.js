@@ -31,6 +31,7 @@ class CookScreen extends Component {
         return (
             <View
                 style={{
+                    position: 'absolute',
                     height: imageHeight
                 }}
             >
@@ -128,6 +129,7 @@ class CookScreen extends Component {
                     paddingHorizontal: moderateScale(30),
                     // backgroundColor: sectionBackgroundColor,
                     paddingVertical: moderateScale(20),
+                    paddingTop: imageHeight,
                     ...styles.borderBottomStyle
                     // ...style.shadow()
                 }}
@@ -270,6 +272,7 @@ class CookScreen extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView style={{
+                    position: 'absolute',
                     width,
                 }}>
                     {this.renderMerchantImages()}
@@ -277,6 +280,12 @@ class CookScreen extends Component {
                     {this.renderReviews()}
                     {this.renderItemsList()}
                 </ScrollView>
+                <ScreenHeader size={20} back={{
+                    show: true,
+                    navigate: () => {
+                        this.props.navigation.navigate("food")
+                    }
+                }} />
             </View>
         );
     }
