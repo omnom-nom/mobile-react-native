@@ -136,7 +136,7 @@ class PersonalInformationScreen extends Component {
                         backgroundColor: color
                     }}
                     containerStyle={{
-                        ...style.shadow
+                        ...style.shadow()
                     }}
                     titleStyle={{
                         fontFamily: style.font
@@ -204,7 +204,7 @@ const styles = {
         marginTop: height * 0.05,
         // backgroundColor: iOSColors.white,
         paddingVertical: moderateScale(20),
-        // ...style.shadow
+        // ...style.shadow()
     },
     formTitleTextStyle: {
         fontSize: width * 0.04,

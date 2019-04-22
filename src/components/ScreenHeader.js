@@ -37,6 +37,7 @@ class ScreenHeader extends Component {
             }}>
                 <Text style={{
                     ...styles.headerStyle,
+                    ...this.props.headerStyle,
                     fontSize: moderateScale(this.props.size),
                 }}>
                     {this.props.header}
@@ -49,7 +50,7 @@ class ScreenHeader extends Component {
 
 const styles = {
     headerStyle: {
-        ...systemWeights.bold,
+        fontWeight: 'bold',
         color: colors.eerieBlack,
         fontFamily: style.font,
         textAlign: 'center',

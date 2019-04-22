@@ -9,7 +9,7 @@ const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
     stateReconciler: hardSet,
-    whitelist: ["customer_info"],
+    whitelist: ["customer_info", "api_keys", "session_tokens", "merchant_info"],
 };
 
 const pReducer = persistReducer(persistConfig, reducers);

@@ -6,11 +6,13 @@ export const style = {
     subheading: moderateScale(15),
     heading: moderateScale(20),
     color: "#fbb700",
-    shadow: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: moderateScale(1) },
-        shadowOpacity: 0.3,
-        shadowRadius: moderateScale(1),
+    shadow: (color = '#000', size = 1) => {
+        return {
+            shadowColor: color,
+            shadowOffset: { width: 0, height: moderateScale(size) },
+            shadowOpacity: 0.3,
+            shadowRadius: moderateScale(size),
+        }
     },
     backgroundColor: "rgba(51, 153, 255, 0.05)"
 }

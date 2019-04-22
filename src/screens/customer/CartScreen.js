@@ -68,7 +68,7 @@ class CartScreen extends Component {
                 <View
                     style={{
                         ...styles.cartItemImageStyle,
-                        ...style.shadow
+                        ...style.shadow()
                     }}
                 >
                     <Image
@@ -270,7 +270,7 @@ const styles = {
         width,
         justifyContent: 'center',
         alignItems: 'center',
-        ...style.shadow
+        ...style.shadow()
     },
     checkoutButtonTitleStyle: {
         fontFamily: style.font
@@ -283,13 +283,13 @@ const styles = {
         flexDirection: 'row',
         borderRadius: moderateScale(20),
         marginBottom: moderateScale(20),
-        // ...style.shadow
+        // ...style.shadow()
     },
     cartItemImageStyle: {
         height: itemHeight,
         width: width * 0.3,
         borderRadius: moderateScale(20),
-        // ...style.shadow
+        // ...style.shadow()
     },
     cartItemInfoStyle: {
         height: itemHeight,
@@ -307,7 +307,7 @@ const styles = {
         borderRadius: moderateScale(20),
         marginBottom: moderateScale(20),
         padding: moderateScale(20),
-        ...style.shadow
+        ...style.shadow()
     }
 };
 

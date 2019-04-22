@@ -222,9 +222,9 @@ const merchants_summary = {
             "cuisine": "Chinese",
             "short_description": "",
             "images": [
-                // "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg",
-                // "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg",
-                // "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"
+                "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg",
+                "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg",
+                "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"
             ],
             "reviews": {
                 "rating": "4.5",

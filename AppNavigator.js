@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { createStackNavigator, createAppContainer, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
 import { moderateScale, width, verticalScale, height } from './src/cmn/Scaling';
-import { colors } from './src/cmn/AppConfig';
+import { colors, style } from './src/cmn/AppConfig';
 import { Icon } from 'react-native-elements';
 import LoginScreen from './src/screens/auth/LoginScreen';
 import SignupScreen from './src/screens/auth/signup/SignupScreen';
@@ -13,6 +13,8 @@ import EmailInput from './src/screens/auth/forgot_password/EmailInput';
 import ResetPasswordScreen from './src/screens/auth/forgot_password/ResetPasswordScreen';
 import LocationScreen from './src/screens/customer/LocationScreen';
 import MenuScreen from './src/screens/customer/MenuScreen';
+import CookScreen from './src/screens/customer/CookScreen';
+import DishScreen from './src/screens/customer/DishScreen';
 import CartScreen from './src/screens/customer/CartScreen';
 import OrdersScreen from './src/screens/customer/OrdersScreen';
 import AccountScreen from './src/screens/account/AccountScreen';
@@ -84,27 +86,40 @@ const CheckoutStack = createStackNavigator(
     }
 )
 
-const CustomerMainStack = createBottomTabNavigator(
+const FoodStack = createStackNavigator(
     {
         food: {
             screen: MenuScreen,
+            navigationOptions: nullHeader
+        },
+        cook: {
+            screen: CookScreen,
+            navigationOptions: nullHeader
+        },
+        dish: {
+            screen: DishScreen,
+            navigationOptions: nullHeader
+        },
+    },
+    {
+        initialRouteName: 'food',
+    }
+)
+
+const CustomerMainStack = createBottomTabNavigator(
+    {
+        food: {
+            screen: FoodStack,
             navigationOptions: {
-                tabBarIcon: ({ tintColor }) => (
-                    <Icon
-                        name="food-fork-drink"
-                        type="material-community"
-                        size={moderateScale(20)}
-                        color={tintColor}
-                    />
-                ),
+                tabBarIcon: ({ focused, tintColor }) => tabBarIcon(focused, tintColor, "food-fork-drink"),
                 tabBarLabel: "Food"
             }
         },
         cart: {
             screen: CheckoutStack,
             navigationOptions: {
-                tabBarIcon: ({ tintColor }) => (
-                    <BottomTabBarIcon color={tintColor} />
+                tabBarIcon: ({ focused, tintColor }) => (
+                    <BottomTabBarIcon color={tintColor} focused={focused} />
                 ),
                 tabBarLabel: "Cart"
             }
@@ -112,28 +127,14 @@ const CustomerMainStack = createBottomTabNavigator(
         orders: {
             screen: OrdersScreen,
             navigationOptions: {
-                tabBarIcon: ({ tintColor }) => (
-                    <Icon
-                        name="briefcase-outline"
-                        type="material-community"
-                        size={moderateScale(20)}
-                        color={tintColor}
-                    />
-                ),
+                tabBarIcon: ({ focused, tintColor }) => tabBarIcon(focused, tintColor, "briefcase-outline"),
                 tabBarLabel: "Orders"
             }
         },
         account: {
             screen: AccountStack,
             navigationOptions: {
-                tabBarIcon: ({ tintColor }) => (
-                    <Icon
-                        name="account-outline"
-                        type="material-community"
-                        size={moderateScale(20)}
-                        color={tintColor}
-                    />
-                ),
+                tabBarIcon: ({ focused, tintColor }) => tabBarIcon(focused, tintColor, "account-outline"),
                 tabBarLabel: "Account"
             }
         },
@@ -143,11 +144,28 @@ const CustomerMainStack = createBottomTabNavigator(
             activeTintColor: colors.radicalRed,
             inactiveTintColor: iOSColors.gray,
             style: {
-                height: moderateScale(50)
+                height: verticalScale(50),
+                backgroundColor: style.backgroundColor
             }
         }
     }
 )
+
+tabBarIcon = (focused, tintColor, name) => {
+    let containerStyle = {}
+    if (focused) {
+        containerStyle = style.shadow(colors.radicalRed)
+    }
+    return (
+        <Icon
+            name={name}
+            type="material-community"
+            size={moderateScale(20)}
+            color={tintColor}
+            containerStyle={containerStyle}
+        />
+    )
+}
 
 const CustomerStack = createStackNavigator(
     {

@@ -31,3 +31,7 @@ export const GOOGLE_PLACES_API_KEY="google_places_api_key";
 
 // merchants
 export const MERCHANTS="merchants";
+export const MERCHANT_CURRENT="merchant_current";
+
+//dish
+export const DISH_CURRENT="dish_current"

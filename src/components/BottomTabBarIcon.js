@@ -31,12 +31,18 @@ class BottomTabBarIcon extends Component {
                 }
             })(Icon)
         }
+        let containerStyle = {}
+        if (this.props.focused) {
+            containerStyle = style.shadow(colors.radicalRed)
+        }
+        logger.debug(containerStyle)
         return (
             <BadgedIcon
                 name="cart-outline"
                 type="material-community"
                 size={moderateScale(20)}
                 color={this.props.color}
+                containerStyle={containerStyle}
             />
         );
     }

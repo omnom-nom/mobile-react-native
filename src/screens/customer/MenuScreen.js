@@ -1,8 +1,8 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Keyboard, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Keyboard, FlatList, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Haptic } from 'expo';
-import { Icon, Image } from 'react-native-elements';
+import { Icon, Image, Button, ButtonGroup } from 'react-native-elements';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { Logger } from 'aws-amplify'
@@ -28,13 +28,14 @@ class MenuScreen extends Component {
 
     state = {
         current_cuisine: "all",
+        selectedIndex: 0,
     }
 
     renderCuisineSelector = (cuisines) => {
         return (
             <View style={{
                 width,
-                marginVertical: moderateScale(20),
+                // marginVertical: moderateScale(20),
             }}>
                 <Text style={{
                     ...styles.headerStyle
@@ -125,6 +126,46 @@ class MenuScreen extends Component {
         )
     }
 
+    updateOrderType = (selectedIndex) => {
+        Haptic.impact(Haptic.ImpactFeedbackStyle.Light)
+        this.setState({ selectedIndex })
+    }
+
+    renderOrderType = () => {
+        const buttons = ['On demand', 'Pre order']
+        const { selectedIndex } = this.state
+        const fontSize = 12
+        return (
+            <View 
+                style={{
+                    width,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                <ButtonGroup
+                    onPress={this.updateOrderType}
+                    selectedIndex={selectedIndex}
+                    buttons={buttons}
+                    selectedButtonStyle={{
+                        backgroundColor: colors.caribbreanGreen
+                    }}
+                    containerStyle={{
+                        width: width * 0.5,
+                        height: moderateScale(fontSize * 2),
+                        borderRadius: moderateScale(50),
+                        borderWidth: 0,
+                    }}
+                    textStyle={{
+                        fontFamily: style.font,
+                        fontSize: moderateScale(fontSize),
+                        color: colors.caribbreanGreen
+                    }}
+                />
+            </View>
+        )
+    }
+
     render() {
         const cuisines = this.getCuisines()
         const merchants = this.getMerchants(this.state.current_cuisine)
@@ -132,11 +173,12 @@ class MenuScreen extends Component {
         if (!_.isEmpty(merchants)) {
             view = <ScrollView style={{
                 width,
-                top: moderateScale(40)
+                // top: moderateScale(10)
             }}>
+                {this.renderOrderType()}
                 {this.renderCuisineSelector(cuisines)}
                 <Text style={styles.headerStyle}>Cooks around you</Text>
-                <CooksList merchants={merchants} />
+                <CooksList merchants={merchants} navigate={this.props.navigation.navigate}/>
             </ScrollView>
         }
         return (
@@ -182,22 +224,17 @@ const styles = {
         alignItems: 'center',
         backgroundColor: style.backgroundColor,
         paddingTop: height * 0.05,
-        paddingBottom: moderateScale(40),
     },
     headerStyle: {
         ...material.subheading,
         width,
         color: materialColors.blackSecondary,
-        // color: colors.eerieBlack,
         fontFamily: style.font,
         marginLeft: moderateScale(15),
-        // textDecorationLine: 'underline',
     },
     deliveryAddressContainerStyle: {
-        position: 'absolute',
-        top: height * 0.05,
         flexDirection: 'row',
-        ...style.shadow,
+        ...style.shadow(),
         borderRadius: moderateScale(20),
         backgroundColor: iOSColors.white,
         justifyContent: 'center',
@@ -206,7 +243,7 @@ const styles = {
         marginBottom: moderateScale(10),
     },
     cuisineButtonContainerStyle: {
-        ...style.shadow,
+        ...style.shadow(),
         width: moderateScale(50),
         height: moderateScale(50),
         borderRadius: moderateScale(10),
@@ -222,7 +259,7 @@ mapStateToProps = ({ order_info, merchant_info }) => {
         city: "Fremont",
         postal_code: "94536"
     }
-    let merchants = merchants_summary.merchants
+    let merchants = []
     if (!infoAbsent(order_info) && !infoAbsent(order_info.delivery_address)) {
         delivery_address = order_info["delivery_address"]
     }
@@ -237,91 +274,3 @@ mapStateToProps = ({ order_info, merchant_info }) => {
 
 
 export default connect(mapStateToProps, actions)(MenuScreen);
-
-const merchants_summary = {
-    merchants: [
-        {
-            "id": "3aa25d0b-456c-4bbf-91be-3a5cd394ee00",
-            "name": "Dosaz",
-            "cuisine": "Indian",
-            "short_description": "",
-            "images": [
-                "https://static01.nyt.com/images/2015/01/28/dining/28KITCHEN1/28KITCHEN1-articleLarge.jpg",
-                "https://c.ndtvimg.com/3jbsmmp_dosa_625x300_30_August_18.jpg"
-            ],
-            "reviews": {
-                "rating": "4.5",
-                "total": "300",
-                "top5": [
-                    {
-                        "rating": "4.9",
-                        "comment": "Good food",
-                        "date": "04/20/2019"
-                    },
-                    {
-                        "rating": "4.9",
-                        "comment": "Bland food",
-                        "date": "04/20/2019"
-                    }
-                ]
-            },
-            "price": "15"
-        },
-        {
-            "id": "58b35622-1bb1-4b1c-ba5b-8e727da9a6de",
-            "name": "My Little Kitchin",
-            "cuisine": "Chinese",
-            "short_description": "",
-            "images": [
-                // "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg",
-                // "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg",
-                // "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"
-            ],
-            "reviews": {
-                "rating": "4.5",
-                "total": "23",
-                "top5": [
-                    {
-                        "rating": "4.9",
-                        "comment": "Good food",
-                        "date": "04/20/2019"
-                    },
-                    {
-                        "rating": "4.9",
-                        "comment": "Spicy food",
-                        "date": "04/20/2019"
-                    }
-                ]
-            },
-            "price": "10"
-        },
-        {
-            "id": "58b35622-1bb1-4b1c-ba5b-2345",
-            "name": "Home Kitchin",
-            "cuisine": "Chinese",
-            "short_description": "",
-            "images": [
-                "https://www.tarladalal.com/members/9306/big/big_aloo_paratha-7707.jpg",
-                "http://www.spoonforkandfood.com/wp-content/uploads/2015/08/aloo-paratha-stuffed-whole-wheat-indian-flat-bread.1024x1024.jpg",
-                "https://c8.alamy.com/comp/J21CDY/indian-typical-stainless-steel-lunch-box-or-tiffin-with-north-indian-J21CDY.jpg"
-            ],
-            "reviews": {
-                "rating": "4.5",
-                "total": "23",
-                "top5": [
-                    {
-                        "rating": "4.9",
-                        "comment": "Good food",
-                        "date": "04/20/2019"
-                    },
-                    {
-                        "rating": "4.9",
-                        "comment": "Spicy food",
-                        "date": "04/20/2019"
-                    }
-                ]
-            },
-            "price": "12.45"
-        }
-    ]
-}

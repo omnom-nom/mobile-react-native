@@ -38,7 +38,8 @@ class CooksList extends Component {
                 />
                 <TouchableOpacity
                     onPress={() => {
-                        this.props.addToCart(item)
+                        this.props.currentCook(item)
+                        this.props.navigate("cook")
                     }}
                     style={{
                         paddingHorizontal: moderateScale(15),
@@ -76,7 +77,7 @@ class CooksList extends Component {
             </View>
         )
     }
-
+    
     render() {
         const { merchants } = this.props
         const keyExtractor = (item, index) => item["id"]
