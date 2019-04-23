@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 // create a component
-const ratingColor = colors.mountainMedow
+const ratingColor = style.secondaryColor
 const ratingSize = moderateScale(10)
 const imageHeight = height * 0.2
 

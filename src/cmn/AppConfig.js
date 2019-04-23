@@ -1,28 +1,6 @@
 import { moderateScale, width, verticalScale, height } from './Scaling';
 import _ from 'lodash'
 
-export const style = {
-    font: "Futura",
-    subheading: moderateScale(15),
-    heading: moderateScale(20),
-    color: "#fbb700",
-    shadow: (color = '#000', size = 1) => {
-        return {
-            shadowColor: color,
-            shadowOffset: { width: 0, height: moderateScale(size) },
-            shadowOpacity: 0.3,
-            shadowRadius: moderateScale(size),
-        }
-    },
-    backgroundColor: (opacity = 0.05) => {
-        return `rgba(51, 153, 255, ${opacity})`
-    }
-}
-
-export const loggerConfig = {
-    level: "DEBUG"
-}
-
 //https://www.w3schools.com/colors/colors_crayola.asp
 export const colors = {
     green: '#3AA655',
@@ -42,6 +20,29 @@ export const colors = {
     outrageousOrange: '#FF6037',
     eerieBlack: '#1B1B1B',
     blackshows: '#BFAFB2'
+}
+
+export const style = {
+    font: "Futura",
+    subheading: moderateScale(15),
+    heading: moderateScale(20),
+    color: "#fbb700",
+    shadow: (color = '#000', size = 1) => {
+        return {
+            shadowColor: color,
+            shadowOffset: { width: 0, height: moderateScale(size) },
+            shadowOpacity: 0.3,
+            shadowRadius: moderateScale(size),
+        }
+    },
+    backgroundColor: (opacity = 0.02) => {
+        return `rgba(0, 157, 196, ${opacity})`
+    },
+    secondaryColor : colors.caribbreanGreen
+}
+
+export const loggerConfig = {
+    level: "DEBUG"
 }
 
 export const infoAbsent = (data) => {

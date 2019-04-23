@@ -14,7 +14,7 @@ import { Logger } from 'aws-amplify'
 import _ from 'lodash'
 
 
-const color = colors.caribbreanGreen
+const color = style.secondaryColor
 const logger = new Logger("[PersonalInformationScreen]", loggerConfig.level)
 class PersonalInformationScreen extends Component {
     state = {

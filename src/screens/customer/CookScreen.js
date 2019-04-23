@@ -312,13 +312,13 @@ const styles = {
     merchantSummaryContainerStyle: {
         flexDirection: 'row',
         borderTopWidth: 1,
-        borderTopColor: colors.caribbreanGreen,
+        borderTopColor: style.secondaryColor,
         marginTop: moderateScale(10),
         marginBottom: moderateScale(20),
     },
     merchantSummaryHeaderContainerStyle: {
         flexDirection: 'row',
-        borderRightColor: colors.caribbreanGreen,
+        borderRightColor: style.secondaryColor,
         borderRightWidth: 2,
         marginTop: moderateScale(10),
         width: width * 0.3,

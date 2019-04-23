@@ -48,8 +48,8 @@ class CodeScreen extends Component {
                     <CodeInput
                         codeLength={6}
                         ref="codeInputRef1"
-                        activeColor='rgba(251, 183, 0, 1)'
-                        inactiveColor='rgba(251, 183, 0, 1.3)'
+                        activeColor={style.color}
+                        inactiveColor={style.color}
                         autoFocus={true}
                         ignoreCase={true}
                         inputPosition='center'

@@ -87,7 +87,7 @@ const styles = {
     itemSubtitleStyle: {
         fontFamily: style.font,
         fontSize: moderateScale(10),
-        color: colors.caribbreanGreen
+        color: style.secondaryColor
     }
 };
 

@@ -34,7 +34,7 @@ class DishScreenNew extends Component {
                     name='checkbox-blank-circle'
                     type="material-community"
                     size={moderateScale(5)}
-                    color={colors.caribbreanGreen}
+                    color={style.secondaryColor}
                     containerStyle={{
                         marginLeft: moderateScale(10)
                     }}
@@ -54,8 +54,8 @@ class DishScreenNew extends Component {
                     }}>
                         <Text style={{
                             fontFamily: style.font,
-                            fontSize: moderateScale(12),
-                            color: colors.caribbreanGreen
+                            fontSize: moderateScale(14),
+                            color: style.secondaryColor
                         }}>
                             {_.capitalize(tag)}
                         </Text>
@@ -186,13 +186,13 @@ class DishScreenNew extends Component {
                                 borderRadius: moderateScale(100),
                                 paddingHorizontal: moderateScale(20),
                                 paddingVertical: moderateScale(10),
-                                backgroundColor: style.backgroundColor(0.09),
+                                backgroundColor: style.backgroundColor(0.1),
                             }}>
                                 <Icon
                                     name='plus'
                                     type="material-community"
                                     size={moderateScale(30)}
-                                    color={colors.caribbreanGreen}
+                                    color={style.secondaryColor}
                                     onPress={() => this.addMoreItemToCart(dish)}
                                     underlayColor="transparent"
                                 />
@@ -206,7 +206,7 @@ class DishScreenNew extends Component {
                                     name='minus'
                                     type="material-community"
                                     size={moderateScale(30)}
-                                    color={colors.caribbreanGreen}
+                                    color={style.secondaryColor}
                                     onPress={() => this.removeItemCount(dish)}
                                     underlayColor="transparent"
                                 />
@@ -229,7 +229,7 @@ class DishScreenNew extends Component {
                     <Text style={{
                         fontFamily: style.font,
                         fontSize: moderateScale(13),
-                        color: colors.caribbreanGreen
+                        color: style.secondaryColor
                     }}>
                         {c.count} {" x "}
                     </Text>

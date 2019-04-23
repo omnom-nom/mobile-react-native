@@ -13,7 +13,7 @@ import _ from 'lodash'
 import NotFoundComponent from '../../components/NotFoundComponent';
 
 // create a component
-const color = colors.caribbreanGreen
+const color = style.secondaryColor
 const logger = new Logger("[CartScreen]", loggerConfig.level)
 const itemHeight = height * 0.15
 class CartScreen extends Component {
@@ -96,7 +96,7 @@ class CartScreen extends Component {
                             name='close'
                             type="material-community"
                             size={moderateScale(20)}
-                            color={colors.caribbreanGreen}
+                            color={style.secondaryColor}
                             onPress={() => this.deleteItemfromCart(item)}
                         />
                     </View>
@@ -115,7 +115,7 @@ class CartScreen extends Component {
                                 name='plus-box'
                                 type="material-community"
                                 size={moderateScale(30)}
-                                color={colors.caribbreanGreen}
+                                color={style.secondaryColor}
                                 onPress={() => this.addMoreItemToCart(item)}
                             />
                             <Text style={{
@@ -127,7 +127,7 @@ class CartScreen extends Component {
                                 name='minus-box'
                                 type="material-community"
                                 size={moderateScale(30)}
-                                color={colors.caribbreanGreen}
+                                color={style.secondaryColor}
                                 onPress={() => this.removeItemCount(item)}
                             />
                         </View>
@@ -177,7 +177,7 @@ class CartScreen extends Component {
                         marginTop: moderateScale(10),
                         paddingTop: moderateScale(10),
                         borderTopWidth: 2,
-                        borderTopColor: colors.caribbreanGreen,
+                        borderTopColor: style.secondaryColor,
                     }}
                 >
                     <Text

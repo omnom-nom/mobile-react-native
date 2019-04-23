@@ -39,7 +39,7 @@ class DishScreen extends Component {
                         <Text style={{
                             fontFamily: style.font,
                             fontSize: moderateScale(12),
-                            color: colors.caribbreanGreen
+                            color: style.secondaryColor
                         }}>
                             {tag}
                         </Text>
@@ -147,7 +147,7 @@ class DishScreen extends Component {
                                 <Text style={{
                                     fontFamily: style.font,
                                     fontSize: moderateScale(15),
-                                    color: colors.caribbreanGreen
+                                    color: style.secondaryColor
                                 }}>
                                     {dish.price} $
                             </Text>
@@ -203,13 +203,13 @@ class DishScreen extends Component {
                                 borderRadius: moderateScale(100),
                                 paddingHorizontal: moderateScale(20),
                                 paddingVertical: moderateScale(10),
-                                backgroundColor: style.backgroundColor(0.09),
+                                backgroundColor: style.backgroundColor(0.05),
                             }}>
                                 <Icon
                                     name='plus'
                                     type="material-community"
                                     size={moderateScale(30)}
-                                    color={colors.caribbreanGreen}
+                                    color={style.secondaryColor}
                                     onPress={() => this.addMoreItemToCart(dish)}
                                     underlayColor="transparent"
                                 />
@@ -223,7 +223,7 @@ class DishScreen extends Component {
                                     name='minus'
                                     type="material-community"
                                     size={moderateScale(30)}
-                                    color={colors.caribbreanGreen}
+                                    color={style.secondaryColor}
                                     onPress={() => this.removeItemCount(dish)}
                                     underlayColor="transparent"
                                 />
@@ -245,7 +245,7 @@ class DishScreen extends Component {
                     <Text style={{
                         fontFamily: style.font,
                         fontSize: moderateScale(13),
-                        color: colors.caribbreanGreen
+                        color: style.secondaryColor
                     }}>
                         {c.count} {" x "}
                     </Text>

@@ -47,7 +47,7 @@ class MenuScreen extends Component {
                     renderItem={({ item }) => {
                         const type = _.toLower(item)
                         const backgroundColor = this.state.current_cuisine === type ? iOSColors.white : null
-                        const fontColor = this.state.current_cuisine === type ? colors.mountainMedow : iOSColors.gray
+                        const fontColor = this.state.current_cuisine === type ? style.secondaryColor : iOSColors.gray
                         return (
                             <TouchableOpacity style={{
                                 marginHorizontal: moderateScale(10),
@@ -96,7 +96,7 @@ class MenuScreen extends Component {
     }
 
     renderDilveryAddress = () => {
-        const color = colors.caribbreanGreen
+        const color = style.secondaryColor
         return (
             <TouchableOpacity
                 onPress={() => {
@@ -148,7 +148,7 @@ class MenuScreen extends Component {
                     selectedIndex={selectedIndex}
                     buttons={buttons}
                     selectedButtonStyle={{
-                        backgroundColor: colors.caribbreanGreen
+                        backgroundColor: style.secondaryColor
                     }}
                     containerStyle={{
                         width: width * 0.5,
@@ -159,7 +159,7 @@ class MenuScreen extends Component {
                     textStyle={{
                         fontFamily: style.font,
                         fontSize: moderateScale(fontSize),
-                        color: colors.caribbreanGreen
+                        color: style.secondaryColor
                     }}
                 />
             </View>
