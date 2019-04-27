@@ -113,7 +113,7 @@ class CookScreen extends Component {
                     halfStar={'ios-star-half'}
                     iconSet={'Ionicons'}
                     maxStars={5}
-                    rating={merchant.reviews.rating}
+                    rating={_.toNumber(merchant.reviews.rating)}
                     fullStarColor={colors.radicalRed}
                     starSize={moderateScale(15)}
                 />
@@ -170,7 +170,7 @@ class CookScreen extends Component {
                     Menu
                 </Text>
                 <FlatList
-                    style={{
+                    contentContainerStyle={{
                         marginTop: moderateScale(10),
                         justifyContent: 'center',
                         alignItems: 'center'
@@ -237,7 +237,7 @@ class CookScreen extends Component {
                         halfStar={'ios-star-half'}
                         iconSet={'Ionicons'}
                         maxStars={5}
-                        rating={merchant.reviews.rating}
+                        rating={_.toNumber(merchant.reviews.rating)}
                         fullStarColor={colors.radicalRed}
                         starSize={moderateScale(15)}
                     />

@@ -224,7 +224,8 @@ class DishScreenNew extends Component {
             return (
                 <View style={{
                     flexDirection: 'row',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    paddingVertical: moderateScale(5)
                 }}>
                     <Text style={{
                         fontFamily: style.font,
@@ -264,7 +265,7 @@ mapStateToProps = ({ dish_info, order_info }) => {
     const items = infoAbsent(order_info) || infoAbsent(order_info.items) ? [] : [...order_info.items.values()]
     if (!infoAbsent(dish_info) && !infoAbsent(dish_info.dish_current)) {
         dish = dish_info.dish_current
-        const item = _.find(items, function (i) { return i.id === dish.id });
+        const item = _.find(items, { id: dish.id });
         if (!_.isUndefined(item)) {
             dish_order_count = item.count
         }
