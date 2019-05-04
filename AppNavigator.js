@@ -25,6 +25,11 @@ import { connect } from 'react-redux';
 import DishScreenNew from './src/screens/customer/DishScreenNew';
 import NewDishScreen from './src/screens/cook/NewDishScreen';
 import MainScreen from './src/screens/cook/MainScreen';
+import ReviewsScreen from './src/screens/cook/ReviewsScreen';
+import EarningsScreen from './src/screens/cook/EarningsScreen';
+import OngoingOrdersScreen from './src/screens/cook/OngoingOrdersScreen';
+import AcceptedOrdersScreen from './src/screens/cook/AcceptedOrders';
+import NewOrdersScreen from './src/screens/cook/NewOrdersScreen';
 
 
 const nullHeader = {
@@ -186,12 +191,44 @@ const CustomerStack = createStackNavigator(
     }
 )
 
+const CookHome = createStackNavigator(
+    {
+        main: {
+            screen: MainScreen,
+            navigationOptions: nullHeader
+        },
+        review: {
+            screen: ReviewsScreen,
+            navigationOptions: nullHeader
+        },
+        earnings: {
+            screen: EarningsScreen,
+            navigationOptions: nullHeader
+        },
+        new_orders: {
+            screen: NewOrdersScreen,
+            navigationOptions: nullHeader
+        },
+        accepted_orders: {
+            screen: AcceptedOrdersScreen,
+            navigationOptions: nullHeader
+        },
+        ongoing_orders: {
+            screen: OngoingOrdersScreen,
+            navigationOptions: nullHeader
+        }
+    },
+    {
+        initialRouteName: 'main',
+    }
+)
+
 const CookStack = createBottomTabNavigator(
     {
-        new_dish: {
-            screen: MainScreen,
+        cook_home: {
+            screen: CookHome,
             navigationOptions: {
-                tabBarIcon: ({ focused, tintColor }) => tabBarIcon(focused, tintColor, "airballoon"),
+                tabBarIcon: ({ focused, tintColor }) => tabBarIcon(focused, tintColor, "home-outline"),
                 tabBarLabel: "Home"
             }
         },
@@ -235,7 +272,7 @@ const AppNavigator = createSwitchNavigator(
         },
     },
     {
-        initialRouteName: 'auth_load',
+        initialRouteName: 'cook',
     }
 );
 

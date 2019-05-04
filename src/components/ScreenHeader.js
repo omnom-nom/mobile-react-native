@@ -55,7 +55,7 @@ class ScreenHeader extends Component {
 const styles = {
     headerStyle: {
         fontWeight: 'bold',
-        color: colors.eerieBlack,
+        color: colors.caribbreanGreen,
         fontFamily: style.font,
         textAlign: 'center',
         borderWidth: 0,
