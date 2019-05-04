@@ -1,7 +1,9 @@
 import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, CUSTOMER_INFO, GOOGLE_PLACES_API_KEY } from './types.js';
-import { Auth, Logger } from 'aws-amplify';
 import { getSecret } from '../apis/aws'
+import { user, create_user, delete_user } from '../apis/users'
 import { loggerConfig } from '../cmn/AppConfig'
+import { Auth, Logger } from "aws-amplify";
+import _ from 'lodash'
 
 logger = new Logger("[AuthAction]", loggerConfig.level)
 
@@ -10,23 +12,26 @@ export const check_session = (navigate) => {
         logger.debug("checking app session")
         try {
             let data = await Auth.currentSession()
-            // TODO: 
-            // 1) Make a request to users api to get the user information
-            // 2) dispatch it to CustomerInfoReducer:
-            // example
-            // make sure to check the user info data returned by server
+            email = data.getAccessToken().decodePayload().username
+            if (_.isUndefined(email)) {
+                throw "email id not present in the cognito access token"
+            }
+            curr_user = await user(email)
             dispatch({
                 type: CUSTOMER_INFO,
                 payload: {
-                    name: 'Kashish Tayal',
-                    phone: '4129536877',
-                    email: 'ktkashish@gmail.com'
+                    ...curr_user
                 }
             })
             await fetch_api_key(dispatch, 'google_places', GOOGLE_PLACES_API_KEY)
-            navigate("customer")
+            if (curr_user.type === 'customer') {
+                navigate("customer")
+            }
+            if (curr_user.type === 'cook') {
+                navigate("cook")
+            }
         } catch (error) {
-            logger.error("an error occured: ", error)
+            logger.error("an error occurred: ", error)
             navigate("auth")
         }
     }
@@ -48,26 +53,25 @@ export const signin = (signin_data, navigate) => {
                 username: signin_data.email,
                 password: signin_data.password,
             })
+            curr_user = await user(success_data.getUsername())
             await fetch_api_key(dispatch, 'google_places', GOOGLE_PLACES_API_KEY)
-            // TODO: 
-            // 1) Make a request to users api to get the user information
-            // 2) dispatch it to CustomerInfoReducer:
-            // example
-            // make sure to check the user info data returned by server
             dispatch({
                 type: CUSTOMER_INFO,
                 payload: {
-                    name: 'Kashish Tayal',
-                    phone: '4129536877',
-                    email: 'ktkashish@gmail.com'
+                    ...curr_user
                 }
             })
             dispatch({
                 type: SIGNIN,
             })
-            navigate("customer")
+            if (curr_user.type === 'customer') {
+                navigate("customer")
+            }
+            if (curr_user.type === 'cook') {
+                navigate("cook")
+            }
         } catch (error) {
-            logger.error("an error occured: ", error)
+            logger.error("an error occurred: ", error)
             if (error.code === "UserNotConfirmedException") {
                 navigate("signin_code", {
                     email: signin_data.email
@@ -91,20 +95,32 @@ export const signout = (navigate) => {
             // })
             navigate("auth")
         } catch (error) {
-            logger.error("an error occured: ", error)
+            logger.error("an error occurred: ", error)
         }
     }
 }
 
 export const signup = (signup_data, navigate) => {
     logger.debug("signing up")
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         try {
-            // TODO: find a way to authenticate the phone number
+            await create_user(signup_data.phone_number, signup_data.email, signup_data.name, getState().customer_info.customer_type)
+        } catch (error) {
+            logger.error("an error occurred: ", error)
+            dispatch({
+                type: SIGNUP_ERROR,
+                payload: error.message
+            })
+            return
+        }
+
+        try {
             await Auth.signUp({
                 username: signup_data.email,
                 password: signup_data.password,
-                attributes: { email: signup_data.email, phone_number: signup_data.phone_number },
+                attributes: {
+                    email: signup_data.email,
+                },
             })
             dispatch({
                 type: SIGNUP,
@@ -118,7 +134,8 @@ export const signup = (signup_data, navigate) => {
                 email: signup_data.email
             })
         } catch (error) {
-            logger.error("an error occured: ", error)
+            logger.error("an error occurred: ", error)
+            delete_user(signup_data.email)
             dispatch({
                 type: SIGNUP_ERROR,
                 payload: error.message
@@ -138,7 +155,7 @@ export const submit_code = (code_data, navigate) => {
             })
             navigate("login")
         } catch (error) {
-            logger.error("an error occured: ", error)
+            logger.error("an error occurred: ", error)
             dispatch({
                 type: CODE_ERROR,
                 payload: true
@@ -148,12 +165,12 @@ export const submit_code = (code_data, navigate) => {
 }
 
 export const resend_code = (email) => {
-    logger.debug("resending code request")
+    logger.debug("re-sending code request")
     return async (dispatch) => {
         try {
             await Auth.resendSignUp(email)
         } catch (error) {
-            logger.error("an error occured: ", error)
+            logger.error("an error occurred: ", error)
         }
     }
 }
@@ -167,7 +184,7 @@ export const forgot_password = (email, navigate) => {
                 email
             })
         } catch (error) {
-            logger.error("an error occured: ", error)
+            logger.error("an error occurred: ", error)
             dispatch({
                 type: FORGOT_PASSWORD_ERROR,
                 payload: error.message
@@ -183,7 +200,7 @@ export const reset_password = (email, password, code, navigate) => {
             await Auth.forgotPasswordSubmit(email, code, password)
             navigate("auth")
         } catch (error) {
-            logger.error("an error occured: ", error)
+            logger.error("an error occurred: ", error)
             dispatch({
                 type: RESET_PASSWORD_ERROR,
                 payload: error.message

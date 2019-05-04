@@ -16,6 +16,7 @@ import _ from 'lodash'
 import NotFoundComponent from '../../components/NotFoundComponent';
 
 
+
 const logger = new Logger("[MenuScreen]", loggerConfig.level)
 const IMAGES = {
     "all": require('../../../assets/cuisines/all.png'),

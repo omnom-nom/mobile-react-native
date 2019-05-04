@@ -54,11 +54,11 @@ class SignupScreen extends Component {
             return
         }
         let phone = this.state.phone_number.toString()
-        if (phone.startsWith("1")) {
-            phone = "+" + phone
-        } else {
-            phone = "+1" + phone
-        }
+        // if (phone.startsWith("1")) {
+        //     phone = "+" + phone
+        // } else {
+        //     phone = "+1" + phone
+        // }
         this.props.signup({
             name: this.state.name,
             phone_number: phone,
@@ -121,6 +121,17 @@ class SignupScreen extends Component {
         }
     }
 
+    renderInfoItem = (name, inputComponent) => {
+        return (
+            <View style={styles.infoItemContainerStyle}>
+                <Text style={styles.formTitleTextStyle}>
+                    {name}
+                </Text>
+                {inputComponent}
+            </View>
+        )
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -143,15 +154,15 @@ class SignupScreen extends Component {
                         alignItems: 'center',
                     }}
                 >
-                    <TextInput
+                    {this.renderInfoItem("Name", <TextInput
                         style={styles.textInputStyle}
                         placeholder="NAME"
                         onChangeText={(name) => this.setState({ name })}
                         selectionColor={style.color}
                         autoCapitalize="characters"
-                    />
+                    />)}
                     {this.error_component(this.state.name_error)}
-                    <TextInputMask
+                    {this.renderInfoItem("PHONE",<TextInputMask
                         style={styles.textInputStyle}
                         placeholder="PHONE NUMBER"
                         value={this.state.phoneNumberFormat}
@@ -170,10 +181,10 @@ class SignupScreen extends Component {
                                 }
                         }
                         selectionColor={style.color}
-                    />
+                    />)}
                     {this.error_component(this.state.phone_number_error)}
 
-                    <TextInput
+                    {this.renderInfoItem("EMAIL",<TextInput
                         style={styles.textInputStyle}
                         placeholder="EMAIL ADDRESS"
                         onChangeText={(email) => this.setState({ email: email.toLowerCase() })}
@@ -183,23 +194,23 @@ class SignupScreen extends Component {
                         autoCorrect={false}
                         selectionColor={style.color}
                         autoCapitalize="none"
-                    />
+                    />)}
                     {this.error_component(this.state.email_error)}
-                    <TextInput
+                    {this.renderInfoItem("PASSWORD", <TextInput
                         style={styles.textInputStyle}
                         placeholder="PASSWORD"
                         onChangeText={(password) => this.setState({ password })}
                         secureTextEntry={true}
                         selectionColor={style.color}
-                    />
+                    />)}
                     {this.error_component(this.state.password_error)}
-                    <TextInput
+                    {this.renderInfoItem("CONFIRM PASSWORD", <TextInput
                         style={styles.textInputStyle}
                         placeholder="CONFIRM PASSWORD"
                         onChangeText={(confirm_password) => this.setState({ confirm_password })}
                         secureTextEntry={true}
                         selectionColor={style.color}
-                    />
+                    />)}
                     {this.error_component(this.state.confirm_password_error)}
 
                     <Text
@@ -242,14 +253,20 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
     },
+    // textInputStyle: {
+    //     borderBottomWidth: 1,
+    //     width: SCREEN_WIDTH * 0.8,
+    //     height: SCREEN_HEIGHT * 0.05,
+    //     paddingHorizontal: 10,
+    //     fontSize: SCREEN_WIDTH * 0.04,
+    //     fontFamily: style.font,
+    //     marginBottom: SCREEN_HEIGHT * 0.02,
+    // },
     textInputStyle: {
-        borderBottomWidth: 1,
-        width: SCREEN_WIDTH * 0.8,
-        height: SCREEN_HEIGHT * 0.05,
-        paddingHorizontal: 10,
-        fontSize: SCREEN_WIDTH * 0.04,
+        borderRadius: moderateScale(20),
+        width: width * 0.6,
+        fontSize: width * 0.04,
         fontFamily: style.font,
-        marginBottom: SCREEN_HEIGHT * 0.02,
     },
     formFieldsErrors: {
         ...systemWeights.light,
@@ -257,6 +274,22 @@ const styles = {
         color: iOSColors.pink,
         fontFamily: style.font,
         marginBottom: SCREEN_HEIGHT * 0.02,
+    },
+    infoItemContainerStyle: {
+        flexDirection: 'row',
+        borderWidth: 0.5,
+        borderColor: iOSColors.lightGray,
+        alignItems: 'center',
+        width: width - 2 * moderateScale(20),
+        padding: moderateScale(10),
+        marginBottom: height * 0.02,
+        borderRadius: moderateScale(10)
+    },
+    formTitleTextStyle: {
+        fontSize: width * 0.035,
+        fontFamily: style.font,
+        fontWeight: 'bold',
+        width: width * 0.25
     }
 };
 

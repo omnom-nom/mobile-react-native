@@ -125,6 +125,7 @@ class PersonalInformationScreen extends Component {
                     selectionColor={color}
                     autoCapitalize="none"
                     value={this.state.email}
+                    editable={false}
                 />)}
                 {this.error_component(this.state.email_error)}
 
@@ -150,7 +151,6 @@ class PersonalInformationScreen extends Component {
     }
 
     render() {
-        logger.debug(this.state)
         return (
             <View style={styles.container}>
                 <ScreenHeader header="Personal Information" size={20} back={{
@@ -216,7 +216,6 @@ const styles = {
 
 
 mapStateToProps = ({ customer_info }) => {
-    logger.debug(customer_info)
     if (infoAbsent(customer_info)) {
         return {
             customer_info: {

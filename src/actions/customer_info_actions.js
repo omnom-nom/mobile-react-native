@@ -138,14 +138,13 @@ getDeliveryAddress = (addressJson) => {
 }
 
 getCustomerDeliveryLocation = async (lat, lon, api_key) => {
-    logger.debug("getting customer delivery locatino");
+    logger.debug("getting customer delivery location");
     try {
         const address = await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + lat + ',' + lon + '&key=' + api_key)
         const addressJson = await address.json()
-        logger.debug(addressJson)
         return convertoResultToAddress(addressJson)
     } catch (error) {
-        logger.error("an error occured ", error)
+        logger.error("an error occurred ", error)
         // TODO: what if there is an error here. 
         // Show nothing maybe
     }
@@ -170,7 +169,7 @@ autoCompleteAddress = async (query_address, session_token, api_key) => {
             })
         }, [])
     } catch (error) {
-        logger.error("an error occured ", error)
+        logger.error("an error occurred ", error)
         // TODO: what if there is an error here. 
     }
 }

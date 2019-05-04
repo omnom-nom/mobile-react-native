@@ -23,7 +23,7 @@ export const colors = {
 }
 
 export const style = {
-    font: "Futura",
+    font: "System",
     subheading: moderateScale(15),
     heading: moderateScale(20),
     color: "#fbb700",

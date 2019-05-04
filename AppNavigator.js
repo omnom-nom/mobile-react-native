@@ -23,6 +23,8 @@ import CheckoutScreen from './src/screens/customer/CheckoutScreen';
 import BottomTabBarIcon from './src/components/BottomTabBarIcon';
 import { connect } from 'react-redux';
 import DishScreenNew from './src/screens/customer/DishScreenNew';
+import NewDishScreen from './src/screens/cook/NewDishScreen';
+import MainScreen from './src/screens/cook/MainScreen';
 
 
 const nullHeader = {
@@ -184,6 +186,35 @@ const CustomerStack = createStackNavigator(
     }
 )
 
+const CookStack = createBottomTabNavigator(
+    {
+        new_dish: {
+            screen: MainScreen,
+            navigationOptions: {
+                tabBarIcon: ({ focused, tintColor }) => tabBarIcon(focused, tintColor, "airballoon"),
+                tabBarLabel: "Home"
+            }
+        },
+        account: {
+            screen: AccountStack,
+            navigationOptions: {
+                tabBarIcon: ({ focused, tintColor }) => tabBarIcon(focused, tintColor, "account-outline"),
+                tabBarLabel: "Account"
+            }
+        },
+    },
+    {
+        tabBarOptions: {
+            activeTintColor: colors.radicalRed,
+            inactiveTintColor: iOSColors.gray,
+            style: {
+                height: verticalScale(50),
+                backgroundColor: style.backgroundColor()
+            }
+        }
+    }
+)
+
 const AppNavigator = createSwitchNavigator(
     {
         auth_load: {
@@ -196,6 +227,10 @@ const AppNavigator = createSwitchNavigator(
         },
         customer: {
             screen: CustomerStack,
+            navigationOptions: nullHeader
+        },
+        cook: {
+            screen: CookStack,
             navigationOptions: nullHeader
         },
     },

@@ -18,7 +18,7 @@ export const getSecret = async (secretName) => {
         secret = JSON.parse(data.SecretString)
         return secret.api_key
     } catch (error) {
-        logger.error('an error occured', error);
+        logger.error('an error occurred', error);
         return null
     }
 }

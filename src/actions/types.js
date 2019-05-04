@@ -35,3 +35,6 @@ export const MERCHANT_CURRENT="merchant_current";
 
 //dish
 export const DISH_CURRENT="dish_current"
+
+
+//cook

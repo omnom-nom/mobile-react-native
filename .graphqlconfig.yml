@@ -1,0 +1,18 @@
+projects:
+  omnom:
+    schemaPath: src/graphql/schema.json
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        graphQLApiId: gnlattfctrgfjny3yvv3fkawci
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: src/graphql
+        region: us-west-2
+        maxDepth: 2
+      endpoints:
+        prod: >-
+          https://pmdg3yr5lbfijdsbijzhdkg6lq.appsync-api.us-west-2.amazonaws.com/graphql

@@ -7,11 +7,13 @@ import { style } from '../../cmn/AppConfig'
 import { Input, ListItem, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import _ from 'lodash';
 
 class LocationInput extends Component {
     state = {
         location: "",
-        autocomplete_addresses: null
+        autocomplete_addresses: null,
+        customer_info: null
     }
 
     constructor(props) {
@@ -21,6 +23,7 @@ class LocationInput extends Component {
     }
 
     componentWillMount = () => {
+        this.setState({ customer_info: this.props.customer_info })
         Animated.spring(
             this.expand, {
                 toValue: 1,
@@ -33,6 +36,9 @@ class LocationInput extends Component {
         }
         if (nextProps.hasOwnProperty('delivery_autocomplete_addresses')) {
             this.setState({ autocomplete_addresses: nextProps.delivery_autocomplete_addresses })
+        }
+        if (nextProps.hasOwnProperty('customer_info')) {
+            this.setState({ customer_info: nextProps.customer_info })
         }
     }
 
@@ -132,7 +138,7 @@ class LocationInput extends Component {
                     <Text style={{
                         ...styles.subHeaderStyle,
                     }}>
-                        Hi, Kashish
+                        Hi, {_.capitalize(this.state.customer_info.name)}
                     </Text>
                     <Animated.Text style={{
                         ...styles.subHeaderStyle,
@@ -240,15 +246,17 @@ const styles = {
     }
 };
 
-mapStateToProps = ({ delivery_info }) => {
+mapStateToProps = ({ delivery_info, customer_info }) => {
     if (delivery_info === undefined) {
         return {
-            delivery_address: ""
+            delivery_address: "",
+            customer_info
         }
     }
     return {
         delivery_address: delivery_info["customer_delivery_address"],
-        delivery_autocomplete_addresses: delivery_info["customer_delivery_autocomplete_addresses"]
+        delivery_autocomplete_addresses: delivery_info["customer_delivery_autocomplete_addresses"],
+        customer_info
     }
 }
 

@@ -47,11 +47,13 @@ class DishScreenNew extends Component {
                     seperator = null
                 }
                 return (
-                    <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        marginHorizontal: moderateScale(5),
-                    }}>
+                    <View
+                        key={tag}
+                        style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginHorizontal: moderateScale(5),
+                        }}>
                         <Text style={{
                             fontFamily: style.font,
                             fontSize: moderateScale(14),
@@ -222,7 +224,9 @@ class DishScreenNew extends Component {
     getContent = () => {
         return this.state.dish.content.map((c) => {
             return (
-                <View style={{
+                <View 
+                key={c.name}
+                style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     paddingVertical: moderateScale(5)

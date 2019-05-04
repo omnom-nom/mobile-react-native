@@ -5,7 +5,7 @@ import { loggerConfig } from '../cmn/AppConfig'
 import { store } from '../store'
 import _ from 'lodash'
 
-logger = new Logger("[OrderAction]", loggerConfig.level)
+logger = new Logger("[OrderAction1]", loggerConfig.level)
 
 export const addToCart = (item) => {
     logger.debug("adding item to cart ", item.id)

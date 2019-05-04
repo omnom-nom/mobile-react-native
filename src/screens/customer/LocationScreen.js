@@ -150,7 +150,6 @@ class LocationScreen extends Component {
         return (
             <View style={styles.container}>
                 {this.map_view()}
-                <TabBarIcon />
                 <Icon
                     containerStyle={{
                         position: 'absolute',

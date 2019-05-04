@@ -64,6 +64,13 @@ class AccountScreen extends Component {
                     })}
 
                     {this.renderItem({
+                        title: "Delete account",
+                        onPress: () => {
+                            logger.debug("deleting the account")
+                        }
+                    })}
+
+                    {this.renderItem({
                         title: "Logout",
                         onPress: () => {
                             this.props.signout(this.props.navigation.navigate)

@@ -6,6 +6,7 @@ import { material, systemWeights, materialColors, iOSColors } from 'react-native
 import { style, colors } from '../cmn/AppConfig'
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
 // create a component
 const ratingColor = style.secondaryColor
@@ -13,10 +14,28 @@ const ratingSize = moderateScale(10)
 const imageHeight = height * 0.2
 
 class CooksList extends Component {
+    renderImages({ item, index }, parallaxProps) {
+        return (
+            <View style={{
+                ...style.shadow()
+            }}>
+                <ParallaxImage
+                    source={{ uri: item }}
+                    containerStyle={{
+                        height: height * 0.3,
+                        borderRadius: moderateScale(20),
+                        marginBottom: moderateScale(10)
+                    }}
+                    parallaxFactor={0}
+                    {...parallaxProps}
+                />
+            </View>
+        );
+    }
     renderItem = ({ item }) => {
         return (
             <View style={styles.itemsContainerStyle}>
-                <FlatList
+                {/* <FlatList
                     pagingEnabled
                     horizontal
                     data={item["images"]}
@@ -35,20 +54,29 @@ class CooksList extends Component {
                             </View>
                         )
                     }}
-                />
+                /> */}
+                {/* <View style={{}}> */}
+                    <Carousel
+                        itemWidth={width * 0.95}
+                        sliderWidth={width}
+                        data={item["images"]}
+                        renderItem={this.renderImages}
+                        hasParallaxImages={true}
+                    />
+                {/* </View> */}
                 <TouchableOpacity
                     onPress={() => {
                         this.props.currentCook(item.id)
                         this.props.navigate("cook")
                     }}
                     style={{
-                        paddingHorizontal: moderateScale(15),
+                        paddingHorizontal: width * 0.05,
                         paddingBottom: moderateScale(10),
                     }}
                 >
                     <Text style={{
-                        fontSize: moderateScale(17),
-                        fontWeight: "bold",
+                        fontSize: moderateScale(20),
+                        fontWeight: "800",
                         fontFamily: style.font,
                         color: colors.eerieBlack
                     }}>{item["name"]}</Text>
@@ -77,7 +105,7 @@ class CooksList extends Component {
             </View>
         )
     }
-    
+
     render() {
         const { merchants } = this.props
         const keyExtractor = (item, index) => item["id"]

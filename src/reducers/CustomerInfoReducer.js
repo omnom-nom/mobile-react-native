@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
             logger.debug("CUSTOMER_TYPE ");
             return { ...state, customer_type: action.payload }
         case CUSTOMER_INFO:
-            logger.debug("CUSTOMER_INFO ");
+            logger.debug("CUSTOMER_INFO");
             return { ...state, ...action.payload }
         default:
             return state
