@@ -32,22 +32,21 @@ class NewDishScreen extends Component {
     }
 
     renderInfoItem = (name, inputComponent, args) => {
-        args = args || {
+        args = {
             row: true,
-            titleCharLeftComponent: null,
-            toolTipMessage: '',
+            subTitleComponent: null,
+            ...args
         }
         return (
             <View style={styles.infoItemContainerStyle(args.row)}>
                 <View style={{
-                    width: width * 0.35,
+                    width: args.row ? width * 0.35 : width * 0.9,
                     justifyContent: 'center',
                 }}>
                     <Text style={styles.formTitleTextStyle}>
                         {name}
                     </Text>
-                    {args.titleCharLeftComponent}
-                    {this.renderToolTip(args.toolTipMessage)}
+                    {args.subTitleComponent}
                 </View>
                 {inputComponent}
             </View>
@@ -164,6 +163,7 @@ class NewDishScreen extends Component {
         })
         return (
             <View style={{
+                marginTop: moderateScale(10),
                 alignItems: 'flex-start',
                 width: width * 0.95,
                 borderWidth: 0
@@ -350,13 +350,13 @@ class NewDishScreen extends Component {
                             onChangeText={(name) => this.setState({ name, nameChars: name.length })}
                             selectionColor={style.secondaryColor}
                         />, {
-                                titleCharLeftComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.nameChars} / 30)`}</Text>,
+                                subTitleComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.nameChars} / 30)`}</Text>,
                             })}
                         {this.renderInfoItem(
                             "Order Type",
                             this.renderOrderType(),
                             {
-                                toolTipMessage: "Please select order type On-Demand if you can prepare this dish quickly, select Pre-Order if you need time to prepare this dish. With On-Demand you will have to prepare the dish as soon as you accept the order."
+                                subTitleComponent: this.renderToolTip("Please select order type On-Demand if you can prepare this dish quickly, select Pre-Order if you need time to prepare this dish. With On-Demand you will have to prepare the dish as soon as you accept the order.")
                             }
                         )}
                         {this.renderInfoItem("Price", <TextInput
@@ -382,9 +382,12 @@ class NewDishScreen extends Component {
                             selectionColor={style.secondaryColor}
                         />, {
                                 row: false,
-                                titleCharLeftComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.descriptionChars} / 250)`}</Text>,
+                                subTitleComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.descriptionChars} / 250)`}</Text>,
                             })}
-                        {this.renderInfoItem("Content", this.renderContentsSection(), { row: false })}
+                        {this.renderInfoItem("Content", this.renderContentsSection(), {
+                            row: false,
+                            subTitleComponent: <Text style={style.fontStyle({ color: iOSColors.gray, fontWeight: '600' })}>List all the items you will provide with this dish</Text>,
+                        })}
                         {this.renderInfoItem("Photos",
                             _.isEmpty(this.state.images) ? null : <Carousel
                                 itemWidth={width * 0.8}
@@ -461,7 +464,7 @@ const styles = {
         flex: 1,
         backgroundColor: style.backgroundColor(),
     },
-    infoItemContainerStyle: (isRow = true) => {
+    infoItemContainerStyle: (isRow) => {
         return {
             flexDirection: isRow ? 'row' : 'column',
             borderColor: iOSColors.lightGray,
