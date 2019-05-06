@@ -31,6 +31,7 @@
     "react-native-elements": "^1.0.0",
     "react-native-global-props": "^1.1.5",
     "react-native-haptic-feedback": "^1.7.1",
+    "react-native-image-picker": "^0.28.1",
     "react-native-masked-text": "^1.12.1",
     "react-native-snap-carousel": "^3.7.5",
     "react-native-star-rating": "^1.1.0",
