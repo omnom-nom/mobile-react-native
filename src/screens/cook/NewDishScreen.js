@@ -334,7 +334,6 @@ class NewDishScreen extends Component {
                     behavior="padding"
                     enabled
                     style={{
-                        marginTop: moderateScale(20),
                         alignItems: 'center',
                         width,
                         flex: 1
