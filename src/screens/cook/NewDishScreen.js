@@ -54,17 +54,12 @@ class NewDishScreen extends Component {
         )
     }
 
-    error_component = (errors) => {
-        if (!_.isEmpty(errors)) {
-            errcomponent = errors.map((message) => {
-                return <Text key={message} style={style.fontStyle({ color: colors.scarlet })}>{message}</Text>
-            })
-            return (
-                <View>
-                    {errcomponent}
-                </View>
-            )
-        }
+    error_component = () => {
+        return <Text style={{
+            ...style.fontStyle({ color: colors.scarlet }),
+            width: width * 0.9,
+            textAlign: 'center'
+        }}>{this.state.error}</Text>
     }
 
     changeContents = (fn) => {
@@ -185,21 +180,33 @@ class NewDishScreen extends Component {
     }
 
     saveDish = () => {
-        let error = []
+        let missing = []
         if (_.isEmpty(this.state.name)) {
-            error.push("Please provide a name of your dish")
+            missing.push("name")
         }
         if (_.isEmpty(this.state.description)) {
-            error.push("Please provide a description of your dish")
+            missing.push("description")
         }
         if (_.isEmpty(this.state.images)) {
-            error.push("Please attach some photos of your dish")
+            missing.push("some photos")
         }
-        if (!_.isEmpty(error)) {
-            this.setState({ error })
+        if (_.isEmpty(this.state.price)) {
+            missing.push("price")
+        }
+
+        if (!_.isEmpty(missing)) {
+            let error = _.template('Please provide <%= missing_items %> of your dish')
+            missing_items = missing[0]
+            if (missing.length > 1) {
+                missing_first_part = _.slice(missing, 0, missing.length - 1)
+                missing_items = _.join(missing_first_part, ', ') + ' & ' + missing[missing.length - 1]
+            }
+            error_message = error({ missing_items })
+            this.setState({ error: error_message })
             return
         }
         this.props.addNewDish({
+            error: '',
             name: this.state.name,
             description: this.state.description,
             content: [...this.state.contents.values()],
@@ -312,7 +319,7 @@ class NewDishScreen extends Component {
                         right: true,
                         size: 30
                     }}
-                    header="ADD A NEW DISH"
+                    header="add a new dish"
                     headerStyle={{ fontWeight: 'normal', }}
                     size={20}
                     back={{
@@ -411,7 +418,7 @@ class NewDishScreen extends Component {
                             title="SAVE"
                             onPress={this.saveDish}
                         />
-                        {this.error_component(this.state.error)}
+                        {this.error_component()}
                     </ScrollView>
                 </KeyboardAvoidingView>
             </View>
