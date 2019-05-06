@@ -10,13 +10,12 @@ import { style, colors, loggerConfig } from '../../cmn/AppConfig'
 import ScreenHeader from '../../components/ScreenHeader';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { DishOrderTypeEnum } from './enums';
+import { DishOrderTypeEnum, SpiceLevelTypeEnum } from './enums';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
+import StarRating from 'react-native-star-rating';
 import _ from 'lodash'
 
-// create a component
-
-//  name, description, content, tags [nuts, gluten-free, vegan], photos 
+// TODO: spice level, cuisine, tags [nuts, gluten-free, vegan]
 class NewDishScreen extends Component {
     state = {
         name: "",
@@ -28,7 +27,8 @@ class NewDishScreen extends Component {
         error: [],
         nameChars: 0,
         descriptionChars: 0,
-        images: []
+        images: [],
+        spiceLevel: SpiceLevelTypeEnum.MILD
     }
 
     renderInfoItem = (name, inputComponent, args) => {
@@ -206,13 +206,13 @@ class NewDishScreen extends Component {
             return
         }
         this.props.addNewDish({
-            error: '',
             name: this.state.name,
             description: this.state.description,
             content: [...this.state.contents.values()],
             orderType: this.state.orderType,
             price: this.state.price,
-            images: this.state.images
+            images: this.state.images,
+            spiceLevel: this.state.spiceLevel
         })
     }
 
@@ -309,6 +309,39 @@ class NewDishScreen extends Component {
         );
     }
 
+    renderSpiceButtonGroup = () => {
+        return (
+            <View style={{
+                width: width * 0.6,
+                flexDirection: 'row',
+                justifyContent: 'space-evenly'
+            }}>
+                {this.renderSpiceButton(SpiceLevelTypeEnum.MILD, iOSColors.green)}
+                {this.renderSpiceButton(SpiceLevelTypeEnum.MEDIUM, iOSColors.orange)}
+                {this.renderSpiceButton(SpiceLevelTypeEnum.SPICY, iOSColors.red)}
+            </View>
+        )
+    }
+
+    renderSpiceButton = (title, color) => {
+        backgroundColor = this.state.spiceLevel === title ? color : iOSColors.white
+        titleColor = this.state.spiceLevel === title ? iOSColors.white : color
+        return (
+            <Button
+                buttonStyle={{
+                    width: width * 0.19,
+                    borderWidth: 0.5,
+                    borderColor: color,
+                    borderRadius: moderateScale(10),
+                    backgroundColor
+                }}
+                title={title}
+                titleStyle={style.fontStyle({ color: titleColor })}
+                onPress={() => this.setState({ spiceLevel: title })}
+            />
+        )
+    }
+
     render() {
         console.log(this.state);
         return (
@@ -352,6 +385,7 @@ class NewDishScreen extends Component {
                         />, {
                                 subTitleComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.nameChars} / 30)`}</Text>,
                             })}
+                        {this.renderInfoItem("Spice Level", this.renderSpiceButtonGroup())}
                         {this.renderInfoItem(
                             "Order Type",
                             this.renderOrderType(),
@@ -405,7 +439,7 @@ class NewDishScreen extends Component {
                             width: width * 0.5,
                             justifyContent: 'space-between'
                         }}>
-                            {this.getPhotoSelectionButtons('CAMERA', 'camera', ImagePicker.launchImageLibraryAsync)}
+                            {this.getPhotoSelectionButtons('CAMERA', 'camera', ImagePicker.launchCameraAsync)}
                             {this.getPhotoSelectionButtons('FOLDER', 'folder', ImagePicker.launchImageLibraryAsync)}
                         </View>
                         <Button
@@ -470,7 +504,7 @@ const styles = {
             borderColor: iOSColors.lightGray,
             alignItems: isRow ? 'center' : 'flex-start',
             width: width * 0.95,
-            marginVertical: moderateScale(15),
+            marginVertical: moderateScale(5),
             borderRadius: moderateScale(10)
         }
     },
