@@ -84,15 +84,15 @@ const CheckoutStack = createStackNavigator(
     {
         cart: {
             screen: CartScreen,
-            navigationOptions: nullHeader
         },
         checkout: {
             screen: CheckoutScreen,
-            navigationOptions: nullHeader
         },
     },
     {
         initialRouteName: 'cart',
+        mode: 'modal',
+        headerMode: 'none',
     }
 )
 

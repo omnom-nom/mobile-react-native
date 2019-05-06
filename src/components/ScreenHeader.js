@@ -49,9 +49,10 @@ class ScreenHeader extends Component {
                     <Text style={{
                         ...styles.headerStyle,
                         ...this.props.headerStyle,
+                        textAlign: 'center',
                         fontSize: moderateScale(this.props.size),
                     }}>
-                        {_.upperCase(this.props.header)}
+                        {_.startCase(this.props.header)}
                     </Text>
                 </View>
                 {backButton}
@@ -62,12 +63,11 @@ class ScreenHeader extends Component {
 
 const styles = {
     headerStyle: {
-        fontWeight: 'bold',
+        fontWeight: 'normal',
         color: colors.caribbreanGreen,
         fontFamily: style.font,
-        textAlign: 'center',
         borderWidth: 0,
-        marginLeft: moderateScale(20),
+        paddingHorizontal: moderateScale(40),
     },
 };
 

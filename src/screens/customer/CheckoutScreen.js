@@ -16,12 +16,22 @@ class CheckoutScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ScreenHeader header="Checkout" size={20} back={{
-                    show: true,
-                    navigate: () => {
-                        this.props.navigation.navigate("cart")
-                    }
-                }} />
+                <ScreenHeader
+                    icon={{
+                        name: 'close',
+                        right: true,
+                        size: 30
+                    }}
+                    header="Checkout"
+                    headerStyle={{ fontWeight: 'normal', }}
+                    size={20}
+                    back={{
+                        show: true,
+                        navigate: () => {
+                            this.props.navigation.goBack()
+                        }
+                    }}
+                />
             </View>
         );
     }
