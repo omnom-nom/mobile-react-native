@@ -1,8 +1,10 @@
 import { moderateScale, width, verticalScale, height } from './Scaling';
 import _ from 'lodash'
+import { iOSColors } from 'react-native-typography';
 
 //https://www.w3schools.com/colors/colors_crayola.asp
 export const colors = {
+    alienArmpit: '#84DE02',
     green: '#3AA655',
     shamrock: '#33CC99',
     mountainMedow: '#1AB385',
@@ -13,6 +15,8 @@ export const colors = {
     maximumBlueGreen: '#30BFBF',
     robinsEggBlue: '#00CCCC',
     tealBlue: '#008080',
+    blueIII: '#0066FF',
+    midnightBlue: '#00468C',
     scarlet: '#FD0E35',
     mahogany: '#CA3435',
     razzmatazz: '#E30B5C',
@@ -22,8 +26,12 @@ export const colors = {
     blackshows: '#BFAFB2'
 }
 
+const fontFamily = 'Avenir Next' //'System'
+const primaryColor = iOSColors.eerieBlack
+const secondaryColor = colors.caribbreanGreen
+
 export const style = {
-    font: "System",
+    font: fontFamily,
     subheading: moderateScale(15),
     heading: moderateScale(20),
     color: "#fbb700",
@@ -38,7 +46,17 @@ export const style = {
     backgroundColor: (opacity = 0.02) => {
         return `rgba(0, 157, 196, ${opacity})`
     },
-    secondaryColor : colors.caribbreanGreen
+    fontStyle: (args) => {
+        args = args || {};
+        size  = args.size || 13
+        return {
+            fontFamily : args.fontFamily || fontFamily,
+            fontWeight : args.fontWeight || 'normal',
+            color: args.color || primaryColor,
+            fontSize: moderateScale(size),
+        }
+    },
+    secondaryColor
 }
 
 export const loggerConfig = {

@@ -16,13 +16,20 @@ class MainScreen extends Component {
     state = {
         review: 3.5,
         earnings: 40,
-        newOrders: 2,
+        newOrders: 0,
         ongoingOrders: 1,
         acceptedOrders: 1,
-        numberOfDishToday: 2
+        dishes: 2
+    }
+    componentWillMount = () => {
+        this.setState({ newOrders: this.props.newOrders })
+    }
+    componentWillReceiveProps = (nextProps) => {
+        this.setState({ newOrders: nextProps.newOrders })
     }
     renderReviews = () => {
         return this.renderTile("Reviews",
+            () => this.props.navigation.navigate('review'),
             <StarRating
                 key={"starratings"}
                 disabled={true}
@@ -32,7 +39,7 @@ class MainScreen extends Component {
                 iconSet={'Ionicons'}
                 maxStars={5}
                 rating={this.state.review}
-                fullStarColor={colors.radicalRed}
+                fullStarColor={colors.scarlet}
                 starSize={moderateScale(25)}
             />,
             this.renderTileText("ratingtext", this.state.review)
@@ -40,32 +47,43 @@ class MainScreen extends Component {
     }
     renderTotalMoney = () => {
         return this.renderTile("Total Earnings",
-            this.renderTileIcon("earningsIcon", "cash-multiple"),
+            () => this.props.navigation.navigate('earnings'),
+            this.renderTileIcon("earningsIcon", "cash-multiple", colors.alienArmpit),
             this.renderTileText("earningsText", `${this.state.earnings} $`)
         )
     }
     renderNewOrders = () => {
         return this.renderTile("New Requests",
-            this.renderTileIcon("newordersicon", "food"),
+            () => {
+                this.props.navigation.navigate('new_orders')
+                this.props.newRequests()
+            },
+            this.renderTileIcon("newordersicon", "basket", colors.robinsEggBlue),
             this.renderTileText("neworderstext", this.state.newOrders)
         )
     }
     renderOngoingOrders = () => {
         return this.renderTile("Ongoing Orders",
-            this.renderTileIcon("ongoingordersicon", "run-fast"),
+            () => this.props.navigation.navigate('ongoing_orders'),
+            this.renderTileIcon("ongoingordersicon", "rocket", colors.robinsEggBlue),
             this.renderTileText("ongoingorderstext", this.state.ongoingOrders)
         )
     }
     renderAcceptedOrders = () => {
         return this.renderTile("Accepted Orders",
-            this.renderTileIcon("acceptedordersicon", "check-all"),
+            () => this.props.navigation.navigate('accepted_orders'),
+            this.renderTileIcon("acceptedordersicon", "check-all", colors.robinsEggBlue),
             this.renderTileText("acceptedorderstext", this.state.acceptedOrders)
         )
     }
     renderTodaysMenu = () => {
-        return this.renderTile("Today's Dishes",
-            this.renderTileIcon("todaysmenuicon", "check-all"),
-            this.renderTileText("todaysmenutext", this.state.numberOfDishToday)
+        return this.renderTile("Dishes on your menu",
+            () => this.props.navigation.navigate('menu'),
+            <View key="menuicon" style={{ flexDirection: 'row' }}>
+                {this.renderTileIcon("menuicon1", "carrot", iOSColors.orange)}
+                {this.renderTileIcon("menuicon2", "bowl", iOSColors.green)}
+            </View>,
+            this.renderTileText("menucount", `${this.state.dishes}`),
         )
     }
 
@@ -73,38 +91,37 @@ class MainScreen extends Component {
         return (
             <Text
                 key={key}
-                style={{
-                    fontFamily: style.font,
-                    color: colors.caribbreanGreen,
-                    fontSize: moderateScale(40)
-                }}>
+                style={
+                    style.fontStyle({
+                        color: iOSColors.black, // style.secondaryColor,
+                        size: 25,
+                        fontWeight: '300'
+                    })
+                }>
                 {text}
             </Text>
         )
     }
-    renderTileIcon = (iconkey, name) => {
+    renderTileIcon = (iconkey, name, color = colors.scarlet) => {
         return (
             <Icon
                 key={iconkey}
                 name={name}
                 type="material-community"
                 size={moderateScale(40)}
-                color={colors.radicalRed}
-                containerStyle={style.shadow(colors.radicalRed)}
+                color={color}
+            // containerStyle={style.shadow(colors.radicalRed)}
             />
         )
     }
-    renderTile = (tilename, ...components) => {
+    renderTile = (tilename, callback, ...components) => {
         return <TouchableOpacity
+            onPress={() => callback()}
             key={tilename}
             style={styles.tileContainerStyle}>
-            <Text style={{
-                fontFamily: style.font,
-                color: colors.caribbreanGreen,
-                fontSize: moderateScale(13)
-            }}>
+            <Text style={style.fontStyle({ size: 14, fontWeight: '500', color: iOSColors.gray })}
+            >
                 {_.upperCase(tilename)}
-                {/* {tilename} */}
             </Text>
             {components}
         </TouchableOpacity>
@@ -158,7 +175,7 @@ const styles = {
         borderWidth: 0.5,
         borderColor: iOSColors.lightGray,
         width: width * 0.5,
-        height: width * 0.5,
+        height: height * 0.25,
         padding: width * 0.05,
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -166,5 +183,19 @@ const styles = {
     }
 };
 
-//make this component available to the app
-export default MainScreen;
+mapStateToProps = ({ cook_orders }) => {
+    logger = new Logger("[MainScreen]", loggerConfig.level)
+    if (_.isUndefined(cook_orders)) {
+        return {
+            newOrders: 0
+        }
+    }
+    const { requests } = cook_orders
+    let today = _.isUndefined(requests) || _.isUndefined(requests.today) ? [] : requests.today
+    let tomorrow = _.isUndefined(requests) || _.isUndefined(requests.tomorrow) ? [] : requests.tomorrow
+    return {
+        newOrders: today.length + tomorrow.length
+    }
+}
+
+export default connect(mapStateToProps, actions)(MainScreen);

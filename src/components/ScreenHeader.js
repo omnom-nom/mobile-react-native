@@ -8,20 +8,24 @@ import { style, colors, loggerConfig } from '../cmn/AppConfig'
 import _ from 'lodash'
 
 // create a component
+
+
 class ScreenHeader extends Component {
     render() {
-        const { back } = this.props
+        const { back, icon } = this.props
+        const icon_props = icon || {}
         let backButton = null
         if (!_.isUndefined(back) && back.show) {
             backButton = <Icon
-                name='chevron-left'
-                size={moderateScale(35)}
-                color={colors.eerieBlack}
+                name={icon_props.name}
+                size={moderateScale(icon.size)}
+                color={style.secondaryColor}
                 onPress={() => back.navigate()}
                 containerStyle={{
                     position: 'absolute',
-                    borderWidth: 0,
-                    left: 0,
+                    left: icon.right ? null : 0,
+                    right: icon.right ? 0 : null,
+                    paddingHorizontal: moderateScale(10),
                     borderWidth: 0
                 }}
                 underlayColor={'transparent'}
@@ -35,18 +39,22 @@ class ScreenHeader extends Component {
                 alignItems: 'center',
                 marginTop: height * 0.03,
                 paddingVertical: moderateScale(15),
-                marginHorizontal: moderateScale(15),
-                width: width * 0.9,
+                width: width * 1,
                 ...this.props.containerStyle
             }}>
-                {backButton}
-                <Text style={{
-                    ...styles.headerStyle,
-                    ...this.props.headerStyle,
-                    fontSize: moderateScale(this.props.size),
+                <View style={{
+                    borderWidth: 0,
+                    width: width
                 }}>
-                    {this.props.header}
-                </Text>
+                    <Text style={{
+                        ...styles.headerStyle,
+                        ...this.props.headerStyle,
+                        fontSize: moderateScale(this.props.size),
+                    }}>
+                        {_.upperCase(this.props.header)}
+                    </Text>
+                </View>
+                {backButton}
             </View>
         );
     }
@@ -63,5 +71,12 @@ const styles = {
     },
 };
 
+ScreenHeader.defaultProps = {
+    icon: {
+        right: false,
+        name: 'chevron-left',
+        size: 35
+    }
+}
 //make this component available to the app
 export default ScreenHeader;

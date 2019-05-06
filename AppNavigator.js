@@ -23,13 +23,15 @@ import CheckoutScreen from './src/screens/customer/CheckoutScreen';
 import BottomTabBarIcon from './src/components/BottomTabBarIcon';
 import { connect } from 'react-redux';
 import DishScreenNew from './src/screens/customer/DishScreenNew';
-import NewDishScreen from './src/screens/cook/NewDishScreen';
+import CookMenuScreen from './src/screens/cook/CookMenuScreen';
 import MainScreen from './src/screens/cook/MainScreen';
 import ReviewsScreen from './src/screens/cook/ReviewsScreen';
 import EarningsScreen from './src/screens/cook/EarningsScreen';
 import OngoingOrdersScreen from './src/screens/cook/OngoingOrdersScreen';
 import AcceptedOrdersScreen from './src/screens/cook/AcceptedOrders';
 import NewOrdersScreen from './src/screens/cook/NewOrdersScreen';
+import NewDishScreen from './src/screens/cook/NewDishScreen';
+import AllDishesScreen from './src/screens/cook/AllDishesScreen';
 
 
 const nullHeader = {
@@ -188,6 +190,26 @@ const CustomerStack = createStackNavigator(
     },
     {
         initialRouteName: 'delivery_location',
+        headerMode: 'none',
+    }
+)
+
+const CookMenuStack = createStackNavigator(
+    {
+        menu: {
+            screen: CookMenuScreen,
+        },
+        new_dish: {
+            screen: NewDishScreen,
+        },
+        all_dishes: {
+            screen: AllDishesScreen,
+        }
+    },
+    {
+        initialRouteName: 'menu',
+        mode: 'modal',
+        headerMode: 'none',
     }
 )
 
@@ -215,6 +237,10 @@ const CookHome = createStackNavigator(
         },
         ongoing_orders: {
             screen: OngoingOrdersScreen,
+            navigationOptions: nullHeader
+        },
+        menu: {
+            screen: CookMenuStack,
             navigationOptions: nullHeader
         }
     },
