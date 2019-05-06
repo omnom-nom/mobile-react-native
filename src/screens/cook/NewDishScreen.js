@@ -25,23 +25,26 @@ class NewDishScreen extends Component {
         contentCount: 0,
         price: 0,
         error: [],
+        nameChars: 0,
+        descriptionChars: 0
     }
 
     renderInfoItem = (name, inputComponent, args) => {
         args = args || {
             row: true,
-            toolTipMessage: ''
+            titleCharLeftComponent: null,
+            toolTipMessage: '',
         }
         return (
             <View style={styles.infoItemContainerStyle(args.row)}>
                 <View style={{
-                    // flexDirection: 'row',
                     width: width * 0.35,
                     justifyContent: 'center',
                 }}>
                     <Text style={styles.formTitleTextStyle}>
                         {name}
                     </Text>
+                    {args.titleCharLeftComponent}
                     {this.renderToolTip(args.toolTipMessage)}
                 </View>
                 {inputComponent}
@@ -255,11 +258,6 @@ class NewDishScreen extends Component {
                     <Text style={style.fontStyle(20)}>{message}</Text>
                 }
             >
-                {/* <Icon
-                    name='information'
-                    type="material-community"
-                    size={moderateScale(20)}
-                /> */}
                 <Text style={style.fontStyle({ color: colors.scarlet })}>what's this?</Text>
             </Tooltip>
         )
@@ -300,12 +298,15 @@ class NewDishScreen extends Component {
                         justifyContent: 'center'
                     }}>
                         {this.renderInfoItem("Name", <TextInput
+                            maxLength={30}
                             style={styles.textInputStyle()}
-                            placeholder="NAME"
-                            onChangeText={(name) => this.setState({ name })}
+                            placeholder="Dish Name"
+                            onChangeText={(name) => this.setState({ name, nameChars: name.length })}
                             selectionColor={style.secondaryColor}
-                        />)}
-                        {this.renderInfoItem(
+                        />, {
+                                titleCharLeftComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.nameChars} / 30)`}</Text>,
+                            })}
+                        { this.renderInfoItem(
                             "Order Type",
                             this.renderOrderType(),
                             {
@@ -331,9 +332,12 @@ class NewDishScreen extends Component {
                             multiline={true}
                             numberOfLines={5}
                             placeholder="Please provide a description of your dish"
-                            onChangeText={(description) => this.setState({ description })}
+                            onChangeText={(description) => this.setState({ description, descriptionChars: description.length })}
                             selectionColor={style.secondaryColor}
-                        />, { row: false })}
+                        />, { 
+                            row: false ,
+                            titleCharLeftComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.descriptionChars} / 250)`}</Text>,
+                        })}  
                         {this.renderInfoItem("Content", this.renderContentsSection(), { row: false })}
 
                         <Button
@@ -417,6 +421,9 @@ const styles = {
             base = style.fontStyle({ color: iOSColors.white, size: 13 })
         }
         return base
+    },
+    charLeftTextStyle: {
+        ...style.fontStyle({ fontWeight: 'bold' })
     }
 };
 
