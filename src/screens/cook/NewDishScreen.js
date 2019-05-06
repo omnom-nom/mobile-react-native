@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Icon, Button, Tooltip } from 'react-native-elements';
 import { Logger } from 'aws-amplify'
-import { TextInputMask } from 'react-native-masked-text';
+import { ImagePicker, Permissions } from 'expo';
 import { moderateScale, width, verticalScale, height } from '../../cmn/Scaling';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
 import { style, colors, loggerConfig } from '../../cmn/AppConfig'
@@ -11,6 +11,7 @@ import ScreenHeader from '../../components/ScreenHeader';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { DishOrderTypeEnum } from './enums';
+import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import _ from 'lodash'
 
 // create a component
@@ -26,7 +27,8 @@ class NewDishScreen extends Component {
         price: 0,
         error: [],
         nameChars: 0,
-        descriptionChars: 0
+        descriptionChars: 0,
+        images: []
     }
 
     renderInfoItem = (name, inputComponent, args) => {
@@ -84,7 +86,7 @@ class NewDishScreen extends Component {
                 }}>
                 <Icon
                     name='remove-circle'
-                    size={moderateScale(25)}
+                    size={moderateScale(30)}
                     color={colors.radicalRed}
                     onPress={() => {
                         this.changeContents((c) => contents.delete(key))
@@ -190,6 +192,9 @@ class NewDishScreen extends Component {
         if (_.isEmpty(this.state.description)) {
             error.push("Please provide a description of your dish")
         }
+        if (_.isEmpty(this.state.images)) {
+            error.push("Please attach some photos of your dish")
+        }
         if (!_.isEmpty(error)) {
             this.setState({ error })
             return
@@ -199,7 +204,8 @@ class NewDishScreen extends Component {
             description: this.state.description,
             content: [...this.state.contents.values()],
             orderType: this.state.orderType,
-            price: this.state.price
+            price: this.state.price,
+            images: this.state.images
         })
     }
 
@@ -263,7 +269,41 @@ class NewDishScreen extends Component {
         )
     }
 
+    renderImages = ({ item, index }, parallaxProps) => {
+        return (
+            <View style={{
+                ...style.shadow(),
+                padding: moderateScale(10)
+            }}>
+                <ParallaxImage
+                    source={{ uri: item }}
+                    containerStyle={{
+                        width: width * 0.8,
+                        height: height * 0.3,
+                        borderRadius: moderateScale(20)
+                    }}
+                    style={{ borderRadius: moderateScale(20) }}
+                    parallaxFactor={0}
+                    {...parallaxProps}
+                />
+                <Icon
+                    name='close-circle-outline'
+                    type="material-community"
+                    size={moderateScale(30)}
+                    color={colors.radicalRed}
+                    onPress={() => {
+                        images = this.state.images
+                        _.pullAt(images, [index])
+                        this.setState({ images })
+                    }}
+                    containerStyle={{ position: 'absolute' }}
+                />
+            </View>
+        );
+    }
+
     render() {
+        console.log(this.state);
         return (
             <View style={styles.container}>
                 <ScreenHeader
@@ -306,7 +346,7 @@ class NewDishScreen extends Component {
                         />, {
                                 titleCharLeftComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.nameChars} / 30)`}</Text>,
                             })}
-                        { this.renderInfoItem(
+                        {this.renderInfoItem(
                             "Order Type",
                             this.renderOrderType(),
                             {
@@ -334,15 +374,35 @@ class NewDishScreen extends Component {
                             placeholder="Please provide a description of your dish"
                             onChangeText={(description) => this.setState({ description, descriptionChars: description.length })}
                             selectionColor={style.secondaryColor}
-                        />, { 
-                            row: false ,
-                            titleCharLeftComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.descriptionChars} / 250)`}</Text>,
-                        })}  
+                        />, {
+                                row: false,
+                                titleCharLeftComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.descriptionChars} / 250)`}</Text>,
+                            })}
                         {this.renderInfoItem("Content", this.renderContentsSection(), { row: false })}
-
+                        {this.renderInfoItem("Photos",
+                            _.isEmpty(this.state.images) ? null : <Carousel
+                                itemWidth={width * 0.8}
+                                sliderWidth={width * 0.95}
+                                itemHeight={height * 0.3}
+                                sliderHeight={height * 0.3}
+                                data={this.state.images}
+                                renderItem={this.renderImages}
+                                hasParallaxImages={true}
+                            />, {
+                                row: false,
+                            })}
+                        <View style={{
+                            flexDirection: 'row',
+                            width: width * 0.5,
+                            justifyContent: 'space-between'
+                        }}>
+                            {this.getPhotoSelectionButtons('CAMERA', 'camera', ImagePicker.launchImageLibraryAsync)}
+                            {this.getPhotoSelectionButtons('FOLDER', 'folder', ImagePicker.launchImageLibraryAsync)}
+                        </View>
                         <Button
                             buttonStyle={{
-                                marginVertical: moderateScale(10),
+                                marginTop: moderateScale(50),
+                                marginBottom: moderateScale(20),
                                 width: width * 0.6,
                                 borderRadius: moderateScale(10),
                                 backgroundColor: style.secondaryColor
@@ -357,6 +417,36 @@ class NewDishScreen extends Component {
             </View>
         );
     }
+
+    getPhotoSelectionButtons = (title, name, fn) => {
+        return <View>
+            <Icon
+                name={name}
+                type="material-community"
+                size={moderateScale(30)}
+                color={iOSColors.gray}
+                onPress={() => this.getPhotos(fn)}
+            />
+            <Text style={style.fontStyle({ color: iOSColors.gray })}>{title}</Text>
+        </View>
+    }
+
+    getPhotos = async (fn) => {
+        await this.askPermissionsAsync();
+        let result = await fn({
+            allowsEditing: true,
+            aspect: [4, 3],
+        });
+        if (!result.cancelled) {
+            images = this.state.images
+            images.push(result.uri)
+            this.setState({ images });
+        }
+    }
+    askPermissionsAsync = async () => {
+        await Permissions.askAsync(Permissions.CAMERA);
+        await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    };
 }
 
 // define your styles
@@ -371,7 +461,7 @@ const styles = {
             borderColor: iOSColors.lightGray,
             alignItems: isRow ? 'center' : 'flex-start',
             width: width * 0.95,
-            marginBottom: height * 0.02,
+            marginVertical: moderateScale(15),
             borderRadius: moderateScale(10)
         }
     },
