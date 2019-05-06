@@ -298,7 +298,7 @@ const AppNavigator = createSwitchNavigator(
         },
     },
     {
-        initialRouteName: 'cook',
+        initialRouteName: 'auth_load',
     }
 );
 
