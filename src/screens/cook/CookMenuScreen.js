@@ -225,8 +225,8 @@ const styles = {
 
 mapStateToProps = ({ cook_dishes }) => {
     logger = new Logger("[CookMenuScreen]", loggerConfig.level)
-    const onDemand = _.isUndefined(cook_dishes) || _.isUndefined(cook_dishes.onDemand) ? [] : cook_dishes.onDemand
-    const preOrder = _.isUndefined(cook_dishes) || _.isUndefined(cook_dishes.preOrder) ? [] : cook_dishes.preOrder
+    const onDemand = _.isUndefined(cook_dishes) || _.isUndefined(cook_dishes.onDemand) ? [] : cook_dishes.onDemand.toIndexedSeq().toArray()
+    const preOrder = _.isUndefined(cook_dishes) || _.isUndefined(cook_dishes.preOrder) ? [] : cook_dishes.preOrder.toIndexedSeq().toArray()
     return {
         onDemand,
         preOrder
