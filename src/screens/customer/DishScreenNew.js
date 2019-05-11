@@ -12,6 +12,7 @@ import * as actions from '../../actions';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { Haptic } from 'expo';
 import _ from 'lodash'
+import DishComponent from '../../components/DishComponent';
 
 const logger = new Logger("[DishScreenNew]", loggerConfig.level)
 class DishScreenNew extends Component {
@@ -26,48 +27,6 @@ class DishScreenNew extends Component {
         this.setState({ dish: nextProps.dish, dish_order_count: nextProps.dish_order_count })
     }
 
-    renderTags = () => {
-        return (
-            this.state.dish.tags.map((tag, index) => {
-                let marginLeft = moderateScale(5)
-                let seperator = seperator = <Icon
-                    name='checkbox-blank-circle'
-                    type="material-community"
-                    size={moderateScale(5)}
-                    color={style.secondaryColor}
-                    containerStyle={{
-                        marginLeft: moderateScale(10)
-                    }}
-                />
-                if (index === 0) {
-                    marginLeft = 0
-
-                }
-                if (index === this.state.dish.tags.length - 1) {
-                    seperator = null
-                }
-                return (
-                    <View
-                        key={tag}
-                        style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginHorizontal: moderateScale(5),
-                        }}>
-                        <Text style={{
-                            fontFamily: style.font,
-                            fontSize: moderateScale(14),
-                            color: style.secondaryColor
-                        }}>
-                            {_.capitalize(tag)}
-                        </Text>
-                        {seperator}
-                    </View>
-                )
-            })
-        )
-    }
-
     addMoreItemToCart = (item) => {
         Haptic.impact(Haptic.ImpactFeedbackStyle.Light)
         this.props.addToCart(item)
@@ -76,28 +35,6 @@ class DishScreenNew extends Component {
     removeItemCount = (item) => {
         Haptic.impact(Haptic.ImpactFeedbackStyle.Light)
         this.props.removeFromCart(item)
-    }
-
-    renderImages({ item, index }, parallaxProps) {
-        return (
-            <View style={{
-                ...style.shadow()
-            }}>
-                <ParallaxImage
-                    source={{ uri: item }}
-                    containerStyle={{
-                        width: width * 0.8,
-                        height: height * 0.3,
-                        borderRadius: moderateScale(20)
-                    }}
-                    style={{
-                        borderRadius: moderateScale(20)
-                    }}
-                    parallaxFactor={0}
-                    {...parallaxProps}
-                />
-            </View>
-        );
     }
 
     render = () => {
@@ -118,140 +55,51 @@ class DishScreenNew extends Component {
                         borderBottomColor: iOSColors.lightGray,
                     }}
                 />
-                <ScrollView style={{
-                    marginTop: moderateScale(20)
+                <DishComponent dish={dish} />
+                <View style={{
+                    marginVertical: moderateScale(10),
+                    justifyContent: 'center',
+                    alignItems: 'center',
                 }}>
-                    <Carousel
-                        itemWidth={width * 0.8}
-                        sliderWidth={width}
-                        itemHeight={height * 0.3}
-                        sliderHeight={height * 0.3}
-                        data={dish.images}
-                        renderItem={this.renderImages}
-                        hasParallaxImages={true}
-                    />
                     <View style={{
-                        width,
+                        width: width * 0.8,
+                        marginVertical: moderateScale(5),
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        borderRadius: moderateScale(100),
                         paddingHorizontal: moderateScale(20),
-                        borderWidth: 0
+                        paddingVertical: moderateScale(10),
+                        backgroundColor: style.backgroundColor(0.1),
                     }}>
-                        <View style={{
-                            flexDirection: 'row',
-                            flexWrap: "wrap",
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderWidth: 0,
-                            marginVertical: moderateScale(15)
+                        <Icon
+                            name='plus'
+                            type="material-community"
+                            size={moderateScale(30)}
+                            color={style.secondaryColor}
+                            onPress={() => this.addMoreItemToCart(dish)}
+                            underlayColor="transparent"
+                        />
+                        <Text style={{
+                            fontFamily: style.font,
+                            fontSize: moderateScale(20)
                         }}>
-                            {this.renderTags()}
-                        </View>
-                        <View style={{
-                            justifyContent: 'center',
-                            borderWidth: 0,
-                            marginVertical: moderateScale(5)
-                        }}>
-                            <Text style={{
-                                fontFamily: style.font,
-                                fontSize: moderateScale(13),
-                                textAlign: 'justify',
-                                color: colors.eerieBlack
-                            }}>
-                                {dish.description}
-                            </Text>
-                        </View>
-                        <View style={{
-                            justifyContent: 'center',
-                            borderWidth: 0
-                        }}>
-                            <Text style={{
-                                fontFamily: style.font,
-                                fontSize: moderateScale(15),
-                                textAlign: 'justify',
-                                fontWeight: 'bold',
-                                paddingVertical: moderateScale(5)
-                            }}>
-                                Content
-                            </Text>
-                            {this.getContent()}
-                        </View>
-                        <View style={{
-                            marginVertical: moderateScale(10),
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}>
-                            <View style={{
-                                width: width * 0.8,
-                                marginVertical: moderateScale(10),
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                borderRadius: moderateScale(100),
-                                paddingHorizontal: moderateScale(20),
-                                paddingVertical: moderateScale(10),
-                                backgroundColor: style.backgroundColor(0.1),
-                            }}>
-                                <Icon
-                                    name='plus'
-                                    type="material-community"
-                                    size={moderateScale(30)}
-                                    color={style.secondaryColor}
-                                    onPress={() => this.addMoreItemToCart(dish)}
-                                    underlayColor="transparent"
-                                />
-                                <Text style={{
-                                    fontFamily: style.font,
-                                    fontSize: moderateScale(20)
-                                }}>
-                                    {this.state.dish_order_count}
-                                </Text>
-                                <Icon
-                                    name='minus'
-                                    type="material-community"
-                                    size={moderateScale(30)}
-                                    color={style.secondaryColor}
-                                    onPress={() => this.removeItemCount(dish)}
-                                    underlayColor="transparent"
-                                />
-                            </View>
-                        </View>
-
+                            {this.state.dish_order_count}
+                        </Text>
+                        <Icon
+                            name='minus'
+                            type="material-community"
+                            size={moderateScale(30)}
+                            color={style.secondaryColor}
+                            onPress={() => this.removeItemCount(dish)}
+                            underlayColor="transparent"
+                        />
                     </View>
-                </ScrollView>
+                </View>
             </View>
         )
     }
 
-    getContent = () => {
-        return this.state.dish.content.map((c) => {
-            return (
-                <View 
-                key={c.name}
-                style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    paddingVertical: moderateScale(5)
-                }}>
-                    <Text style={{
-                        fontFamily: style.font,
-                        fontSize: moderateScale(13),
-                        color: style.secondaryColor
-                    }}>
-                        {c.count} {" x "}
-                    </Text>
-                    <View style={{
-                        width: width * 0.7
-                    }}>
-                        <Text style={{
-                            fontFamily: style.font,
-                            fontSize: moderateScale(13)
-                        }}>
-                            {c.name}
-                        </Text>
-                    </View>
-                </View>
-            )
-        })
-    }
 }
 
 // define your styles
