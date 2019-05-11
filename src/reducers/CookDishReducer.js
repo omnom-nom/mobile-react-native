@@ -2,6 +2,7 @@ import { DISHES } from '../actions/types.js';
 import { loggerConfig } from '../cmn/AppConfig'
 import { Logger } from 'aws-amplify';
 import { DishOrderTypeEnum } from '../screens/cook/enums';
+import produce from "immer"
 
 import _ from 'lodash'
 
@@ -14,13 +15,10 @@ export default (state = initialState, action) => {
     const { type, payload } = action
     switch (type) {
         case DISHES:
-            logger.debug("DISHES ");
-            if (payload.orderType === DishOrderTypeEnum.ON_DEMAND) {
-                state.onDemand.push(payload)
-                return { ...state, onDemand: state.onDemand }
-            }
-            state.preOrder.push(payload)
-            return { ...state, preOrder: state.preOrder }
+            onDemand = produce(state.onDemand, draft => { draft.push(payload) })
+            if (payload.orderType === DishOrderTypeEnum.ON_DEMAND) { return { ...state, onDemand } }
+            preOrder = produce(state.preOrder, draft => { draft.push(payload) })
+            return { ...state, preOrder }
         default:
             return state
     }

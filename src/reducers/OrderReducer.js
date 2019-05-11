@@ -10,8 +10,8 @@ const initialState = {
     delivery: 0,
     total: 0
 }
-const logger = new Logger("[OrderReducer]", loggerConfig.level)
 export default (state = initialState, action) => {
+    const logger = new Logger("[OrderReducer]", loggerConfig.level)
     switch (action.type) {
         case ORDER_DELIVERY_ADDRESS:
             logger.debug("ORDER_DELIVERY_ADDRESS ");

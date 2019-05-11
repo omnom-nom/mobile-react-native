@@ -4,8 +4,8 @@ import { Logger } from 'aws-amplify';
 const initialState = {
 
 }
-const logger = new Logger("[DeliveryAddressReducer]", loggerConfig.level)
 export default (state = initialState, action) => {
+    const logger = new Logger("[DeliveryAddressReducer]", loggerConfig.level)
     switch (action.type) {
         case CUSTOMER_DELIVERY_LOCATION:
             logger.debug("CUSTOMER_DELIVERY_LOCATION ");

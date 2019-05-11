@@ -3,8 +3,8 @@ import { loggerConfig } from '../cmn/AppConfig'
 import { Logger } from 'aws-amplify';
 const initialState = {
 }
-const logger = new Logger("[DishReducer]", loggerConfig.level)
 export default (state = initialState, action) => {
+    const logger = new Logger("[DishReducer]", loggerConfig.level)
     switch (action.type) {
         case DISH_CURRENT:
             logger.debug("DISH_CURRENT ");

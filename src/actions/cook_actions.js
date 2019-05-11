@@ -87,10 +87,11 @@ export const dispatchDish = (dispatch, dish) => {
     })
 }
 
-export const addNewDish = (dish) => {
+export const addNewDish = (dish, navigate) => {
     logger = new Logger("[CookAction]", loggerConfig.level)
     logger.debug("adding a new dish", dish)
     // save it on the server
+    navigate()
     return (dispatch) => {
         dispatchDish(dispatch, {
             ...dish,

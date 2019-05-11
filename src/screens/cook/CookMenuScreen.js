@@ -9,7 +9,7 @@ import { style, colors, loggerConfig } from '../../cmn/AppConfig'
 import ScreenHeader from '../../components/ScreenHeader';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { DishOrderTypeEnum } from './enums'
+import { DishOrderTypeEnum, SpiceLevelTypeEnum } from './enums';
 import _ from 'lodash'
 
 // create a component
@@ -26,6 +26,7 @@ class CookMenuScreen extends Component {
     }
 
     componentWillReceiveProps = (nextProps) => {
+        logger.debug("componentWillReceiveProps", nextProps.onDemand)
         this.setState({ onDemand: nextProps.onDemand, preOrder: nextProps.preOrder })
     }
 
@@ -76,15 +77,22 @@ class CookMenuScreen extends Component {
 
     renderMenuItem = ({ item }) => {
         return (
-            <View style={{
-                borderBottomColor: iOSColors.lightGray,
-                borderBottomWidth: 0.5,
-                padding: moderateScale(10)
-            }}>
+            <TouchableOpacity
+                key={item.id}
+                style={{
+                    borderBottomColor: iOSColors.lightGray,
+                    borderBottomWidth: 0.5,
+                    padding: moderateScale(10),
+                    flexDirection: 'row',
+                    justifyContent: 'space-between'
+                }}>
                 <Text style={style.fontStyle({ fontWeight: 'bold', size: 17 })}>
                     {item.name}
                 </Text>
-            </View>
+                <Text style={style.fontStyle({ fontWeight: 'bold', size: 17, color: style.secondaryColor })}>
+                    {item.price} $
+                </Text>
+            </TouchableOpacity>
         )
     }
 
@@ -217,23 +225,7 @@ const styles = {
 
 mapStateToProps = ({ cook_dishes }) => {
     logger = new Logger("[CookMenuScreen]", loggerConfig.level)
-    logger.debug(cook_dishes)
-    const onDemand = _.isUndefined(cook_dishes) || _.isUndefined(cook_dishes.onDemand) ? [{
-        "content": [
-            {
-                "amount": 1,
-                "name": "Paneer butter masala",
-            },
-            {
-                "amount": 1,
-                "name": "Rice ",
-            },
-        ],
-        "description": "Paneer butter Masala made using cottage cheese.",
-        "id": "002b86fe-24aa-4639-b41f-37c32ed02031",
-        "name": "Paneer butter masala",
-        "orderType": "OnDemand",
-    }] : cook_dishes.onDemand
+    const onDemand = _.isUndefined(cook_dishes) || _.isUndefined(cook_dishes.onDemand) ? [] : cook_dishes.onDemand
     const preOrder = _.isUndefined(cook_dishes) || _.isUndefined(cook_dishes.preOrder) ? [] : cook_dishes.preOrder
     return {
         onDemand,

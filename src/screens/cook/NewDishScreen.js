@@ -213,7 +213,7 @@ class NewDishScreen extends Component {
             price: this.state.price,
             images: this.state.images,
             spiceLevel: this.state.spiceLevel
-        })
+        }, this.props.navigation.goBack)
     }
 
     getOrderTypeButtonStyle = (type) => {
@@ -343,7 +343,6 @@ class NewDishScreen extends Component {
     }
 
     render() {
-        console.log(this.state);
         return (
             <View style={styles.container}>
                 <ScreenHeader

@@ -3,8 +3,8 @@ import { loggerConfig } from '../cmn/AppConfig'
 import { Logger } from 'aws-amplify';
 
 const initialState = {}
-const logger = new Logger("[CustomerInfoReducer]", loggerConfig.level)
 export default (state = initialState, action) => {
+    const logger = new Logger("[CustomerInfoReducer]", loggerConfig.level)
     switch (action.type) {
         case CUSTOMER_TYPE:
             logger.debug("CUSTOMER_TYPE ");
