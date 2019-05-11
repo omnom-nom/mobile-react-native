@@ -79,6 +79,11 @@ class CookMenuScreen extends Component {
         return (
             <TouchableOpacity
                 key={item.id}
+                onPress={() => {
+                    this.props.navigation.navigate('preview', {
+                        dish: item
+                    })
+                }}
                 style={{
                     borderBottomColor: iOSColors.lightGray,
                     borderBottomWidth: 0.5,

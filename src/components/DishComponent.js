@@ -11,13 +11,17 @@ import { Haptic } from 'expo';
 import _ from 'lodash'
 
 // create a component
+const fontSize = 16
+const fontWeight = '500'
 class DishComponent extends Component {
 
     renderTags = () => {
         const { dish } = this.props
+        if (_.isEmpty(dish.tags)) {
+            return null
+        }
         return (
             dish.tags.map((tag, index) => {
-                let marginLeft = moderateScale(5)
                 let seperator = seperator = <Icon
                     name='checkbox-blank-circle'
                     type="material-community"
@@ -42,11 +46,7 @@ class DishComponent extends Component {
                             alignItems: 'center',
                             marginHorizontal: moderateScale(5),
                         }}>
-                        <Text style={{
-                            fontFamily: style.font,
-                            fontSize: moderateScale(14),
-                            color: style.secondaryColor
-                        }}>
+                        <Text style={style.fontStyle({ size: 14, color: style.secondaryColor })}>
                             {_.capitalize(tag)}
                         </Text>
                         {seperator}
@@ -79,6 +79,9 @@ class DishComponent extends Component {
     }
 
     getContent = (dish) => {
+        if (_.isEmpty(dish.content)) {
+            return null
+        }
         return dish.content.map((c) => {
             return (
                 <View
@@ -88,20 +91,13 @@ class DishComponent extends Component {
                         justifyContent: 'space-between',
                         paddingVertical: moderateScale(5)
                     }}>
-                    <Text style={{
-                        fontFamily: style.font,
-                        fontSize: moderateScale(13),
-                        color: style.secondaryColor
-                    }}>
+                    <Text style={style.fontStyle({ ...styles.sectionTextStyle, color: style.secondaryColor })} >
                         {c.count} {" x "}
                     </Text>
                     <View style={{
                         width: width * 0.7
                     }}>
-                        <Text style={{
-                            fontFamily: style.font,
-                            fontSize: moderateScale(13)
-                        }}>
+                        <Text style={style.fontStyle(styles.sectionTextStyle)} >
                             {c.name}
                         </Text>
                     </View>
@@ -112,6 +108,9 @@ class DishComponent extends Component {
 
     render() {
         const { dish } = this.props
+        if (_.isEmpty(dish.images)) {
+            return null
+        }
         return (
             <ScrollView style={{
                 marginTop: moderateScale(20)
@@ -145,12 +144,8 @@ class DishComponent extends Component {
                         borderWidth: 0,
                         marginVertical: moderateScale(5)
                     }}>
-                        <Text style={{
-                            fontFamily: style.font,
-                            fontSize: moderateScale(13),
-                            textAlign: 'justify',
-                            color: colors.eerieBlack
-                        }}>
+                        {this.renderHeader('Description')}
+                        <Text style={style.fontStyle(styles.sectionTextStyle)}>
                             {dish.description}
                         </Text>
                     </View>
@@ -158,21 +153,33 @@ class DishComponent extends Component {
                         justifyContent: 'center',
                         borderWidth: 0
                     }}>
-                        <Text style={{
-                            fontFamily: style.font,
-                            fontSize: moderateScale(15),
-                            textAlign: 'justify',
-                            fontWeight: 'bold',
-                            paddingVertical: moderateScale(5)
-                        }}>
-                            Content
-                            </Text>
+                        {this.renderHeader('Content')}
                         {this.getContent(dish)}
                     </View>
 
                 </View>
             </ScrollView>
         );
+    }
+
+    renderHeader = (name) => {
+        return (
+            <Text style={{
+                ...style.fontStyle(styles.sectionHeaderStyle),
+                paddingVertical: moderateScale(5)
+            }}>
+                {name}
+            </Text>
+        )
+    }
+}
+const styles = {
+    sectionTextStyle: {
+        size: 15,
+    },
+    sectionHeaderStyle: {
+        size: 17,
+        fontWeight: 'bold'
     }
 }
 

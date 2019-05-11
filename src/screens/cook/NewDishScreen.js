@@ -67,7 +67,7 @@ class NewDishScreen extends Component {
         this.setState({ contents })
     }
 
-    renderContentItem = (key, { name, amount }) => {
+    renderContentItem = (key, { name, count }) => {
         return (
             <View
                 key={key}
@@ -96,7 +96,7 @@ class NewDishScreen extends Component {
                         this.changeContents((contents) => {
                             contents.set(key, {
                                 name: text,
-                                amount: contents.get(key).amount
+                                count: contents.get(key).count
                             })
                         })
                     }}
@@ -119,12 +119,12 @@ class NewDishScreen extends Component {
                                 curr = contents.get(key)
                                 contents.set(key, {
                                     name: curr.name,
-                                    amount: curr.amount + 1
+                                    count: curr.count + 1
                                 })
                             })
                         }}
                     />
-                    <Text style={style.fontStyle({ fontWeight: 'bold', size: 15 })}>{amount}</Text>
+                    <Text style={style.fontStyle({ fontWeight: 'bold', size: 15 })}>{count}</Text>
                     <Icon
                         name='remove'
                         size={moderateScale(25)}
@@ -133,7 +133,7 @@ class NewDishScreen extends Component {
                                 curr = contents.get(key)
                                 contents.set(key, {
                                     name: curr.name,
-                                    amount: Math.max(0, curr.amount - 1)
+                                    count: Math.max(0, curr.count - 1)
                                 })
                             })
                         }}
@@ -148,7 +148,7 @@ class NewDishScreen extends Component {
         contents = this.state.contents
         contents.set(contentCount, {
             name: "",
-            amount: 1
+            count: 1
         })
         this.setState({
             contentCount,
@@ -517,7 +517,7 @@ const styles = {
     },
     formTitleTextStyle: {
         ...style.fontStyle({
-            size: width * 0.04,
+            size: 17,
             fontWeight: 'bold'
         }),
         // width: width * 0.3,

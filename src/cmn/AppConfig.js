@@ -48,10 +48,11 @@ export const style = {
     },
     fontStyle: (args) => {
         args = args || {};
-        size  = args.size || 13
+        size = args.size || 13
         return {
-            fontFamily : args.fontFamily || fontFamily,
-            fontWeight : args.fontWeight || 'normal',
+            fontFamily: args.fontFamily || fontFamily,
+            fontWeight: args.fontWeight || 'normal',
+            textAlign: args.textAlign || 'justify',
             color: args.color || primaryColor,
             fontSize: moderateScale(size),
         }
