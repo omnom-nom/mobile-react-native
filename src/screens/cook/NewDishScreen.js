@@ -190,12 +190,13 @@ class NewDishScreen extends Component {
         if (_.isEmpty(this.state.images)) {
             missing.push("some photos")
         }
-        if (_.isEmpty(this.state.price)) {
+
+        if (this.validatePrice()) {
             missing.push("price")
         }
 
         if (!_.isEmpty(missing)) {
-            let error = _.template('Please provide <%= missing_items %> of your dish')
+            let error = _.template('Please provide a <%= missing_items %> of your dish')
             missing_items = missing[0]
             if (missing.length > 1) {
                 missing_first_part = _.slice(missing, 0, missing.length - 1)
@@ -210,10 +211,17 @@ class NewDishScreen extends Component {
             description: this.state.description,
             content: [...this.state.contents.values()],
             orderType: this.state.orderType,
-            price: this.state.price,
+            price: parseFloat(this.state.price),
             images: this.state.images,
             spiceLevel: this.state.spiceLevel
         }, this.props.navigation.goBack)
+    }
+
+    validatePrice = () => {
+        return _.isEmpty(this.state.price) ||
+            (this.state.price.match(new RegExp('\\.', 'g')) || []).length > 1 ||
+            this.state.price === '0' ||
+            _.isNaN(parseFloat(this.state.price))
     }
 
     getOrderTypeButtonStyle = (type) => {
