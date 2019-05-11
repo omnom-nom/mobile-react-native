@@ -38,6 +38,7 @@ export const DISH_CURRENT = "dish_current"
 
 
 //cook
-export const NEW_REQUESTS = "new_requests"
+export const NEW_REQUESTS_TODAY = "new_requests_today"
+export const NEW_REQUESTS_TOMORROW = "new_requests_tomorrow"
 export const ADD_NEW_DISH = "add_new_dish"
 export const DISHES = "dishes"

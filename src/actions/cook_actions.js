@@ -1,5 +1,5 @@
 
-import { NEW_REQUESTS, ADD_NEW_DISH, DISHES } from './types.js';
+import { NEW_REQUESTS_TODAY, NEW_REQUESTS_TOMORROW, ADD_NEW_DISH, DISHES } from './types.js';
 import { Logger } from 'aws-amplify'
 import { loggerConfig } from '../cmn/AppConfig'
 import { store } from '../store'
@@ -49,8 +49,9 @@ export const newRequests = () => {
                 type: 'tomorrow'
             }
         ].map((o) => {
+            type = o.type === 'today' ? NEW_REQUESTS_TODAY : NEW_REQUESTS_TOMORROW
             dispatch({
-                type: NEW_REQUESTS,
+                type,
                 payload: o
             })
         })

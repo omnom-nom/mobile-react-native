@@ -200,12 +200,10 @@ mapStateToProps = ({ cook_orders }) => {
             tomorrow: []
         }
     }
-    const { requests } = cook_orders
-    let today = _.isUndefined(requests) || _.isUndefined(requests.today) ? [] : requests.today
-    let tomorrow = _.isUndefined(requests) || _.isUndefined(requests.tomorrow) ? [] : requests.tomorrow
+    const { today, tomorrow } = cook_orders
     return {
-        today: today,
-        tomorrow: tomorrow
+        today: _.isUndefined(today) ? [] : today,
+        tomorrow: _.isUndefined(tomorrow) ? [] : tomorrow
     }
 }
 

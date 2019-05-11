@@ -1,34 +1,25 @@
-import { NEW_REQUESTS } from '../actions/types.js';
+import { NEW_REQUESTS_TODAY, NEW_REQUESTS_TOMORROW } from '../actions/types.js';
 import { loggerConfig } from '../cmn/AppConfig'
 import { Logger } from 'aws-amplify';
+import { List } from 'immutable'
 
 const initialState = {
-    requests: {
-        today: [],
-        tomorrow: []
-    }
+    today: List(),
+    tomorrow: List()
 }
 
 export default (state = initialState, action) => {
     const logger = new Logger("[CookOrdersReducers]", loggerConfig.level)
     const { type, payload } = action
     switch (type) {
-        case NEW_REQUESTS:
-            logger.debug("NEW_REQUESTS ");
-            requests = addRequest(payload, state.requests)
-            return { ...state, requests }
+        case NEW_REQUESTS_TODAY:
+            logger.debug("NEW_REQUESTS_TODAY ");
+            return { ...state, today: state.today.push(payload) }
+
+        case NEW_REQUESTS_TOMORROW:
+            logger.debug("NEW_REQUESTS_TOMORROW ");
+            return { ...state, tomorrow: state.tomorrow.push(payload), }
         default:
             return state
     }
 };
-
-addRequest = (order, requests) => {
-    today = [].concat(requests.today)
-    tomorrow = [].concat(requests.tomorrow)
-    if (order.type === 'today') today.push(order)
-    if (order.type === 'tomorrow') tomorrow.push(order)
-    return {
-        today,
-        tomorrow
-    }
-}

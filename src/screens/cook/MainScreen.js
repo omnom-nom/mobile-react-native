@@ -190,11 +190,11 @@ mapStateToProps = ({ cook_orders }) => {
             newOrders: 0
         }
     }
-    const { requests } = cook_orders
-    let today = _.isUndefined(requests) || _.isUndefined(requests.today) ? [] : requests.today
-    let tomorrow = _.isUndefined(requests) || _.isUndefined(requests.tomorrow) ? [] : requests.tomorrow
+    const { today, tomorrow } = cook_orders
+    let numToday = _.isUndefined(today) ? 0 : today.length
+    let numTomorrow = _.isUndefined(tomorrow) ? 0 : tomorrow.length
     return {
-        newOrders: today.length + tomorrow.length
+        newOrders: numToday + numTomorrow
     }
 }
 
