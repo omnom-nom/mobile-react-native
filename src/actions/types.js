@@ -8,6 +8,7 @@ export const SESSION_EXISTS = 'session_exists';
 export const FORGOT_PASSWORD_ERROR = 'forgot_password_error';
 export const RESET_PASSWORD_ERROR = 'reset_password_error';
 export const RESET = 'reset';
+export const SIGNING_IN = 'signing_in';
 
 // customer info
 export const CUSTOMER_TYPE = 'customer_type';

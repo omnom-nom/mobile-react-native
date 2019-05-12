@@ -7,17 +7,28 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import BackgroundColor from '../../components/BackgroundColor';
 import { style } from '../../cmn/AppConfig'
+import LoadingComponent from '../../components/LoadingComponent';
+import _ from 'lodash'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 class LoginScreen extends Component {
     state = {
+        // loading: false,
         email_error: "",
         password_error: "",
         email: "",
         password: ""
     }
+
+    // componentWillMount = () => {
+    //     this.setState({ loading: this.props.signing_in })
+    // }
+
+    // componentWillReceiveProps = (nextProps) => {
+    //     this.setState({ loading: nextProps.signing_in })
+    // }
 
     componentWillUnmount = () => {
         this.props.resetSigninErrors()
@@ -62,6 +73,9 @@ class LoginScreen extends Component {
     }
 
     render() {
+        if (this.props.signing_in) {
+            return <LoadingComponent />
+        }
         return (
             <View style={styles.container}>
                 {/* <BackgroundColor topColor='#34e89e' bottomColor='#0f3443' /> */}
@@ -104,7 +118,7 @@ class LoginScreen extends Component {
                             color: 'red'
                         }}
                     >
-                        {this.props.auth.signin_error}
+                        {this.props.signin_error}
                     </Text>
                     <Button
                         containerStyle={style.shadow()}
@@ -180,14 +194,10 @@ const styles = {
 };
 
 mapStateToProps = ({ auth }) => {
-    auth_data = {
-        signin_error: "",
-    }
-    if (auth != undefined) {
-        auth_data = auth
-    }
+    console.log(auth);
     return {
-        auth: auth_data
+        signin_error: _.isUndefined(auth) ? "" : auth.signin_error,
+        signing_in: _.isUndefined(auth) ? false : auth.signing_in
     }
 }
 export default connect(mapStateToProps, actions)(LoginScreen);

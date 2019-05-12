@@ -1,4 +1,4 @@
-import { SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, CUSTOMER_INFO, GOOGLE_PLACES_API_KEY } from './types.js';
+import { SIGNING_IN, SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, CUSTOMER_INFO, GOOGLE_PLACES_API_KEY } from './types.js';
 import { getSecret } from '../apis/aws'
 import { user, create_user, delete_user } from '../apis/users'
 import { loggerConfig } from '../cmn/AppConfig'
@@ -49,38 +49,31 @@ export const signin = (signin_data, navigate) => {
     logger.debug("signing in")
     return async (dispatch) => {
         try {
+            dispatch({ type: SIGNING_IN, payload: true })
             const success_data = await Auth.signIn({
                 username: signin_data.email,
                 password: signin_data.password,
             })
             curr_user = await user(success_data.getUsername())
             await fetch_api_key(dispatch, 'google_places', GOOGLE_PLACES_API_KEY)
+            dispatch({ type: SIGNING_IN, payload: false })
             dispatch({
                 type: CUSTOMER_INFO,
                 payload: {
                     ...curr_user
                 }
             })
-            dispatch({
-                type: SIGNIN,
-            })
-            if (curr_user.type === 'customer') {
-                navigate("customer")
-            }
-            if (curr_user.type === 'cook') {
-                navigate("cook")
-            }
+            dispatch({ type: SIGNIN })
+            if (curr_user.type === 'customer') navigate("customer")
+            if (curr_user.type === 'cook') navigate("cook")
+
         } catch (error) {
             logger.error("an error occurred: ", error)
             if (error.code === "UserNotConfirmedException") {
-                navigate("signin_code", {
-                    email: signin_data.email
-                })
+                navigate("signin_code", { email: signin_data.email })
             }
-            dispatch({
-                type: SIGNIN_ERROR,
-                payload: error.message
-            })
+            dispatch({ type: SIGNING_IN, payload: false })
+            dispatch({ type: SIGNIN_ERROR, payload: error.message })
         }
     }
 }
