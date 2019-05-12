@@ -1,9 +1,10 @@
 
-import { CUSTOMER_TYPE, CUSTOMER_DELIVERY_LOCATION, GOOGLE_PLACES_API_SESSION_TOKEN, CUSTOMER_ADDRESSES, ORDER_DELIVERY_ADDRESS, MERCHANTS } from './types.js';
-import { MapView, Location, Permissions, Constants } from 'expo'
+import { FETCHING_MERCHANTS, CUSTOMER_TYPE, CUSTOMER_DELIVERY_LOCATION, GOOGLE_PLACES_API_SESSION_TOKEN, CUSTOMER_ADDRESSES, ORDER_DELIVERY_ADDRESS, MERCHANTS } from './types.js';
+import { Location, Permissions } from 'expo'
 import uuidv4 from 'uuid/v4'
 import { Logger } from 'aws-amplify'
 import { loggerConfig } from '../cmn/AppConfig'
+import { starting_action, ending_action, fetch_api_key } from './cmn'
 import { store } from '../store'
 import _ from 'lodash'
 
@@ -73,7 +74,7 @@ export const createSessionTokenForGooglePlaceApi = () => {
     }
 }
 
-updateGoogleApiSessionToken = (dispatch) => {
+const updateGoogleApiSessionToken = (dispatch) => {
     session_token = uuidv4()
     logger.debug(`google place api session key rotated ${session_token}`);
     dispatch({
@@ -100,6 +101,7 @@ export const selectAddress = (place_id, navigate) => {
     logger.debug("customer selected an address 1")
     return async (dispatch, getState) => {
         try {
+            starting_action(dispatch, FETCHING_MERCHANTS)
             const { google_places_session_token } = getState().session_tokens
             const { google_places_api_key } = getState().api_keys
             const address = await fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' + place_id + '&key=' + google_places_api_key + '&sessiontoken=' + google_places_session_token)
@@ -110,17 +112,24 @@ export const selectAddress = (place_id, navigate) => {
                 type: ORDER_DELIVERY_ADDRESS,
                 payload: finalDeliveryAddress
             })
+            navigate("customer_main")
+            await sleep(2000)
             // TODO: get the merchants info using apis
+            ending_action(dispatch, FETCHING_MERCHANTS)
             await dispatch({
                 type: MERCHANTS,
                 payload: merchants_summary.merchants
             })
-            navigate("customer_main")
             updateGoogleApiSessionToken(dispatch)
         } catch (error) {
             logger.error("unable to fetch detailed info for place id: ", place_id, error)
+            ending_action(dispatch, FETCHING_MERCHANTS)
         }
     }
+}
+
+const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 getDeliveryAddress = (addressJson) => {

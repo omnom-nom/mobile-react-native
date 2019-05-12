@@ -12,7 +12,7 @@ import { MapView, Location, Permissions, Constants } from 'expo'
 import LocationInput from './LocationInput';
 
 
-const map_height = height * 0.8
+const map_height = height * 0.75
 const extra_map_height = moderateScale(30)
 
 class LocationScreen extends Component {

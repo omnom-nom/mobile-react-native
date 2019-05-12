@@ -14,6 +14,7 @@ import { style } from '../../cmn/AppConfig'
 import CooksList from '../../components/CooksList';
 import _ from 'lodash'
 import NotFoundComponent from '../../components/NotFoundComponent';
+import LoadingComponent from '../../components/LoadingComponent';
 
 
 
@@ -137,7 +138,7 @@ class MenuScreen extends Component {
         const { selectedIndex } = this.state
         const fontSize = 12
         return (
-            <View 
+            <View
                 style={{
                     width,
                     justifyContent: 'center',
@@ -168,6 +169,9 @@ class MenuScreen extends Component {
     }
 
     render() {
+        if (this.props.fetching_merchants) {
+            return <LoadingComponent message="finding merchants near you ..." />
+        }
         const cuisines = this.getCuisines()
         const merchants = this.getMerchants(this.state.current_cuisine)
         let view = <NotFoundComponent message="No cooks in your region, please try again later" />
@@ -179,7 +183,7 @@ class MenuScreen extends Component {
                 {this.renderOrderType()}
                 {this.renderCuisineSelector(cuisines)}
                 <Text style={styles.headerStyle}>Cooks around you</Text>
-                <CooksList merchants={merchants} navigate={this.props.navigation.navigate}/>
+                <CooksList merchants={merchants} navigate={this.props.navigation.navigate} />
             </ScrollView>
         }
         return (
@@ -267,9 +271,11 @@ mapStateToProps = ({ order_info, merchant_info }) => {
     if (!infoAbsent(merchant_info)) {
         merchants = merchant_info.merchants
     }
+    logger.debug(merchant_info)
     return {
         delivery_address,
-        merchants
+        merchants,
+        fetching_merchants: !infoAbsent(merchant_info) ? merchant_info.fetching_merchants : false
     }
 }
 

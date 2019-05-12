@@ -1,7 +1,8 @@
-import { MERCHANTS, MERCHANT_CURRENT } from '../actions/types.js';
+import { FETCHING_MERCHANTS, MERCHANTS, MERCHANT_CURRENT } from '../actions/types.js';
 import { loggerConfig } from '../cmn/AppConfig'
 import { Logger } from 'aws-amplify';
 const initialState = {
+    fetching_merchants: false
 }
 export default (state = initialState, action) => {
     const logger = new Logger("[MerchantReducer]", loggerConfig.level)
@@ -12,6 +13,9 @@ export default (state = initialState, action) => {
         case MERCHANT_CURRENT:
             logger.debug("MERCHANT_CURRENT ");
             return { ...state, merchant_current: action.payload }
+        case FETCHING_MERCHANTS:
+            logger.debug("FETCHING_MERCHANTS ");
+            return { ...state, fetching_merchants: action.payload }
         default:
             return state
     }

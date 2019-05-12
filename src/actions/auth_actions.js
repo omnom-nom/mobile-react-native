@@ -1,8 +1,8 @@
 import { SUBMITTING_CODE, RESETTING_PASSWORD, SIGNING_UP, SIGNING_IN, SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, CUSTOMER_INFO, GOOGLE_PLACES_API_KEY } from './types.js';
-import { getSecret } from '../apis/aws'
 import { user, create_user, delete_user } from '../apis/users'
 import { loggerConfig } from '../cmn/AppConfig'
 import { Auth, Logger } from "aws-amplify";
+import { starting_action, ending_action, fetch_api_key } from './cmn'
 import _ from 'lodash'
 
 logger = new Logger("[AuthAction]", loggerConfig.level)
@@ -35,14 +35,6 @@ export const check_session = (navigate) => {
             navigate("auth")
         }
     }
-}
-
-fetch_api_key = async (dispatch, secret_name, type) => {
-    const api_key = await getSecret(secret_name)
-    dispatch({
-        type: type,
-        payload: api_key
-    })
 }
 
 export const signin = (signin_data, navigate) => {
@@ -208,6 +200,3 @@ export const reset_password = (email, password, code, navigate) => {
         }
     }
 }
-
-const starting_action = (dispatch, type) => { dispatch({ type, payload: true }) }
-const ending_action = (dispatch, type) => { dispatch({ type, payload: false }) }

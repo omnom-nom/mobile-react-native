@@ -258,15 +258,6 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
     },
-    // textInputStyle: {
-    //     borderBottomWidth: 1,
-    //     width: SCREEN_WIDTH * 0.8,
-    //     height: SCREEN_HEIGHT * 0.05,
-    //     paddingHorizontal: 10,
-    //     fontSize: SCREEN_WIDTH * 0.04,
-    //     fontFamily: style.font,
-    //     marginBottom: SCREEN_HEIGHT * 0.02,
-    // },
     textInputStyle: {
         borderRadius: moderateScale(20),
         width: width * 0.6,

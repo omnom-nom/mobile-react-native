@@ -18,6 +18,7 @@ export const CUSTOMER_TYPE = 'customer_type';
 export const CUSTOMER_INFO = 'customer_info';
 export const CUSTOMER_DELIVERY_LOCATION = 'customer_delivery_location';
 export const CUSTOMER_ADDRESSES = 'customer_addresses';
+export const FETCHING_MERCHANTS = 'fetching_merchants';
 
 // order indo
 export const ORDER_DELIVERY_ADDRESS = 'delivery_address';
