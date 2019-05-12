@@ -174,17 +174,11 @@ const styles = {
     },
     textInputStyle: {
         borderRadius: moderateScale(20),
-        // borderBottomWidth: 1,
         width: width * 0.6,
-        // padding: 20,
-        fontSize: width * 0.04,
-        fontFamily: style.font,
-        // backgroundColor: iOSColors.white,
+        ...style.fontStyle({ size: 15 })
     },
     formFieldsErrors: {
-        fontSize: moderateScale(10),
-        color: iOSColors.pink,
-        fontFamily: style.font,
+        ...style.fontStyle({ size: 10, color: iOSColors.pink, }),
         marginBottom: height * 0.02,
     },
     infoItemContainerStyle: {

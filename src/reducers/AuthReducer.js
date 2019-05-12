@@ -1,8 +1,10 @@
-import { SIGNING_IN, SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, SESSION_EXISTS, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, RESET } from '../actions/types.js';
+import { RESETTING_PASSWORD, SIGNING_UP, SIGNING_IN, SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, SESSION_EXISTS, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, RESET } from '../actions/types.js';
 import { loggerConfig } from '../cmn/AppConfig'
 import { Logger } from 'aws-amplify';
 const initialState = {
-  signing_in: false, 
+  signing_in: false,
+  signing_up: false,
+  resetting_password: false,
   signin_error: ""
 }
 const logger = new Logger("[AuthReducer]", loggerConfig.level)
@@ -38,6 +40,12 @@ export default (state = initialState, action) => {
     case SIGNING_IN:
       logger.debug("SIGNING_IN ");
       return { ...state, signing_in: action.payload }
+    case SIGNING_UP:
+      logger.debug("SIGNING_UP ");
+      return { ...state, signing_up: action.payload }
+    case RESETTING_PASSWORD:
+      logger.debug("RESETTING_PASSWORD ");
+      return { ...state, resetting_password: action.payload }
     case RESET:
       logger.debug("RESET_PASSWORD_ERROR ");
       return {}

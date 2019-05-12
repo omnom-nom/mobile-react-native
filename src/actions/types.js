@@ -9,6 +9,9 @@ export const FORGOT_PASSWORD_ERROR = 'forgot_password_error';
 export const RESET_PASSWORD_ERROR = 'reset_password_error';
 export const RESET = 'reset';
 export const SIGNING_IN = 'signing_in';
+export const SIGNING_UP = 'signing_up';
+export const RESETTING_PASSWORD = 'resetting_password';
+export const SUBMITTING_CODE = 'submitting_code';
 
 // customer info
 export const CUSTOMER_TYPE = 'customer_type';

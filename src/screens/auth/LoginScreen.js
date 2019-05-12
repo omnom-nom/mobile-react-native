@@ -22,14 +22,6 @@ class LoginScreen extends Component {
         password: ""
     }
 
-    // componentWillMount = () => {
-    //     this.setState({ loading: this.props.signing_in })
-    // }
-
-    // componentWillReceiveProps = (nextProps) => {
-    //     this.setState({ loading: nextProps.signing_in })
-    // }
-
     componentWillUnmount = () => {
         this.props.resetSigninErrors()
     }
@@ -78,7 +70,6 @@ class LoginScreen extends Component {
         }
         return (
             <View style={styles.container}>
-                {/* <BackgroundColor topColor='#34e89e' bottomColor='#0f3443' /> */}
                 <Image style={styles.imagestyle} source={require('../../../assets/logo.png')} />
                 <View
                     style={{
@@ -143,13 +134,13 @@ class LoginScreen extends Component {
                             title='Create new account'
                             type="clear"
                             titleStyle={styles.subButtonStyle}
-                            onPress={() => this.props.navigation.navigate('signup_customer_type')}
+                            onPress={() => this.props.navigation.navigate('signup')}
                         />
                         <Button
                             title='Forgot password'
                             type="clear"
                             titleStyle={styles.subButtonStyle}
-                            onPress={() => this.props.navigation.navigate('forgot_password_email_input')}
+                            onPress={() => this.props.navigation.navigate('reset_password')}
                         />
                     </View>
                 </View>
@@ -169,9 +160,8 @@ const styles = {
         width: SCREEN_WIDTH * 0.8,
         height: SCREEN_HEIGHT * 0.05,
         padding: 5,
-        fontSize: SCREEN_WIDTH * 0.04,
         marginBottom: SCREEN_HEIGHT * 0.02,
-        fontFamily: style.font
+        ...style.fontStyle({ size: 15})
     },
     imagestyle: {
         top: SCREEN_HEIGHT * 0.1,
@@ -185,16 +175,10 @@ const styles = {
         fontFamily: style.font,
         marginBottom: SCREEN_HEIGHT * 0.02,
     },
-    subButtonStyle: {
-        ...material.body1,
-        ...systemWeights.thin,
-        color: iOSColors.purple,
-        fontFamily: style.font
-    }
+    subButtonStyle: style.fontStyle({ size: 15, color: iOSColors.purple, fontWeight: '500', })
 };
 
 mapStateToProps = ({ auth }) => {
-    console.log(auth);
     return {
         signin_error: _.isUndefined(auth) ? "" : auth.signin_error,
         signing_in: _.isUndefined(auth) ? false : auth.signing_in

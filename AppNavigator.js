@@ -39,15 +39,7 @@ const nullHeader = {
     header: null
 }
 
-const AuthStack = createStackNavigator({
-    login: {
-        screen: LoginScreen,
-        navigationOptions: nullHeader
-    },
-    signin_code: {
-        screen: CodeScreen,
-        navigationOptions: nullHeader
-    },
+const SignupStack = createStackNavigator({
     signup_customer_type: {
         screen: CustomerTypeScreen,
         navigationOptions: nullHeader
@@ -60,6 +52,9 @@ const AuthStack = createStackNavigator({
         screen: CodeScreen,
         navigationOptions: nullHeader
     },
+})
+
+const ResetPasswordStack = createStackNavigator({
     forgot_password_email_input: {
         screen: EmailInput,
         navigationOptions: nullHeader
@@ -68,6 +63,25 @@ const AuthStack = createStackNavigator({
         screen: ResetPasswordScreen,
         navigationOptions: nullHeader
     }
+})
+
+const AuthStack = createStackNavigator({
+    login: {
+        screen: LoginScreen,
+        navigationOptions: nullHeader
+    },
+    signin_code: {
+        screen: CodeScreen,
+        navigationOptions: nullHeader
+    },
+    signup: {
+        screen: SignupStack,
+        navigationOptions: nullHeader
+    },
+    reset_password: {
+        screen: ResetPasswordStack,
+        navigationOptions: nullHeader
+    },
 })
 
 const AccountStack = createStackNavigator({
@@ -302,7 +316,7 @@ const AppNavigator = createSwitchNavigator(
         },
     },
     {
-        initialRouteName: 'cook',
+        initialRouteName: 'auth_load',
     }
 );
 

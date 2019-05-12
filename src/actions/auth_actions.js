@@ -1,4 +1,4 @@
-import { SIGNING_IN, SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, CUSTOMER_INFO, GOOGLE_PLACES_API_KEY } from './types.js';
+import { SUBMITTING_CODE, RESETTING_PASSWORD, SIGNING_UP, SIGNING_IN, SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR, CODE_ERROR, CODE, FORGOT_PASSWORD_ERROR, RESET_PASSWORD_ERROR, CUSTOMER_INFO, GOOGLE_PLACES_API_KEY } from './types.js';
 import { getSecret } from '../apis/aws'
 import { user, create_user, delete_user } from '../apis/users'
 import { loggerConfig } from '../cmn/AppConfig'
@@ -49,14 +49,14 @@ export const signin = (signin_data, navigate) => {
     logger.debug("signing in")
     return async (dispatch) => {
         try {
-            dispatch({ type: SIGNING_IN, payload: true })
+            starting_action(dispatch, SIGNING_IN)
             const success_data = await Auth.signIn({
                 username: signin_data.email,
                 password: signin_data.password,
             })
             curr_user = await user(success_data.getUsername())
             await fetch_api_key(dispatch, 'google_places', GOOGLE_PLACES_API_KEY)
-            dispatch({ type: SIGNING_IN, payload: false })
+            ending_action(dispatch, SIGNING_IN)
             dispatch({
                 type: CUSTOMER_INFO,
                 payload: {
@@ -72,7 +72,7 @@ export const signin = (signin_data, navigate) => {
             if (error.code === "UserNotConfirmedException") {
                 navigate("signin_code", { email: signin_data.email })
             }
-            dispatch({ type: SIGNING_IN, payload: false })
+            ending_action(dispatch, SIGNING_IN)
             dispatch({ type: SIGNIN_ERROR, payload: error.message })
         }
     }
@@ -96,6 +96,7 @@ export const signout = (navigate) => {
 export const signup = (signup_data, navigate) => {
     logger.debug("signing up")
     return async (dispatch, getState) => {
+        starting_action(dispatch, SIGNING_UP)
         try {
             await create_user(signup_data.phone_number, signup_data.email, signup_data.name, getState().customer_info.customer_type)
         } catch (error) {
@@ -115,6 +116,7 @@ export const signup = (signup_data, navigate) => {
                     email: signup_data.email,
                 },
             })
+            ending_action(dispatch, SIGNING_UP)
             dispatch({
                 type: SIGNUP,
                 payload: {
@@ -129,6 +131,7 @@ export const signup = (signup_data, navigate) => {
         } catch (error) {
             logger.error("an error occurred: ", error)
             delete_user(signup_data.email)
+            ending_action(dispatch, SIGNING_UP)
             dispatch({
                 type: SIGNUP_ERROR,
                 payload: error.message
@@ -141,14 +144,15 @@ export const submit_code = (code_data, navigate) => {
     logger.debug("submitting code")
     return async (dispatch) => {
         try {
+            starting_action(dispatch, SUBMITTING_CODE)
             const { email, confirmationCode } = code_data;
             await Auth.confirmSignUp(email, confirmationCode, {})
-            dispatch({
-                type: CODE
-            })
+            ending_action(dispatch, SUBMITTING_CODE)
+            dispatch({ type: CODE })
             navigate("login")
         } catch (error) {
             logger.error("an error occurred: ", error)
+            ending_action(dispatch, SUBMITTING_CODE)
             dispatch({
                 type: CODE_ERROR,
                 payload: true
@@ -190,10 +194,13 @@ export const reset_password = (email, password, code, navigate) => {
     logger.debug("resetting password")
     return async (dispatch) => {
         try {
+            starting_action(dispatch, RESETTING_PASSWORD)
             await Auth.forgotPasswordSubmit(email, code, password)
-            navigate("auth")
+            ending_action(dispatch, RESETTING_PASSWORD)
+            navigate("login")
         } catch (error) {
             logger.error("an error occurred: ", error)
+            ending_action(dispatch, RESETTING_PASSWORD)
             dispatch({
                 type: RESET_PASSWORD_ERROR,
                 payload: error.message
@@ -201,3 +208,6 @@ export const reset_password = (email, password, code, navigate) => {
         }
     }
 }
+
+const starting_action = (dispatch, type) => { dispatch({ type, payload: true }) }
+const ending_action = (dispatch, type) => { dispatch({ type, payload: false }) }

@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../../actions';
 import { style } from '../../../cmn/AppConfig'
 import { moderateScale, width, verticalScale, height } from '../../../cmn/Scaling';
-
+import _ from 'lodash'
+import LoadingComponent from '../../../components/LoadingComponent';
 
 class ResetPasswordScreen extends Component {
 
@@ -72,6 +73,9 @@ class ResetPasswordScreen extends Component {
         }
     }
     render() {
+        if (this.props.resetting_password) {
+            return <LoadingComponent />
+        }
         const { navigation } = this.props;
         const email = navigation.getParam('email', "");
         let err = null
@@ -88,7 +92,7 @@ class ResetPasswordScreen extends Component {
                         left: width * 0.1,
                         marginBottom: height * 0.05
                     }}
-                    onPress={() => this.props.navigation.navigate('forgot_password_email_input')}
+                    onPress={() => this.props.navigation.goBack()}
                 />
                 <View style={{
                     marginBottom: verticalScale(20)
@@ -222,9 +226,8 @@ const styles = {
         width: width * 0.8,
         height: height * 0.05,
         padding: 10,
-        fontSize: width * 0.04,
-        fontFamily: style.font,
         marginBottom: height * 0.02,
+        ...style.fontStyle({ size: 15 })
     },
     formFieldsErrors: {
         ...material.body1,
@@ -236,12 +239,9 @@ const styles = {
 };
 
 mapStateToProps = ({ auth }) => {
-    let reset_password_error = ""
-    if (auth != undefined) {
-        reset_password_error = auth.reset_password_error
-    }
     return {
-        reset_password_error
+        reset_password_error: _.isUndefined(auth) ? "" : auth.reset_password_error,
+        resetting_password: _.isUndefined(auth) ? "" : auth.resetting_password
     }
 }
 export default connect(mapStateToProps, actions)(ResetPasswordScreen);

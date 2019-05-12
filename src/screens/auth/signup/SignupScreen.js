@@ -10,6 +10,8 @@ import { moderateScale, width, verticalScale, height } from '../../../cmn/Scalin
 import { connect } from 'react-redux';
 import * as actions from '../../../actions';
 import { style } from '../../../cmn/AppConfig'
+import _ from 'lodash'
+import LoadingComponent from '../../../components/LoadingComponent';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -133,6 +135,9 @@ class SignupScreen extends Component {
     }
 
     render() {
+        if (this.props.signing_up) {
+            return <LoadingComponent />
+        }
         return (
             <View style={styles.container}>
                 <Icon
@@ -143,7 +148,7 @@ class SignupScreen extends Component {
                         top: verticalScale(50),
                         left: SCREEN_WIDTH * 0.1
                     }}
-                    onPress={() => this.props.navigation.navigate('signup_customer_type')}
+                    onPress={() => this.props.navigation.goBack()}
                 />
                 <View
                     style={{
@@ -162,7 +167,7 @@ class SignupScreen extends Component {
                         autoCapitalize="characters"
                     />)}
                     {this.error_component(this.state.name_error)}
-                    {this.renderInfoItem("PHONE",<TextInputMask
+                    {this.renderInfoItem("PHONE", <TextInputMask
                         style={styles.textInputStyle}
                         placeholder="PHONE NUMBER"
                         value={this.state.phoneNumberFormat}
@@ -184,7 +189,7 @@ class SignupScreen extends Component {
                     />)}
                     {this.error_component(this.state.phone_number_error)}
 
-                    {this.renderInfoItem("EMAIL",<TextInput
+                    {this.renderInfoItem("EMAIL", <TextInput
                         style={styles.textInputStyle}
                         placeholder="EMAIL ADDRESS"
                         onChangeText={(email) => this.setState({ email: email.toLowerCase() })}
@@ -219,7 +224,7 @@ class SignupScreen extends Component {
                             fontFamily: style.font
                         }}
                     >
-                        {this.props.auth.signup_error}
+                        {this.props.signup_error}
                     </Text>
 
                     <Button
@@ -265,8 +270,7 @@ const styles = {
     textInputStyle: {
         borderRadius: moderateScale(20),
         width: width * 0.6,
-        fontSize: width * 0.04,
-        fontFamily: style.font,
+        ...style.fontStyle({ size: 15 })
     },
     formFieldsErrors: {
         ...systemWeights.light,
@@ -294,14 +298,9 @@ const styles = {
 };
 
 mapStateToProps = ({ auth }) => {
-    auth_data = {
-        signup_error: "",
-    }
-    if (auth != undefined) {
-        auth_data = auth
-    }
     return {
-        auth: auth_data
+        signup_error: _.isUndefined(auth) ? "" : auth.signup_error,
+        signing_up: _.isUndefined(auth) ? "" : auth.signing_up,
     }
 }
 export default connect(mapStateToProps, actions)(SignupScreen);

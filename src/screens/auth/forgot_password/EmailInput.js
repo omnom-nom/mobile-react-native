@@ -161,8 +161,7 @@ const styles = {
         width: width * 0.8,
         height: height * 0.05,
         paddingHorizontal: 10,
-        fontSize: width * 0.04,
-        fontFamily: style.font,
+        ...style.fontStyle({ size: 15 }),
         marginBottom: height * 0.02,
     },
     formFieldsErrors: {

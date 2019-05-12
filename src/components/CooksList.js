@@ -56,13 +56,13 @@ class CooksList extends Component {
                     }}
                 /> */}
                 {/* <View style={{}}> */}
-                    <Carousel
-                        itemWidth={width * 0.95}
-                        sliderWidth={width}
-                        data={item["images"]}
-                        renderItem={this.renderImages}
-                        hasParallaxImages={true}
-                    />
+                <Carousel
+                    itemWidth={width * 0.95}
+                    sliderWidth={width}
+                    data={item["images"]}
+                    renderItem={this.renderImages}
+                    hasParallaxImages={true}
+                />
                 {/* </View> */}
                 <TouchableOpacity
                     onPress={() => {
@@ -74,18 +74,8 @@ class CooksList extends Component {
                         paddingBottom: moderateScale(10),
                     }}
                 >
-                    <Text style={{
-                        fontSize: moderateScale(20),
-                        fontWeight: "800",
-                        fontFamily: style.font,
-                        color: colors.eerieBlack
-                    }}>{item["name"]}</Text>
-                    <Text style={{
-                        fontSize: moderateScale(13),
-                        fontWeight: "600",
-                        fontFamily: style.font,
-                        color: iOSColors.gray
-                    }}>{item["cuisine"]}</Text>
+                    <Text style={style.fontStyle({ size: 20, fontWeight: "800" })}>{item["name"]}</Text>
+                    <Text style={style.fontStyle({ size: 13, fontWeight: "600", color: iOSColors.lightGray })}>{item["cuisine"]}</Text>
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'center'
@@ -137,12 +127,7 @@ const styles = {
         fontFamily: style.font,
         textAlign: 'center'
     },
-    ratingStyle: {
-        fontSize: ratingSize,
-        fontWeight: "600",
-        fontFamily: style.font,
-        color: ratingColor,
-    },
+    ratingStyle: style.fontStyle({ size: ratingSize, fontWeight: '600', color: ratingColor }),
     imageViewStyle: {
         height: imageHeight + 10,
         width: width * 0.5 - moderateScale(10),
