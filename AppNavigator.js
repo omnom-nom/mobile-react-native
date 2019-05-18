@@ -33,6 +33,7 @@ import NewOrdersScreen from './src/screens/cook/NewOrdersScreen';
 import NewDishScreen from './src/screens/cook/NewDishScreen';
 import AllDishesScreen from './src/screens/cook/AllDishesScreen';
 import DishPreviewScreen from './src/screens/cook/DishPreviewScreen';
+import NewMainScreen from './src/screens/cook/NewMainScreen';
 
 
 const nullHeader = {
@@ -234,7 +235,7 @@ const CookMenuStack = createStackNavigator(
 const CookHome = createStackNavigator(
     {
         main: {
-            screen: MainScreen,
+            screen: NewMainScreen,//MainScreen,
             navigationOptions: nullHeader
         },
         review: {
@@ -316,7 +317,7 @@ const AppNavigator = createSwitchNavigator(
         },
     },
     {
-        initialRouteName: 'auth_load',
+        initialRouteName: 'cook',
     }
 );
 

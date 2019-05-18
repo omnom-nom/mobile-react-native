@@ -170,16 +170,13 @@ class MenuScreen extends Component {
 
     render() {
         if (this.props.fetching_merchants) {
-            return <LoadingComponent message="finding merchants near you ..." />
+            return <LoadingComponent message="finding home cooks near you ..." />
         }
         const cuisines = this.getCuisines()
         const merchants = this.getMerchants(this.state.current_cuisine)
         let view = <NotFoundComponent message="No cooks in your region, please try again later" />
         if (!_.isEmpty(merchants)) {
-            view = <ScrollView style={{
-                width,
-                // top: moderateScale(10)
-            }}>
+            view = <ScrollView style={{ width }}>
                 {this.renderOrderType()}
                 {this.renderCuisineSelector(cuisines)}
                 <Text style={styles.headerStyle}>Cooks around you</Text>

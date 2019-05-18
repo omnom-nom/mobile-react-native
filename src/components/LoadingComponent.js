@@ -14,7 +14,7 @@ class LoadingComponent extends Component {
         }
         return (
             <View style={{ width: width * 0.9, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={style.fontStyle({ color: iOSColors.purple, size: 17 })}>
+                <Text style={style.fontStyle({ color: iOSColors.purple, size: 17, fontWeight: '600', })}>
                     {_.upperFirst(message)}
                 </Text>
             </View >

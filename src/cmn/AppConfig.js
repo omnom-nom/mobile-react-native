@@ -28,22 +28,26 @@ export const colors = {
 
 const fontFamily = 'Avenir Next' //'System'
 const primaryColor = iOSColors.eerieBlack
-const secondaryColor = colors.caribbreanGreen
+const secondaryColor = '#3ECF8E' //colors.caribbreanGreen
 
 export const style = {
     font: fontFamily,
     subheading: moderateScale(15),
     heading: moderateScale(20),
     color: "#fbb700",
-    shadow: (color = '#000', size = 1) => {
+    shadow: (args) => {
+        args = args || {}
+        size = args.size || 1
+        color = args.color || '#000'
+        opacity = args.opacity || 0.3
         return {
             shadowColor: color,
             shadowOffset: { width: 0, height: moderateScale(size) },
-            shadowOpacity: 0.3,
+            shadowOpacity: opacity,
             shadowRadius: moderateScale(size),
         }
     },
-    backgroundColor: (opacity = 0.02) => {
+    backgroundColor: (opacity = 0) => {
         return `rgba(0, 157, 196, ${opacity})`
     },
     fontStyle: (args) => {
@@ -55,6 +59,7 @@ export const style = {
             textAlign: args.textAlign || 'justify',
             color: args.color || primaryColor,
             fontSize: moderateScale(size),
+            letterSpacing: args.letterSpacing || 0
         }
     },
     secondaryColor

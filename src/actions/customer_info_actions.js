@@ -113,7 +113,7 @@ export const selectAddress = (place_id, navigate) => {
                 payload: finalDeliveryAddress
             })
             navigate("customer_main")
-            await sleep(2000)
+            await sleep(3000)
             // TODO: get the merchants info using apis
             ending_action(dispatch, FETCHING_MERCHANTS)
             await dispatch({
