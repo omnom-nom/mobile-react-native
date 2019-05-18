@@ -62,7 +62,7 @@ class DashboardButton extends Component {
 class NewMainScreen extends Component {
 
     state = {
-        name: "Kashish Tayal",
+        name: "",
         status: true,
         review: 3.5,
         earnings: 40,
@@ -73,10 +73,16 @@ class NewMainScreen extends Component {
     }
 
     componentWillMount = () => {
-        this.setState({ newOrders: this.props.newOrders })
+        this.setState({ 
+            newOrders: this.props.newOrders,
+            name:  this.props.name
+        })
     }
     componentWillReceiveProps = (nextProps) => {
-        this.setState({ newOrders: nextProps.newOrders })
+        this.setState({ 
+            newOrders: nextProps.newOrders,
+            name:  nextProps.name 
+        })
     }
 
     getSubComponentHeader = (title) => {
@@ -155,10 +161,10 @@ class NewMainScreen extends Component {
                         </Text>
                         <View>
                             <Text style={style.fontStyle({ size: 25, fontWeight: '400', color: colors.eerieBlack })}>
-                                Hi {this.state.name}
+                                Hi {_.startCase(_.lowerCase(this.state.name))}
                             </Text>
                             <Text style={style.fontStyle({ size: 15, fontWeight: 'bold', color: '#6B7C93' })}>
-                                {this.state.status ? "Available" : "Not Available"}
+                                You are {this.state.status ? "available" : "not available"}
                             </Text>
                         </View>
                     </View>
@@ -191,7 +197,7 @@ const styles = {
     },
 };
 
-mapStateToProps = ({ cook_orders }) => {
+mapStateToProps = ({ cook_orders, customer_info }) => {
     logger = new Logger("[NewMainScreen]", loggerConfig.level)
     if (_.isUndefined(cook_orders)) {
         return {
@@ -202,7 +208,8 @@ mapStateToProps = ({ cook_orders }) => {
     let numToday = _.isUndefined(today) ? 0 : today.length
     let numTomorrow = _.isUndefined(tomorrow) ? 0 : tomorrow.length
     return {
-        newOrders: numToday + numTomorrow
+        newOrders: numToday + numTomorrow,
+        name: _.isUndefined(customer_info) || _.isUndefined(customer_info.name) ? "" : customer_info.name
     }
 }
 
