@@ -20,7 +20,6 @@ export default (state = initialState, action) => {
             preOrder = state.preOrder
             if (payload.orderType === DishOrderTypeEnum.ON_DEMAND) onDemand = onDemand.set(payload.id, payload)
             if (payload.orderType === DishOrderTypeEnum.PRE_ORDER) preOrder = preOrder.set(payload.id, payload)
-            logger.debug(onDemand, preOrder)
             return { ...state, preOrder, onDemand }
         default:
             return state

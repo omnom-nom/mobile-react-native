@@ -75,13 +75,15 @@ class NewMainScreen extends Component {
     componentWillMount = () => {
         this.setState({
             newOrders: this.props.newOrders,
-            name: this.props.name
+            name: this.props.name,
+            dishes: this.props.dishes
         })
     }
     componentWillReceiveProps = (nextProps) => {
         this.setState({
             newOrders: nextProps.newOrders,
-            name: nextProps.name
+            name: nextProps.name,
+            dishes: nextProps.dishes
         })
     }
 
@@ -197,13 +199,14 @@ const styles = {
     },
 };
 
-mapStateToProps = ({ cook_orders, customer_info }) => {
+mapStateToProps = ({ cook_orders, customer_info, cook_dishes }) => {
     logger = new Logger("[NewMainScreen]", loggerConfig.level)
     let numToday = cook_orders.today.size
     let numTomorrow = cook_orders.tomorrow.size
     return {
         newOrders: numToday + numTomorrow,
-        name: _.isUndefined(customer_info) || _.isUndefined(customer_info.name) ? "" : customer_info.name
+        name: _.isUndefined(customer_info) || _.isUndefined(customer_info.name) ? "" : customer_info.name,
+        dishes: cook_dishes.onDemand.size + cook_dishes.preOrder.size
     }
 }
 

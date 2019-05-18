@@ -122,6 +122,10 @@ class CookMenuScreen extends Component {
         )
     }
 
+    renderMenu = () => {
+        return this.state.currMenu === DishOrderTypeEnum.ON_DEMAND ? this.renderMenuItems(this.state.onDemand): this.renderMenuItems(this.state.preOrder)
+    }
+
     renderButton = (title, onPress) => {
         const positionX = this.add.interpolate({
             inputRange: [0, 1],
@@ -171,7 +175,7 @@ class CookMenuScreen extends Component {
                     }}
                 />
                 {this.renderSectionHeaders()}
-                {this.renderMenuItems(this.state.onDemand)}
+                {this.renderMenu()}
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'flex-end',
