@@ -72,20 +72,20 @@ class NewMainScreen extends Component {
         dishes: 2
     }
 
-    // componentWillMount = () => {
-    //     this.setState({
-    //         newOrders: this.props.newOrders,
-    //         name: this.props.name,
-    //         dishes: this.props.dishes
-    //     })
-    // }
-    // componentWillReceiveProps = (nextProps) => {
-    //     this.setState({
-    //         newOrders: nextProps.newOrders,
-    //         name: nextProps.name,
-    //         dishes: nextProps.dishes
-    //     })
-    // }
+    componentWillMount = () => {
+        this.setState({
+            newOrders: this.props.newOrders,
+            name: this.props.name,
+            dishes: this.props.dishes
+        })
+    }
+    componentWillReceiveProps = (nextProps) => {
+        this.setState({
+            newOrders: nextProps.newOrders,
+            name: nextProps.name,
+            dishes: nextProps.dishes
+        })
+    }
 
     getSubComponentHeader = (title) => {
         if (_.isEmpty(title)) {
@@ -196,7 +196,6 @@ const styles = {
         paddingTop: moderateScale(50),
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        // backgroundColor: '#F6F9FC'
     },
 };
 
@@ -204,6 +203,7 @@ mapStateToProps = ({ cook_orders, customer_info, cook_dishes }) => {
     logger = new Logger("[NewMainScreen]", loggerConfig.level)
     let numToday = cook_orders.today.size
     let numTomorrow = cook_orders.tomorrow.size
+    logger.debug(customer_info)
     return {
         newOrders: numToday + numTomorrow,
         name: _.isUndefined(customer_info) || _.isUndefined(customer_info.name) ? "" : customer_info.name,
@@ -211,4 +211,4 @@ mapStateToProps = ({ cook_orders, customer_info, cook_dishes }) => {
     }
 }
 
-export default connect(null, actions)(NewMainScreen);
+export default connect(mapStateToProps, actions)(NewMainScreen);
