@@ -34,6 +34,7 @@ import NewDishScreen from './src/screens/cook/NewDishScreen';
 import AllDishesScreen from './src/screens/cook/AllDishesScreen';
 import DishPreviewScreen from './src/screens/cook/DishPreviewScreen';
 import NewMainScreen from './src/screens/cook/NewMainScreen';
+import NewCookMenuScreen from './src/screens/cook/NewCookMenuScreen';
 
 
 const nullHeader = {
@@ -213,7 +214,7 @@ const CustomerStack = createStackNavigator(
 const CookMenuStack = createStackNavigator(
     {
         menu: {
-            screen: CookMenuScreen,
+            screen: NewCookMenuScreen,
         },
         preview: {
             screen: DishPreviewScreen

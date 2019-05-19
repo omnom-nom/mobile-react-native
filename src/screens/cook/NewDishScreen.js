@@ -10,7 +10,7 @@ import { style, colors, loggerConfig } from '../../cmn/AppConfig'
 import ScreenHeader from '../../components/ScreenHeader';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { DishOrderTypeEnum, SpiceLevelTypeEnum } from './enums';
+import { DishOrderTypeEnum, SpiceLevelTypeEnum, spiceColor, FoodTypeEnum, foodColor } from './enums';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import StarRating from 'react-native-star-rating';
 import _ from 'lodash'
@@ -28,7 +28,8 @@ class NewDishScreen extends Component {
         nameChars: 0,
         descriptionChars: 0,
         images: [],
-        spiceLevel: SpiceLevelTypeEnum.MILD
+        spiceLevel: SpiceLevelTypeEnum.MILD,
+        foodType: FoodTypeEnum.VEGETARIAN
     }
 
     renderInfoItem = (name, inputComponent, args) => {
@@ -206,14 +207,16 @@ class NewDishScreen extends Component {
             this.setState({ error: error_message })
             return
         }
+        contents = _.filter([...this.state.contents.values()], (c) => !_.isEmpty(c.name))
         this.props.addNewDish({
             name: this.state.name,
             description: this.state.description,
-            content: [...this.state.contents.values()],
+            content: contents,
             orderType: this.state.orderType,
             price: parseFloat(this.state.price),
             images: this.state.images,
-            spiceLevel: this.state.spiceLevel
+            spiceLevel: this.state.spiceLevel,
+            foodType: this.state.foodType
         }, this.props.navigation.goBack)
     }
 
@@ -324,14 +327,15 @@ class NewDishScreen extends Component {
                 flexDirection: 'row',
                 justifyContent: 'space-evenly'
             }}>
-                {this.renderSpiceButton(SpiceLevelTypeEnum.MILD, iOSColors.green)}
-                {this.renderSpiceButton(SpiceLevelTypeEnum.MEDIUM, iOSColors.orange)}
-                {this.renderSpiceButton(SpiceLevelTypeEnum.SPICY, iOSColors.red)}
+                {this.renderSpiceButton(SpiceLevelTypeEnum.MILD)}
+                {this.renderSpiceButton(SpiceLevelTypeEnum.MEDIUM)}
+                {this.renderSpiceButton(SpiceLevelTypeEnum.SPICY)}
             </View>
         )
     }
 
     renderSpiceButton = (title, color) => {
+        color = spiceColor(title)
         backgroundColor = this.state.spiceLevel === title ? color : iOSColors.white
         titleColor = this.state.spiceLevel === title ? iOSColors.white : color
         return (
@@ -344,8 +348,40 @@ class NewDishScreen extends Component {
                     backgroundColor
                 }}
                 title={title}
-                titleStyle={style.fontStyle({ color: titleColor })}
+                titleStyle={style.fontStyle({ color: titleColor, size: 11 })}
                 onPress={() => this.setState({ spiceLevel: title })}
+            />
+        )
+    }
+
+    renderFoodTypeButtonGroup = () => {
+        return (
+            <View style={{
+                ...styles.infoItemContainerStyle(true),
+                justifyContent: 'space-between'
+            }}>
+                {this.renderFoodTypeButton(FoodTypeEnum.VEGETARIAN)}
+                {this.renderFoodTypeButton(FoodTypeEnum.NON_VEGETARIAN)}
+            </View>
+        )
+    }
+
+    renderFoodTypeButton = (title, color) => {
+        color = foodColor(title)
+        backgroundColor = this.state.foodType === title ? color : iOSColors.white
+        titleColor = this.state.foodType === title ? iOSColors.white : color
+        return (
+            <Button
+                buttonStyle={{
+                    width: width * 0.45,
+                    borderWidth: 0.5,
+                    borderColor: color,
+                    borderRadius: moderateScale(10),
+                    backgroundColor
+                }}
+                title={_.startCase(title)}
+                titleStyle={style.fontStyle({ color: titleColor })}
+                onPress={() => this.setState({ foodType: title })}
             />
         )
     }
@@ -425,6 +461,7 @@ class NewDishScreen extends Component {
                                 row: false,
                                 subTitleComponent: <Text style={styles.charLeftTextStyle}>{`( ${this.state.descriptionChars} / 250)`}</Text>,
                             })}
+                        {this.renderFoodTypeButtonGroup()}
                         {this.renderInfoItem("Content", this.renderContentsSection(), {
                             row: false,
                             subTitleComponent: <Text style={style.fontStyle({ color: iOSColors.gray, fontWeight: '600' })}>List all the items you will provide with this dish</Text>,
@@ -511,7 +548,7 @@ const styles = {
             borderColor: iOSColors.lightGray,
             alignItems: isRow ? 'center' : 'flex-start',
             width: width * 0.95,
-            marginVertical: moderateScale(5),
+            marginVertical: moderateScale(10),
             borderRadius: moderateScale(10)
         }
     },

@@ -72,20 +72,20 @@ class NewMainScreen extends Component {
         dishes: 2
     }
 
-    componentWillMount = () => {
-        this.setState({
-            newOrders: this.props.newOrders,
-            name: this.props.name,
-            dishes: this.props.dishes
-        })
-    }
-    componentWillReceiveProps = (nextProps) => {
-        this.setState({
-            newOrders: nextProps.newOrders,
-            name: nextProps.name,
-            dishes: nextProps.dishes
-        })
-    }
+    // componentWillMount = () => {
+    //     this.setState({
+    //         newOrders: this.props.newOrders,
+    //         name: this.props.name,
+    //         dishes: this.props.dishes
+    //     })
+    // }
+    // componentWillReceiveProps = (nextProps) => {
+    //     this.setState({
+    //         newOrders: nextProps.newOrders,
+    //         name: nextProps.name,
+    //         dishes: nextProps.dishes
+    //     })
+    // }
 
     getSubComponentHeader = (title) => {
         if (_.isEmpty(title)) {
@@ -195,7 +195,8 @@ const styles = {
         flex: 1,
         paddingTop: moderateScale(50),
         alignItems: 'center',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        // backgroundColor: '#F6F9FC'
     },
 };
 
@@ -210,4 +211,4 @@ mapStateToProps = ({ cook_orders, customer_info, cook_dishes }) => {
     }
 }
 
-export default connect(mapStateToProps, actions)(NewMainScreen);
+export default connect(null, actions)(NewMainScreen);

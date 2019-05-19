@@ -20,7 +20,7 @@ class DishPreviewScreen extends Component {
                         right: true,
                         size: 30
                     }}
-                    header="dish.name"
+                    header={dish.name}
                     headerStyle={{ fontWeight: 'normal', }}
                     size={20}
                     back={{

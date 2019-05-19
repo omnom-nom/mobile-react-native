@@ -7,6 +7,7 @@ import { moderateScale, width, verticalScale, height } from '../cmn/Scaling';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
 import { style, colors, loggerConfig, infoAbsent } from '../cmn/AppConfig'
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
+import { foodColor, spiceImage } from '../screens/cook/enums'
 import { Haptic } from 'expo';
 import _ from 'lodash'
 
@@ -135,14 +136,35 @@ class DishComponent extends Component {
                         alignItems: 'center',
                         justifyContent: 'center',
                         borderWidth: 0,
-                        marginVertical: moderateScale(15)
+                        marginVertical: moderateScale(10)
                     }}>
                         {this.renderTags()}
                     </View>
                     <View style={{
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
+                        marginVertical: moderateScale(2.5)
+                    }}>
+                        <Text style={style.fontStyle({ fontWeight: 'bold', color: foodColor(dish.foodType), size: 15 })}>
+                            {_.startCase(dish.foodType)}
+                        </Text>
+                        <Text style={style.fontStyle({ fontWeight: 'bold', size: 15 })}>
+                            {` . `}
+                        </Text>
+                        {spiceImage(dish.spiceLevel, 17)}
+                    </View>
+                    <View style={{
                         justifyContent: 'center',
-                        borderWidth: 0,
-                        marginVertical: moderateScale(5)
+                        marginVertical: moderateScale(2.5)
+                    }}>
+                        <Text style={style.fontStyle({ ...styles.sectionHeaderStyle, color: colors.caribbreanGreen })}>
+                            {`${dish.price} $`}
+                        </Text>
+                    </View>
+                    <View style={{
+                        justifyContent: 'center',
+                        marginVertical: moderateScale(2.5)
                     }}>
                         {this.renderHeader('Description')}
                         <Text style={style.fontStyle(styles.sectionTextStyle)}>
@@ -151,14 +173,14 @@ class DishComponent extends Component {
                     </View>
                     <View style={{
                         justifyContent: 'center',
-                        borderWidth: 0
+                        marginVertical: moderateScale(2.5)
                     }}>
                         {this.renderHeader('Content')}
                         {this.getContent(dish)}
                     </View>
 
                 </View>
-            </ScrollView>
+            </ScrollView >
         );
     }
 
