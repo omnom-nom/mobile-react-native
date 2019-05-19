@@ -26,3 +26,38 @@ export const listUsers = `query ListUsers(
   }
 }
 `;
+export const getDish = `query GetDish($id: ID!, $cookId: ID!) {
+  getDish(id: $id, cookId: $cookId) {
+    id
+    cookId
+    spice
+    order
+    foodType
+    status
+    price
+    description
+    content
+    images
+    name
+  }
+}
+`;
+export const listDishes = `query ListDishes(
+  $filter: TableDishFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listDishes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      cookId
+      price
+      description
+      content
+      images
+      name
+    }
+    nextToken
+  }
+}
+`;

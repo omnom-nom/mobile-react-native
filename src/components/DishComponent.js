@@ -10,6 +10,8 @@ import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import { foodColor, spiceImage } from '../screens/cook/enums'
 import { Haptic } from 'expo';
 import _ from 'lodash'
+import { S3Image } from 'aws-amplify-react-native'
+
 
 // create a component
 const fontSize = 16
@@ -79,32 +81,36 @@ class DishComponent extends Component {
         );
     }
 
-    getContent = (dish) => {
-        if (_.isEmpty(dish.content)) {
+    getContent = (contents) => {
+        if (_.isEmpty(contents)) {
             return null
         }
-        return dish.content.map((c) => {
-            return (
-                <View
-                    key={c.name}
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        paddingVertical: moderateScale(5)
-                    }}>
-                    <Text style={style.fontStyle({ ...styles.sectionTextStyle, color: style.secondaryColor })} >
-                        {c.count} {" x "}
-                    </Text>
-                    <View style={{
-                        width: width * 0.7
-                    }}>
-                        <Text style={style.fontStyle(styles.sectionTextStyle)} >
-                            {c.name}
+        let contentsView = []
+        for (var key in contents) {
+            if (contents.hasOwnProperty(key)) {
+                contentsView.push(
+                    <View
+                        key={key}
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            paddingVertical: moderateScale(5)
+                        }}>
+                        <Text style={style.fontStyle({ ...styles.sectionTextStyle, color: style.secondaryColor })} >
+                            {contents[key]} {" x "}
                         </Text>
+                        <View style={{
+                            width: width * 0.7
+                        }}>
+                            <Text style={style.fontStyle(styles.sectionTextStyle)} >
+                                {key}
+                            </Text>
+                        </View>
                     </View>
-                </View>
-            )
-        })
+                )
+            }
+        }
+        return contentsView
     }
 
     render() {
@@ -152,7 +158,7 @@ class DishComponent extends Component {
                         <Text style={style.fontStyle({ fontWeight: 'bold', size: 15 })}>
                             {` . `}
                         </Text>
-                        {spiceImage(dish.spiceLevel, 17)}
+                        {spiceImage(dish.spice, 17)}
                     </View>
                     <View style={{
                         justifyContent: 'center',
@@ -176,7 +182,7 @@ class DishComponent extends Component {
                         marginVertical: moderateScale(2.5)
                     }}>
                         {this.renderHeader('Content')}
-                        {this.getContent(dish)}
+                        {this.getContent(dish.content)}
                     </View>
 
                 </View>

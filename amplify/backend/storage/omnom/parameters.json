@@ -1,0 +1,13 @@
+{
+    "bucketName": "omnom",
+    "authPolicyName": "s3_amplify_fcf5f81a",
+    "unauthPolicyName": "s3_amplify_fcf5f81a",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authPermissions": "rw",
+    "unauthPermissions": ""
+}

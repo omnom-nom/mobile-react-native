@@ -9,6 +9,7 @@ import MerchantReducer from './MerchantReducer';
 import DishReducer from './DishReducer';
 import CookOrdersReducers from './CookOrdersReducers';
 import CookDishReducer from './CookDishReducer';
+import NewDishReducer from './NewDishReducer';
 
 export default combineReducers({
     auth: AuthReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
     merchant_info: MerchantReducer,
     dish_info: DishReducer,
     cook_orders: CookOrdersReducers,
-    cook_dishes: CookDishReducer
+    cook_dishes: CookDishReducer,
+    new_dish: NewDishReducer
 });

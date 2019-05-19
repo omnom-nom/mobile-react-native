@@ -43,3 +43,87 @@ export const onDeleteUser = `subscription OnDeleteUser(
   }
 }
 `;
+export const onCreateDish = `subscription OnCreateDish(
+  $id: ID
+  $cookId: ID
+  $price: Int
+  $description: String
+  $content: AWSJSON
+) {
+  onCreateDish(
+    id: $id
+    cookId: $cookId
+    price: $price
+    description: $description
+    content: $content
+  ) {
+    id
+    cookId
+    spice
+    order
+    foodType
+    status
+    price
+    description
+    content
+    images
+    name
+  }
+}
+`;
+export const onUpdateDish = `subscription OnUpdateDish(
+  $id: ID
+  $cookId: ID
+  $price: Int
+  $description: String
+  $content: AWSJSON
+) {
+  onUpdateDish(
+    id: $id
+    cookId: $cookId
+    price: $price
+    description: $description
+    content: $content
+  ) {
+    id
+    cookId
+    spice
+    order
+    foodType
+    status
+    price
+    description
+    content
+    images
+    name
+  }
+}
+`;
+export const onDeleteDish = `subscription OnDeleteDish(
+  $id: ID
+  $cookId: ID
+  $price: Int
+  $description: String
+  $content: AWSJSON
+) {
+  onDeleteDish(
+    id: $id
+    cookId: $cookId
+    price: $price
+    description: $description
+    content: $content
+  ) {
+    id
+    cookId
+    spice
+    order
+    foodType
+    status
+    price
+    description
+    content
+    images
+    name
+  }
+}
+`;

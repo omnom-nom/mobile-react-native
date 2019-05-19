@@ -1,11 +1,23 @@
 
-import { NEW_REQUESTS_TODAY, NEW_REQUESTS_TOMORROW, ADD_NEW_DISH, DISHES } from './types.js';
+import { NEW_REQUESTS_TODAY, NEW_REQUESTS_TOMORROW, ADD_NEW_DISH, DISHES, SAVING_DISH, SAVING_DISH_FAILED } from './types.js';
 import { Logger } from 'aws-amplify'
 import { loggerConfig } from '../cmn/AppConfig'
 import { store } from '../store'
+import { getImageUrl } from '../apis/aws'
+import { starting_action, ending_action } from './cmn'
+import { addDish, getDishes, getImagesUrl } from '../apis/dishes'
 import uuid from 'uuid/v4'
 import _ from 'lodash'
 
+
+export const loadCook = () => {
+    logger = new Logger("[CookAction]", loggerConfig.level)
+    logger.debug("loading cook data")
+    return async (dispatch) => {
+        dishes = await getDishes("1")
+        dishes.forEach((dish) => dispatchDish(dispatch, dish))
+    }
+}
 
 export const newRequests = () => {
     logger = new Logger("[CookAction]", loggerConfig.level)
@@ -92,12 +104,24 @@ export const dispatchDish = (dispatch, dish) => {
 export const addNewDish = (dish, navigate) => {
     logger = new Logger("[CookAction]", loggerConfig.level)
     logger.debug("adding a new dish", dish)
-    // save it on the server
-    navigate()
-    return (dispatch) => {
-        dispatchDish(dispatch, {
-            ...dish,
-            id: uuid()
-        })
+    return async (dispatch) => {
+        try {
+            // dispatch a load action for new dish screen
+            starting_action(dispatch, SAVING_DISH)
+            savedDish = await addDish(dish)
+            images = await getImagesUrl(savedDish.images)
+            // call the save dish graph ql
+            ending_action(dispatch, SAVING_DISH)
+            navigate()
+            dispatchDish(dispatch, {
+                ...savedDish,
+                images,
+                id: uuid()
+            })
+        } catch (error) {
+            logger.error('an error occurred', error)
+            ending_action(dispatch, SAVING_DISH)
+        }
     }
 }
+

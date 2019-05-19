@@ -118,9 +118,8 @@ class NewCookMenuScreen extends Component {
                 "file:///var/mobile/Containers/Data/Application/21FF11B2-2779-48FC-83FA-2A4710BFD8F5/Library/Caches/ExponentExperienceData/%2540anonymous%252Fmobile-react-native-4c8a23ec-7cfa-4b04-affe-debbe0c3275e/ImagePicker/0DB2E711-046C-4C54-A40B-63CC3E97D645.jpg",
             ],
             "name": "Masala dosa",
-            "orderType": "OnDemand",
             "price": 5,
-            "spiceLevel": SpiceLevelTypeEnum.MILD,
+            "spice": SpiceLevelTypeEnum.MILD,
             "foodType": FoodTypeEnum.NON_VEGETARIAN
         }],
         preOrder: []
@@ -150,19 +149,23 @@ class NewCookMenuScreen extends Component {
         if (_.isEmpty(contents)) {
             return null
         }
-        return contents.map((content) => {
-            return (
-                <View
-                    key={content.name}
-                    style={{
-                        width: width * 0.4,
-                        flexDirection: 'row',
-                    }}>
-                    <Text style={style.fontStyle({ color: colors.caribbreanGreen, fontWeight: 'bold' })}> {`${content.count}  x `}</Text>
-                    <Text style={style.fontStyle()}> {content.name}</Text>
-                </View>
-            )
-        })
+        let contentsView = []
+        for (var key in contents) {
+            if (contents.hasOwnProperty(key)) {
+                contentsView.push(
+                    <View
+                        key={key}
+                        style={{
+                            width: width * 0.4,
+                            flexDirection: 'row',
+                        }}>
+                        <Text style={style.fontStyle({ color: colors.caribbreanGreen, fontWeight: 'bold' })}> {`${contents[key]}  x `}</Text>
+                        <Text style={style.fontStyle()}> {key}</Text>
+                    </View>
+                )
+            }
+        }
+        return contentsView
     }
 
     renderMenuItem = ({ item }) => {
@@ -204,7 +207,7 @@ class NewCookMenuScreen extends Component {
                             <Text style={style.fontStyle({ fontWeight: 'bold', size: 10 })}>
                                 {` . `}
                             </Text>
-                            {spiceImage(item.spiceLevel)}
+                            {spiceImage(item.spice)}
                         </View>
                     </View>
                     <View>

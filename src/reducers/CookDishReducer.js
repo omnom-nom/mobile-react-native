@@ -16,10 +16,11 @@ export default (state = initialState, action) => {
     const { type, payload } = action
     switch (type) {
         case DISHES:
+            logger.debug(payload)
             onDemand = state.onDemand
             preOrder = state.preOrder
-            if (payload.orderType === DishOrderTypeEnum.ON_DEMAND) onDemand = onDemand.set(payload.id, payload)
-            if (payload.orderType === DishOrderTypeEnum.PRE_ORDER) preOrder = preOrder.set(payload.id, payload)
+            if (payload.order === DishOrderTypeEnum.ON_DEMAND) onDemand = onDemand.set(payload.id, payload)
+            if (payload.order === DishOrderTypeEnum.PRE_ORDER) preOrder = preOrder.set(payload.id, payload)
             return { ...state, preOrder, onDemand }
         default:
             return state

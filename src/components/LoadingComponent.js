@@ -22,7 +22,10 @@ class LoadingComponent extends Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <View style={{
+                ...styles.container,
+                ...this.props.style
+            }}>
                 {this.renderMessage(this.props.message)}
                 <LottieView
                     source={require('../../assets/loading/circle_loading_basic.json')}

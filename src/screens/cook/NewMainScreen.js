@@ -73,6 +73,7 @@ class NewMainScreen extends Component {
     }
 
     componentWillMount = () => {
+        this.props.loadCook()
         this.setState({
             newOrders: this.props.newOrders,
             name: this.props.name,

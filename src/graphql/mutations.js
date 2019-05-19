@@ -28,3 +28,51 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
   }
 }
 `;
+export const createDish = `mutation CreateDish($input: CreateDishInput!) {
+  createDish(input: $input) {
+    id
+    cookId
+    spice
+    order
+    foodType
+    status
+    price
+    description
+    content
+    images
+    name
+  }
+}
+`;
+export const updateDish = `mutation UpdateDish($input: UpdateDishInput!) {
+  updateDish(input: $input) {
+    id
+    cookId
+    spice
+    order
+    foodType
+    status
+    price
+    description
+    content
+    images
+    name
+  }
+}
+`;
+export const deleteDish = `mutation DeleteDish($input: DeleteDishInput!) {
+  deleteDish(input: $input) {
+    id
+    cookId
+    spice
+    order
+    foodType
+    status
+    price
+    description
+    content
+    images
+    name
+  }
+}
+`;

@@ -10,10 +10,11 @@ import { style, colors, loggerConfig } from '../../cmn/AppConfig'
 import ScreenHeader from '../../components/ScreenHeader';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { DishOrderTypeEnum, SpiceLevelTypeEnum, spiceColor, FoodTypeEnum, foodColor } from './enums';
+import { DishorderEnum, spiceTypeEnum, spiceColor, FoodTypeEnum, foodColor } from './enums';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import StarRating from 'react-native-star-rating';
 import _ from 'lodash'
+import LoadingComponent from '../../components/LoadingComponent';
 
 // TODO: spice level, cuisine, tags [nuts, gluten-free, vegan]
 class NewDishScreen extends Component {
@@ -21,15 +22,23 @@ class NewDishScreen extends Component {
         name: "",
         description: "",
         contents: new Map(),
-        orderType: DishOrderTypeEnum.ON_DEMAND,
+        order: DishorderEnum.ON_DEMAND,
         contentCount: 0,
         price: 0,
-        error: [],
+        error: "",
         nameChars: 0,
         descriptionChars: 0,
         images: [],
-        spiceLevel: SpiceLevelTypeEnum.MILD,
+        spice: spiceTypeEnum.MILD,
         foodType: FoodTypeEnum.VEGETARIAN
+    }
+
+    componentWillMount = () => {
+        this.setState({ error: this.props.failed ? "Something went wrong, please try later" : "" })
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        this.setState({ error: nextProps.failed ? "Something went wrong, please try later" : "" })
     }
 
     renderInfoItem = (name, inputComponent, args) => {
@@ -212,10 +221,10 @@ class NewDishScreen extends Component {
             name: this.state.name,
             description: this.state.description,
             content: contents,
-            orderType: this.state.orderType,
+            order: this.state.order,
             price: parseFloat(this.state.price),
             images: this.state.images,
-            spiceLevel: this.state.spiceLevel,
+            spice: this.state.spice,
             foodType: this.state.foodType
         }, this.props.navigation.goBack)
     }
@@ -227,7 +236,7 @@ class NewDishScreen extends Component {
             _.isNaN(parseFloat(this.state.price))
     }
 
-    getOrderTypeButtonStyle = (type) => {
+    getorderButtonStyle = (type) => {
         base = {
             marginVertical: moderateScale(10),
             width: width * 0.28,
@@ -236,7 +245,7 @@ class NewDishScreen extends Component {
             borderWidth: 1,
             backgroundColor: iOSColors.white
         }
-        if (this.state.orderType === type) {
+        if (this.state.order === type) {
             base = {
                 ...base,
                 borderWidth: 0,
@@ -246,7 +255,7 @@ class NewDishScreen extends Component {
         return base
     }
 
-    renderOrderType = () => {
+    renderorder = () => {
         return (
             <View style={{
                 width: width * 0.6,
@@ -254,16 +263,16 @@ class NewDishScreen extends Component {
                 justifyContent: 'space-between',
             }}>
                 <Button
-                    buttonStyle={styles.orderButtonStyle(this.state.orderType, DishOrderTypeEnum.ON_DEMAND)}
-                    titleStyle={styles.orderButtonTextStyle(this.state.orderType, DishOrderTypeEnum.ON_DEMAND)}
+                    buttonStyle={styles.orderButtonStyle(this.state.order, DishorderEnum.ON_DEMAND)}
+                    titleStyle={styles.orderButtonTextStyle(this.state.order, DishorderEnum.ON_DEMAND)}
                     title="On Demand"
-                    onPress={() => this.setState({ orderType: DishOrderTypeEnum.ON_DEMAND })}
+                    onPress={() => this.setState({ order: DishorderEnum.ON_DEMAND })}
                 />
                 <Button
-                    buttonStyle={styles.orderButtonStyle(this.state.orderType, DishOrderTypeEnum.PRE_ORDER)}
-                    titleStyle={styles.orderButtonTextStyle(this.state.orderType, DishOrderTypeEnum.PRE_ORDER)}
+                    buttonStyle={styles.orderButtonStyle(this.state.order, DishorderEnum.PRE_ORDER)}
+                    titleStyle={styles.orderButtonTextStyle(this.state.order, DishorderEnum.PRE_ORDER)}
                     title="Pre Order"
-                    onPress={() => this.setState({ orderType: DishOrderTypeEnum.PRE_ORDER })}
+                    onPress={() => this.setState({ order: DishorderEnum.PRE_ORDER })}
                 />
             </View>
         )
@@ -327,17 +336,17 @@ class NewDishScreen extends Component {
                 flexDirection: 'row',
                 justifyContent: 'space-evenly'
             }}>
-                {this.renderSpiceButton(SpiceLevelTypeEnum.MILD)}
-                {this.renderSpiceButton(SpiceLevelTypeEnum.MEDIUM)}
-                {this.renderSpiceButton(SpiceLevelTypeEnum.SPICY)}
+                {this.renderSpiceButton(spiceTypeEnum.MILD)}
+                {this.renderSpiceButton(spiceTypeEnum.MEDIUM)}
+                {this.renderSpiceButton(spiceTypeEnum.SPICY)}
             </View>
         )
     }
 
     renderSpiceButton = (title, color) => {
         color = spiceColor(title)
-        backgroundColor = this.state.spiceLevel === title ? color : iOSColors.white
-        titleColor = this.state.spiceLevel === title ? iOSColors.white : color
+        backgroundColor = this.state.spice === title ? color : iOSColors.white
+        titleColor = this.state.spice === title ? iOSColors.white : color
         return (
             <Button
                 buttonStyle={{
@@ -349,7 +358,7 @@ class NewDishScreen extends Component {
                 }}
                 title={title}
                 titleStyle={style.fontStyle({ color: titleColor, size: 11 })}
-                onPress={() => this.setState({ spiceLevel: title })}
+                onPress={() => this.setState({ spice: title })}
             />
         )
     }
@@ -387,6 +396,9 @@ class NewDishScreen extends Component {
     }
 
     render() {
+        if (this.props.saving) {
+            return <LoadingComponent style={{ backgroundColor: 'rgba(52, 52, 52, 0.4)' }} />
+        }
         return (
             <View style={styles.container}>
                 <ScreenHeader
@@ -431,7 +443,7 @@ class NewDishScreen extends Component {
                         {this.renderInfoItem("Spice Level", this.renderSpiceButtonGroup())}
                         {this.renderInfoItem(
                             "Order Type",
-                            this.renderOrderType(),
+                            this.renderorder(),
                             {
                                 subTitleComponent: this.renderToolTip("Please select order type On-Demand if you can prepare this dish quickly, select Pre-Order if you need time to prepare this dish. With On-Demand you will have to prepare the dish as soon as you accept the order.")
                             }
@@ -523,6 +535,7 @@ class NewDishScreen extends Component {
         let result = await fn({
             allowsEditing: true,
             aspect: [4, 3],
+            base64:true
         });
         if (!result.cancelled) {
             images = this.state.images
@@ -604,4 +617,11 @@ const styles = {
     }
 };
 
-export default connect(null, actions)(NewDishScreen);
+mapStateToProps = ({ new_dish }) => {
+    return {
+        saving: _.isUndefined(new_dish) ? false : new_dish.saving,
+        failed: _.isUndefined(new_dish) ? false : new_dish.failed
+    }
+}
+
+export default connect(mapStateToProps, actions)(NewDishScreen);
