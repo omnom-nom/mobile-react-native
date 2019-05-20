@@ -8,6 +8,7 @@ import _ from 'lodash'
 logger = new Logger("[AuthAction]", loggerConfig.level)
 
 export const check_session = (navigate) => {
+    logger = new Logger("[AuthAction]", loggerConfig.level)
     return async (dispatch) => {
         logger.debug("checking app session")
         try {
@@ -31,7 +32,7 @@ export const check_session = (navigate) => {
                 navigate("cook")
             }
         } catch (error) {
-            logger.error("an error occurred: ", error)
+            logger.debug("an error occurred: ", error)
             navigate("auth")
         }
     }

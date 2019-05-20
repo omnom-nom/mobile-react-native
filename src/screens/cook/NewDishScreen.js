@@ -10,7 +10,7 @@ import { style, colors, loggerConfig } from '../../cmn/AppConfig'
 import ScreenHeader from '../../components/ScreenHeader';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { DishorderEnum, spiceTypeEnum, spiceColor, FoodTypeEnum, foodColor } from './enums';
+import { DishOrderTypeEnum, SpiceLevelTypeEnum, spiceColor, FoodTypeEnum, foodColor } from './enums';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import StarRating from 'react-native-star-rating';
 import _ from 'lodash'
@@ -22,14 +22,14 @@ class NewDishScreen extends Component {
         name: "",
         description: "",
         contents: new Map(),
-        order: DishorderEnum.ON_DEMAND,
+        order: DishOrderTypeEnum.ON_DEMAND,
         contentCount: 0,
         price: 0,
         error: "",
         nameChars: 0,
         descriptionChars: 0,
         images: [],
-        spice: spiceTypeEnum.MILD,
+        spice: SpiceLevelTypeEnum.MILD,
         foodType: FoodTypeEnum.VEGETARIAN
     }
 
@@ -263,16 +263,16 @@ class NewDishScreen extends Component {
                 justifyContent: 'space-between',
             }}>
                 <Button
-                    buttonStyle={styles.orderButtonStyle(this.state.order, DishorderEnum.ON_DEMAND)}
-                    titleStyle={styles.orderButtonTextStyle(this.state.order, DishorderEnum.ON_DEMAND)}
+                    buttonStyle={styles.orderButtonStyle(this.state.order, DishOrderTypeEnum.ON_DEMAND)}
+                    titleStyle={styles.orderButtonTextStyle(this.state.order, DishOrderTypeEnum.ON_DEMAND)}
                     title="On Demand"
-                    onPress={() => this.setState({ order: DishorderEnum.ON_DEMAND })}
+                    onPress={() => this.setState({ order: DishOrderTypeEnum.ON_DEMAND })}
                 />
                 <Button
-                    buttonStyle={styles.orderButtonStyle(this.state.order, DishorderEnum.PRE_ORDER)}
-                    titleStyle={styles.orderButtonTextStyle(this.state.order, DishorderEnum.PRE_ORDER)}
+                    buttonStyle={styles.orderButtonStyle(this.state.order, DishOrderTypeEnum.PRE_ORDER)}
+                    titleStyle={styles.orderButtonTextStyle(this.state.order, DishOrderTypeEnum.PRE_ORDER)}
                     title="Pre Order"
-                    onPress={() => this.setState({ order: DishorderEnum.PRE_ORDER })}
+                    onPress={() => this.setState({ order: DishOrderTypeEnum.PRE_ORDER })}
                 />
             </View>
         )
@@ -336,9 +336,9 @@ class NewDishScreen extends Component {
                 flexDirection: 'row',
                 justifyContent: 'space-evenly'
             }}>
-                {this.renderSpiceButton(spiceTypeEnum.MILD)}
-                {this.renderSpiceButton(spiceTypeEnum.MEDIUM)}
-                {this.renderSpiceButton(spiceTypeEnum.SPICY)}
+                {this.renderSpiceButton(SpiceLevelTypeEnum.MILD)}
+                {this.renderSpiceButton(SpiceLevelTypeEnum.MEDIUM)}
+                {this.renderSpiceButton(SpiceLevelTypeEnum.SPICY)}
             </View>
         )
     }

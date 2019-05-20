@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^9.0.0",
-    "aws-amplify": "^1.1.19",
+    "aws-amplify": "^1.1.28",
     "aws-amplify-react": "^2.3.8",
     "aws-amplify-react-native": "^2.1.7",
     "aws-sdk": "^2.437.0",
@@ -45,10 +45,12 @@
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
+    "rxjs": "^6.5.2",
     "util": "^0.11.1",
     "uuid": "^3.3.2",
     "winston": "^3.2.1",
-    "yargs": "^13.2.2"
+    "yargs": "^13.2.2",
+    "zen-observable": "^0.8.14"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"

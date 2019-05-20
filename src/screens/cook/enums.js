@@ -67,7 +67,7 @@ spiceIcon = (type, name, size) => {
 
 export const FoodTypeEnum = {
     VEGETARIAN: 'vegetarian',
-    NON_VEGETARIAN: 'non-vegetarian'
+    NON_VEGETARIAN: 'non_vegetarian'
 }
 
 export const foodColor = (type) => {

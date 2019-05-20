@@ -5,7 +5,7 @@ import { loggerConfig } from '../cmn/AppConfig'
 import { store } from '../store'
 import { getImageUrl } from '../apis/aws'
 import { starting_action, ending_action } from './cmn'
-import { addDish, getDishes, getImagesUrl } from '../apis/dishes'
+import { addDish, getDishes, getDish, subscribeDishesForCook } from '../apis/dishes'
 import uuid from 'uuid/v4'
 import _ from 'lodash'
 
@@ -14,6 +14,12 @@ export const loadCook = () => {
     logger = new Logger("[CookAction]", loggerConfig.level)
     logger.debug("loading cook data")
     return async (dispatch) => {
+        dishSubscription = subscribeDishesForCook("1", async (id) => {
+            dish = await getDish(id)
+            logger.debug("GotNewDish", dish)
+            dispatchDish(dispatch, dish)
+        })
+        // save the subscription in the state
         dishes = await getDishes("1")
         dishes.forEach((dish) => dispatchDish(dispatch, dish))
     }
@@ -108,16 +114,10 @@ export const addNewDish = (dish, navigate) => {
         try {
             // dispatch a load action for new dish screen
             starting_action(dispatch, SAVING_DISH)
-            savedDish = await addDish(dish)
-            images = await getImagesUrl(savedDish.images)
+            await addDish(dish)
             // call the save dish graph ql
             ending_action(dispatch, SAVING_DISH)
             navigate()
-            dispatchDish(dispatch, {
-                ...savedDish,
-                images,
-                id: uuid()
-            })
         } catch (error) {
             logger.error('an error occurred', error)
             ending_action(dispatch, SAVING_DISH)
