@@ -122,7 +122,7 @@ export const selectAddress = (place_id, navigate) => {
             })
             updateGoogleApiSessionToken(dispatch)
         } catch (error) {
-            logger.error("unable to fetch detailed info for place id: ", place_id, error)
+            logger.debug("unable to fetch detailed info for place id: ", place_id, error)
             ending_action(dispatch, FETCHING_MERCHANTS)
         }
     }
@@ -153,7 +153,7 @@ getCustomerDeliveryLocation = async (lat, lon, api_key) => {
         const addressJson = await address.json()
         return convertoResultToAddress(addressJson)
     } catch (error) {
-        logger.error("an error occurred ", error)
+        logger.debug("an error occurred ", error)
         // TODO: what if there is an error here. 
         // Show nothing maybe
     }
@@ -178,7 +178,7 @@ autoCompleteAddress = async (query_address, session_token, api_key) => {
             })
         }, [])
     } catch (error) {
-        logger.error("an error occurred ", error)
+        logger.debug("an error occurred ", error)
         // TODO: what if there is an error here. 
     }
 }

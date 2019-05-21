@@ -9,6 +9,11 @@ export const DishOrderTypeEnum = {
     PRE_ORDER: "PreOrder",
 };
 
+export const StatusTypeEnum = {
+    ACTIVE: "active",
+    INACTIVE: "inactive"
+};
+
 export const SpiceLevelTypeEnum = {
     MILD: "MILD",
     MEDIUM: "MEDIUM",

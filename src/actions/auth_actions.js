@@ -61,7 +61,7 @@ export const signin = (signin_data, navigate) => {
             if (curr_user.type === 'cook') navigate("cook")
 
         } catch (error) {
-            logger.error("an error occurred: ", error)
+            logger.debug("an error occurred: ", error)
             if (error.code === "UserNotConfirmedException") {
                 navigate("signin_code", { email: signin_data.email })
             }
@@ -81,7 +81,7 @@ export const signout = (navigate) => {
             // })
             navigate("auth")
         } catch (error) {
-            logger.error("an error occurred: ", error)
+            logger.debug("an error occurred: ", error)
         }
     }
 }
@@ -93,7 +93,7 @@ export const signup = (signup_data, navigate) => {
         try {
             await create_user(signup_data.phone_number, signup_data.email, signup_data.name, getState().customer_info.customer_type)
         } catch (error) {
-            logger.error("an error occurred: ", error)
+            logger.debug("an error occurred: ", error)
             dispatch({
                 type: SIGNUP_ERROR,
                 payload: error.message
@@ -122,7 +122,7 @@ export const signup = (signup_data, navigate) => {
                 email: signup_data.email
             })
         } catch (error) {
-            logger.error("an error occurred: ", error)
+            logger.debug("an error occurred: ", error)
             delete_user(signup_data.email)
             ending_action(dispatch, SIGNING_UP)
             dispatch({
@@ -144,7 +144,7 @@ export const submit_code = (code_data, navigate) => {
             dispatch({ type: CODE })
             navigate("login")
         } catch (error) {
-            logger.error("an error occurred: ", error)
+            logger.debug("an error occurred: ", error)
             ending_action(dispatch, SUBMITTING_CODE)
             dispatch({
                 type: CODE_ERROR,
@@ -160,7 +160,7 @@ export const resend_code = (email) => {
         try {
             await Auth.resendSignUp(email)
         } catch (error) {
-            logger.error("an error occurred: ", error)
+            logger.debug("an error occurred: ", error)
         }
     }
 }
@@ -174,7 +174,7 @@ export const forgot_password = (email, navigate) => {
                 email
             })
         } catch (error) {
-            logger.error("an error occurred: ", error)
+            logger.debug("an error occurred: ", error)
             dispatch({
                 type: FORGOT_PASSWORD_ERROR,
                 payload: error.message
@@ -192,7 +192,7 @@ export const reset_password = (email, password, code, navigate) => {
             ending_action(dispatch, RESETTING_PASSWORD)
             navigate("login")
         } catch (error) {
-            logger.error("an error occurred: ", error)
+            logger.debug("an error occurred: ", error)
             ending_action(dispatch, RESETTING_PASSWORD)
             dispatch({
                 type: RESET_PASSWORD_ERROR,

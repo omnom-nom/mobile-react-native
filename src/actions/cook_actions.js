@@ -1,24 +1,31 @@
 
-import { NEW_REQUESTS_TODAY, NEW_REQUESTS_TOMORROW, ADD_NEW_DISH, DISHES, SAVING_DISH, SAVING_DISH_FAILED } from './types.js';
+import { NEW_REQUESTS_TODAY, NEW_REQUESTS_TOMORROW, UPDATED_DISH, DISHES, SAVING_DISH, SAVING_DISH_FAILED } from './types.js';
 import { Logger } from 'aws-amplify'
 import { loggerConfig } from '../cmn/AppConfig'
 import { store } from '../store'
 import { getImageUrl } from '../apis/aws'
 import { starting_action, ending_action } from './cmn'
-import { addDish, getDishes, getDish, subscribeDishesForCook } from '../apis/dishes'
+import { addDish, getDishes, getDish, subscribeDishesForCook, updateDish, dishConvertor } from '../apis/dishes'
 import uuid from 'uuid/v4'
 import _ from 'lodash'
+import { StatusTypeEnum } from '../screens/cook/enums.js';
 
 
 export const loadCook = () => {
     logger = new Logger("[CookAction]", loggerConfig.level)
     logger.debug("loading cook data")
     return async (dispatch) => {
-        dishSubscription = subscribeDishesForCook("1", async (id) => {
-            dish = await getDish(id)
-            logger.debug("GotNewDish", dish)
-            dispatchDish(dispatch, dish)
-        })
+        subscribeDishesForCook("1",
+            async (id) => {
+                dish = await getDish(id)
+                dispatchDish(dispatch, dish)
+            },
+            async (updated) => {
+                dish = await dishConvertor(updated)
+                logger.debug(dish)
+                dispatchDish(dispatch, dish, UPDATED_DISH)
+            }
+        )
         // save the subscription in the state
         dishes = await getDishes("1")
         dishes.forEach((dish) => dispatchDish(dispatch, dish))
@@ -97,12 +104,10 @@ export const listenToNewDishes = () => {
     }
 }
 
-export const dispatchDish = (dispatch, dish) => {
+export const dispatchDish = (dispatch, dish, type = DISHES) => {
     logger = new Logger("[CookAction]", loggerConfig.level)
-    logger.debug("dispatching to dish", dish)
-    //listing to new additions from cook
     dispatch({
-        type: DISHES,
+        type,
         payload: dish
     })
 }
@@ -119,8 +124,22 @@ export const addNewDish = (dish, navigate) => {
             ending_action(dispatch, SAVING_DISH)
             navigate()
         } catch (error) {
-            logger.error('an error occurred', error)
+            logger.debug('an error occurred', error)
             ending_action(dispatch, SAVING_DISH)
+        }
+    }
+}
+
+
+export const flipDishStatus = (id, status) => {
+    logger = new Logger("[CookAction]", loggerConfig.level)
+    logger.debug("making dish inactive", id)
+    return async (dispatch) => {
+        try {
+            // update dish
+            await updateDish(id, "1", { status })
+        } catch (error) {
+            logger.debug('an error occurred', error)
         }
     }
 }

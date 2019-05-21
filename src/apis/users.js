@@ -41,7 +41,7 @@ export const delete_user = async (email) => {
         const deleteUserInput = { email }
         await API.graphql(graphqlOperation(mutations.deleteUser, { input: deleteUserInput }));
     } else {
-        logger.error("Unable to delete the user because the user does not exists")
+        logger.debug("Unable to delete the user because the user does not exists")
     }
 }
 

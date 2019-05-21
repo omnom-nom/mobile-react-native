@@ -6,6 +6,7 @@ import * as mutations from '../graphql/mutations'
 import * as subscriptions from '../graphql/subscriptions'
 import uuid from 'uuid/v4'
 import _ from 'lodash'
+import { StatusTypeEnum } from "../screens/cook/enums";
 
 export const addDish = async (dish) => {
     const logger = new Logger("[addNewDish]", loggerConfig.level)
@@ -24,7 +25,7 @@ export const addDish = async (dish) => {
         })
         keys = await Promise.all(uploads)
     } catch (error) {
-        logger.error('an error occurred', error)
+        logger.debug('an error occurred', error)
         throw error
     }
 
@@ -33,11 +34,11 @@ export const addDish = async (dish) => {
         content.forEach((c) => {
             contents[c.name] = c.count
         })
-        const input = { cookId: "1", name, price, description, content: JSON.stringify(contents), images: keys, spice, order, foodType, status: 'active' }
+        const input = { cookId: "1", name, price, description, content: JSON.stringify(contents), images: keys, spice, order, foodType, status: StatusTypeEnum.ACTIVE }
         const result = await API.graphql(graphqlOperation(mutations.createDish, { input }));
         return result.data.createDish
     } catch (error) {
-        logger.error('an error occurred', error)
+        logger.debug('an error occurred', error)
         deleteImages(keys)
         throw error
     }
@@ -58,28 +59,28 @@ export const getDishes = async (id) => {
         dishes = await Promise.all(convertor)
         return dishes
     } catch (error) {
-        logger.error('an error occurred', error)
+        logger.debug('an error occurred', error)
         throw error
     }
 }
 
-export const getDish = async (id) => {
+export const getDish = async (id, cookId = "1") => {
     const logger = new Logger("[getDish]", loggerConfig.level)
     logger.debug(`getting dish : `, id)
     try {
-        const result = await API.graphql(graphqlOperation(queries.getDish, { "cookId": "1", id }));
+        const result = await API.graphql(graphqlOperation(queries.getDish, { cookId, id }));
         return await dishConvertor(result.data.getDish)
     } catch (error) {
-        logger.error('an error occurred', error)
+        logger.debug('an error occurred', error)
         throw error
     }
 }
 
-export const subscribeDishesForCook = (id, onNextCallback) => {
+export const subscribeDishesForCook = (id, onNew, onUpdate) => {
     const logger = new Logger("[subscribeDishesForCook]", loggerConfig.level)
     logger.debug(`subscribing to dishes for cook: `, id)
     try {
-        const subscription = API.graphql(
+        const onCreatedSubscription = API.graphql(
             graphqlOperation(`subscription OnCreateDish(
                 $cookId: ID
               ) {
@@ -91,14 +92,57 @@ export const subscribeDishesForCook = (id, onNextCallback) => {
                 }
               }`, { "cookId": id })
         ).subscribe({
-            next: ({ value }) => onNextCallback(value.data.onCreateDish.id)
+            next: ({ value }) => onNew(value.data.onCreateDish.id)
         });
-        return subscription
+        const onUpdateSubscription = API.graphql(
+            graphqlOperation(`subscription OnUpdateDish(
+                $cookId: ID
+              ) {
+                onUpdateDish(
+                  cookId: $cookId
+                ) {
+                  id
+                  cookId
+                }
+              }`, { "cookId": id })
+        ).subscribe({
+            next: ({ value }) => {
+                console.log(value);
+                onUpdate(value.data.onUpdateDish)
+            }
+        });
+        return {
+            onCreatedSubscription,
+            onUpdateSubscription
+        }
     } catch (error) {
-        logger.error('an error occurred', error)
+        logger.debug('an error occurred', error)
         throw error
     }
 }
+
+
+export const updateDish = async (id, cookId, updates) => {
+    const logger = new Logger("[updateDish]", loggerConfig.level)
+    logger.debug(`updating dish : `, {
+        cookId, id,
+        ...updates
+    })
+    try {
+        const result = await API.graphql(graphqlOperation(mutations.updateDish, {
+            input: {
+                cookId, id,
+                ...updates
+            }
+        }));
+        return await dishConvertor(result.data.updateDish)
+    } catch (error) {
+        logger.debug('an error occurred', error)
+        throw error
+    }
+}
+
+
 
 const listDishes = (...items) => {
     let query = _.template(`query ListDishes(
@@ -116,7 +160,7 @@ const listDishes = (...items) => {
     return query({ itemsString })
 }
 
-const dishConvertor = async (dishDromDb) => {
+export const dishConvertor = async (dishDromDb) => {
     images = await getImagesUrl(dishDromDb.images)
     return {
         ...dishDromDb,

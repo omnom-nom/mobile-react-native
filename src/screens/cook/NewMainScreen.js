@@ -204,11 +204,10 @@ mapStateToProps = ({ cook_orders, customer_info, cook_dishes }) => {
     logger = new Logger("[NewMainScreen]", loggerConfig.level)
     let numToday = cook_orders.today.size
     let numTomorrow = cook_orders.tomorrow.size
-    logger.debug(customer_info)
     return {
         newOrders: numToday + numTomorrow,
         name: _.isUndefined(customer_info) || _.isUndefined(customer_info.name) ? "" : customer_info.name,
-        dishes: cook_dishes.onDemand.size + cook_dishes.preOrder.size
+        dishes: cook_dishes.active.onDemand.size + cook_dishes.active.preOrder.size
     }
 }
 

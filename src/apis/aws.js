@@ -18,7 +18,7 @@ export const getSecret = async (secretName) => {
         secret = JSON.parse(data.SecretString)
         return secret.api_key
     } catch (error) {
-        logger.error('an error occurred', error);
+        logger.debug('an error occurred', error);
         return null
     }
 }
@@ -35,7 +35,7 @@ export const putImage_NOT_WORKING = async (key, image) => {
         )
         return result.key
     } catch (error) {
-        logger.error('an error occurred', error);
+        logger.debug('an error occurred', error);
         return null
     }
 }
