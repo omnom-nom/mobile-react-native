@@ -12,9 +12,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { DishOrderTypeEnum, SpiceLevelTypeEnum, spiceColor, FoodTypeEnum, foodColor } from './enums';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
-import StarRating from 'react-native-star-rating';
 import _ from 'lodash'
-import LoadingComponent from '../../components/LoadingComponent';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 // TODO: spice level, cuisine, tags [nuts, gluten-free, vegan]
 class NewDishScreen extends Component {
@@ -396,11 +395,9 @@ class NewDishScreen extends Component {
     }
 
     render() {
-        if (this.props.saving) {
-            return <LoadingComponent style={{ backgroundColor: 'rgba(52, 52, 52, 0.4)' }} />
-        }
         return (
             <View style={styles.container}>
+                <LoadingOverlay visible={this.props.saving} />
                 <ScreenHeader
                     icon={{
                         name: 'close',
@@ -535,7 +532,7 @@ class NewDishScreen extends Component {
         let result = await fn({
             allowsEditing: true,
             aspect: [4, 3],
-            base64:true
+            base64: true
         });
         if (!result.cancelled) {
             images = this.state.images
