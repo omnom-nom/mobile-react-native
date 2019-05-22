@@ -10,10 +10,10 @@ logger = new Logger("[AuthAction]", loggerConfig.level)
 export const check_session = (navigate) => {
     logger = new Logger("[AuthAction]", loggerConfig.level)
     return async (dispatch) => {
-        logger.debug("checking app session")
+        logger.debug("checking if user is logged-in")
         try {
-            let data = await Auth.currentSession()
-            email = data.getAccessToken().decodePayload().username
+            let data = await Auth.currentAuthenticatedUser()
+            const email = data.username
             if (_.isUndefined(email)) {
                 throw "email id not present in the cognito access token"
             }
