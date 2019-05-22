@@ -37,17 +37,7 @@ class MenuList extends Component {
     renderMenuItem = ({ item }) => {
         return (
             <Swipeout
-                left={[
-                    {
-                        backgroundColor: this.props.swipe.color,
-                        text: this.props.swipe.text,
-                        type: this.props.swipe.type,
-                        onPress: () => {
-                            Haptic.impact(Haptic.ImpactFeedbackStyle.Medium)
-                            this.props.swipe.onPress(item)
-                        }
-                    }
-                ]}
+                left={this.props.leftSwipe(item)}
                 autoClose={true}
                 buttonWidth={width * 0.3}
                 style={{

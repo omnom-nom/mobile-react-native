@@ -1,4 +1,4 @@
-import { API, graphqlOperation, Logger } from "aws-amplify";
+import { API, graphqlOperation, Logger, Storage } from "aws-amplify";
 import { loggerConfig } from '../cmn/AppConfig'
 import * as queries from '../graphql/queries'
 import { saveImage, deleteImages, getImagesUrl } from './aws'
@@ -44,6 +44,28 @@ export const addDish = async (dish) => {
     }
 }
 
+export const deleteDish = async (id, cookId) => {
+    const logger = new Logger("[deleteDish]", loggerConfig.level)
+    logger.debug(`deleting dish...`, id, cookId)
+    try {
+        let result = await getDishRaw(id, cookId, item = ['images'])
+        deleteImages(result.images)
+
+        result = await API.graphql(graphqlOperation(`mutation DeleteDish($input: DeleteDishInput!) {
+            deleteDish(input: $input) { id cookId } 
+        }`, {
+                input: {
+                    id, cookId
+                }
+            }
+        ));
+        logger.debug(result)
+    } catch (error) {
+        logger.debug('an error occurred', error)
+        throw error
+    }
+}
+
 export const getDishes = async (id) => {
     const logger = new Logger("[getDishes]", loggerConfig.level)
     logger.debug(`getting dishes for cook: `, id)
@@ -62,31 +84,38 @@ export const getDishes = async (id) => {
         logger.debug('an error occurred', error)
         throw error
     }
+
 }
 
-export const getDish = async (id, cookId = "1") => {
-    const logger = new Logger("[getDish]", loggerConfig.level)
-    logger.debug(`getting dish : `, id)
+const getDishRaw = async (id, cookId, items = ['description', 'images', 'name', 'foodType', 'spice', 'order', 'content', 'id', 'price', 'status']) => {
     try {
-        const result = await API.graphql(graphqlOperation(queries.getDish, { cookId, id }));
-        return await dishConvertor(result.data.getDish)
+        const result = await API.graphql(graphqlOperation(getDishQuery(items), { cookId, id }));
+        return result.data.getDish
     } catch (error) {
         logger.debug('an error occurred', error)
         throw error
     }
 }
 
-export const subscribeDishesForCook = (id, onNew, onUpdate) => {
+export const getDish = async (id, cookId = "1") => {
+    const logger = new Logger("[getDish]", loggerConfig.level)
+    logger.debug(`getting dish : `, id)
+    try {
+        const result = await getDishRaw(id, cookId)
+        return await dishConvertor(result)
+    } catch (error) {
+        logger.debug('an error occurred', error)
+        throw error
+    }
+}
+
+export const subscribeDishesForCook = (id, onNew, onUpdate, onDelete) => {
     const logger = new Logger("[subscribeDishesForCook]", loggerConfig.level)
     logger.debug(`subscribing to dishes for cook: `, id)
     try {
         const onCreatedSubscription = API.graphql(
-            graphqlOperation(`subscription OnCreateDish(
-                $cookId: ID
-              ) {
-                onCreateDish(
-                  cookId: $cookId
-                ) {
+            graphqlOperation(`subscription OnCreateDish($cookId: ID) {
+                onCreateDish(cookId: $cookId) {
                   id
                   cookId
                 }
@@ -95,12 +124,8 @@ export const subscribeDishesForCook = (id, onNew, onUpdate) => {
             next: ({ value }) => onNew(value.data.onCreateDish.id)
         });
         const onUpdateSubscription = API.graphql(
-            graphqlOperation(`subscription OnUpdateDish(
-                $cookId: ID
-              ) {
-                onUpdateDish(
-                  cookId: $cookId
-                ) {
+            graphqlOperation(`subscription OnUpdateDish($cookId: ID) {
+                onUpdateDish(cookId: $cookId) {
                   id
                   cookId
                 }
@@ -111,9 +136,24 @@ export const subscribeDishesForCook = (id, onNew, onUpdate) => {
                 onUpdate(value.data.onUpdateDish)
             }
         });
+        const onDeleteSubscription = API.graphql(
+            graphqlOperation(`subscription OnDeleteDish($cookId: ID) {
+                onDeleteDish(cookId: $cookId) {
+                  id
+                  cookId
+                }
+              }`, { "cookId": id })
+        ).subscribe({
+            next: ({ value }) => {
+                logger.debug('subscription: deleted a dish')
+                onDelete(value.data.onDeleteDish)
+            }
+        });
+
         return {
             onCreatedSubscription,
-            onUpdateSubscription
+            onUpdateSubscription,
+            onDeleteSubscription
         }
     } catch (error) {
         logger.debug('an error occurred', error)
@@ -142,7 +182,17 @@ export const updateDish = async (id, cookId, updates) => {
     }
 }
 
-
+const getDishQuery = (...items) => {
+    let query = _.template(
+        `query GetDish($id: ID!, $cookId: ID!) {
+            getDish(id: $id, cookId: $cookId) {
+                <%= itemsString %>
+            }
+          }`
+    )
+    const itemsString = _.join(items, '  ')
+    return query({ itemsString })
+}
 
 const listDishes = (...items) => {
     let query = _.template(`query ListDishes(

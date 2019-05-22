@@ -1,8 +1,9 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Animated } from 'react-native';
+import { Overlay, Button } from 'react-native-elements'
 import { Logger } from 'aws-amplify'
-import { moderateScale, width } from '../../cmn/Scaling';
+import { moderateScale, width, height } from '../../cmn/Scaling';
 import { iOSColors } from 'react-native-typography'
 import { style, colors, loggerConfig } from '../../cmn/AppConfig'
 import { connect } from 'react-redux';
@@ -11,13 +12,16 @@ import { DishOrderTypeEnum, StatusTypeEnum } from './enums';
 import _ from 'lodash'
 import MenuHeader from './components/MenuHeader';
 import MenuList from './components/MenuList';
+import { Haptic } from 'expo'
 
 class AllDishesScreen extends Component {
     state = {
         showingAddButtons: false,
         currMenu: _.upperCase(DishOrderTypeEnum.ON_DEMAND),
         onDemand: [],
-        preOrder: []
+        preOrder: [],
+        modalVisible: false,
+        deleteDish: null
     }
 
     constructor(props) {
@@ -39,14 +43,30 @@ class AllDishesScreen extends Component {
         return <MenuList
             items={items}
             navigation={this.props.navigation}
-            swipe={{
-                onPress: (item) => {
-                    this.props.flipDishStatus(item.id, StatusTypeEnum.ACTIVE)
-                },
-                type: 'primary',
-                color: colors.caribbreanGreen,
-                text: 'Add to menu'
-            }}
+            leftSwipe={(item) => {
+                swipeComponent = [
+                    {
+                        backgroundColor: colors.caribbreanGreen,
+                        text: 'Add to menu',
+                        type: 'primary',
+                        onPress: () => {
+                            Haptic.impact(Haptic.ImpactFeedbackStyle.Medium)
+                            this.props.flipDishStatus(item.id, StatusTypeEnum.ACTIVE)
+                        }
+                    },
+                    {
+                        backgroundColor: colors.scarlet,
+                        text: 'Delete',
+                        type: 'delete',
+                        onPress: () => {
+                            Haptic.impact(Haptic.ImpactFeedbackStyle.Medium)
+                            this.setState({ modalVisible: true, deleteDish: item })
+                        }
+                    }
+                ]
+                return swipeComponent
+            }
+            }
         />
     }
 
@@ -99,7 +119,53 @@ class AllDishesScreen extends Component {
             </Animated.View>
         )
     }
-
+    renderDeleteItemModal = () => {
+        return (
+            <Overlay
+                isVisible={this.state.modalVisible}
+                windowBackgroundColor="rgba(255, 255, 255, .8)"
+                width="auto"
+                height="auto"
+                containerStyle={{
+                    ...style.shadow({ opacity: 0.9 }),
+                }}
+            >
+                <View style={{
+                    padding: moderateScale(10),
+                    justifyContent: 'space-between',
+                    height: height * 0.2,
+                    width: width * 0.8
+                }}>
+                    <Text style={style.fontStyle({ size: 17, fontWeight: '500' })}>
+                        Are you sure you want to delete this dish?
+                    </Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                        <Button
+                            buttonStyle={{
+                                width: width * 0.3,
+                                backgroundColor: colors.scarlet
+                            }}
+                            title={'Yes'}
+                            onPress={() => {
+                                this.props.deleteTheDish(this.state.deleteDish)
+                                this.setState({ modalVisible: false, deleteDish: null })
+                            }}
+                        />
+                        <Button
+                            buttonStyle={{
+                                width: width * 0.3,
+                                backgroundColor: colors.caribbreanGreen
+                            }}
+                            title={'No'}
+                            onPress={() => {
+                                this.setState({ modalVisible: false, deleteDish: null })
+                            }}
+                        />
+                    </View>
+                </View>
+            </Overlay>
+        )
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -111,6 +177,7 @@ class AllDishesScreen extends Component {
                     backIconName={"close"}
                 />
                 {this.renderMenu(this.state.currMenu)}
+                {this.renderDeleteItemModal()}
             </View>
         );
     }
@@ -124,7 +191,7 @@ const styles = {
         backgroundColor: style.backgroundColor(),
         paddingTop: moderateScale(20),
         paddingHorizontal: width * 0.01,
-    }
+    },
 };
 
 mapStateToProps = ({ cook_dishes }) => {

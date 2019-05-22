@@ -1,4 +1,4 @@
-import { DISHES, UPDATED_DISH } from '../actions/types.js';
+import { DISHES, UPDATED_DISH, DELETED_DISH } from '../actions/types.js';
 import { loggerConfig } from '../cmn/AppConfig'
 import { Logger } from 'aws-amplify';
 import { DishOrderTypeEnum, StatusTypeEnum } from '../screens/cook/enums';
@@ -66,7 +66,6 @@ export default (state = initialState, action) => {
             }
 
         case UPDATED_DISH:
-            logger.debug(payload)
             activeOnDemand = state.active.onDemand
             activePreOrder = state.active.preOrder
             inactiveOnDemand = state.inactive.onDemand
@@ -79,7 +78,8 @@ export default (state = initialState, action) => {
             if (payload.status === StatusTypeEnum.ACTIVE && payload.order === DishOrderTypeEnum.PRE_ORDER) activePreOrder = activePreOrder.set(payload.id, payload)
             if (payload.status === StatusTypeEnum.INACTIVE && payload.order === DishOrderTypeEnum.ON_DEMAND) inactiveOnDemand = inactiveOnDemand.set(payload.id, payload)
             if (payload.status === StatusTypeEnum.INACTIVE && payload.order === DishOrderTypeEnum.PRE_ORDER) inactivePreOrder = inactivePreOrder.set(payload.id, payload)
-            logger.debug(state, {
+
+            return {
                 ...state,
                 active: {
                     onDemand: activeOnDemand,
@@ -89,7 +89,17 @@ export default (state = initialState, action) => {
                     onDemand: inactiveOnDemand,
                     preOrder: inactivePreOrder
                 }
-            })
+            }
+
+        case DELETED_DISH:
+            activeOnDemand = state.active.onDemand
+            activePreOrder = state.active.preOrder
+            inactiveOnDemand = state.inactive.onDemand
+            inactivePreOrder = state.inactive.preOrder
+            if (activeOnDemand.has(payload)) activeOnDemand = activeOnDemand.delete(payload)
+            if (activePreOrder.has(payload)) activePreOrder = activePreOrder.delete(payload)
+            if (inactiveOnDemand.has(payload)) inactiveOnDemand = inactiveOnDemand.delete(payload)
+            if (inactivePreOrder.has(payload)) inactivePreOrder = inactivePreOrder.delete(payload)
             return {
                 ...state,
                 active: {

@@ -12,6 +12,7 @@ import { DishOrderTypeEnum, foodColor, FoodTypeEnum, spiceColor, spiceImage, Spi
 import _ from 'lodash'
 import MenuHeader from './components/MenuHeader';
 import MenuList from './components/MenuList';
+import { Haptic } from 'expo'
 
 class NewCookMenuScreen extends Component {
     state = {
@@ -40,13 +41,19 @@ class NewCookMenuScreen extends Component {
         return <MenuList
             items={items}
             navigation={this.props.navigation}
-            swipe={{
-                onPress: (item) => {
-                    this.props.flipDishStatus(item.id, StatusTypeEnum.INACTIVE)
-                },
-                type: 'delete',
-                color: colors.scarlet,
-                text: 'Remove'
+            leftSwipe={(item) => {
+                swipeComponent = [
+                    {
+                        backgroundColor: colors.scarlet,
+                        text: 'Remove',
+                        type: 'delete',
+                        onPress: () => {
+                            Haptic.impact(Haptic.ImpactFeedbackStyle.Medium)
+                            this.props.flipDishStatus(item.id, StatusTypeEnum.INACTIVE)
+                        }
+                    }
+                ]
+                return swipeComponent
             }}
         />
     }

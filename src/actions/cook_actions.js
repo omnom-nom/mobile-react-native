@@ -1,14 +1,11 @@
 
-import { NEW_REQUESTS_TODAY, NEW_REQUESTS_TOMORROW, UPDATED_DISH, DISHES, SAVING_DISH, SAVING_DISH_FAILED } from './types.js';
+import { NEW_REQUESTS_TODAY, NEW_REQUESTS_TOMORROW, UPDATED_DISH, DISHES, SAVING_DISH, DELETED_DISH } from './types.js';
 import { Logger } from 'aws-amplify'
 import { loggerConfig } from '../cmn/AppConfig'
 import { store } from '../store'
-import { getImageUrl } from '../apis/aws'
 import { starting_action, ending_action } from './cmn'
-import { addDish, getDishes, getDish, subscribeDishesForCook, updateDish, dishConvertor } from '../apis/dishes'
-import uuid from 'uuid/v4'
+import { addDish, getDishes, getDish, subscribeDishesForCook, updateDish, dishConvertor, deleteDish } from '../apis/dishes'
 import _ from 'lodash'
-import { StatusTypeEnum } from '../screens/cook/enums.js';
 
 
 export const loadCook = () => {
@@ -22,8 +19,10 @@ export const loadCook = () => {
             },
             async (updated) => {
                 dish = await dishConvertor(updated)
-                logger.debug(dish)
                 dispatchDish(dispatch, dish, UPDATED_DISH)
+            },
+            async (deleted) => {
+                dispatchDish(dispatch, deleted.id, DELETED_DISH)
             }
         )
         // save the subscription in the state
@@ -126,6 +125,18 @@ export const addNewDish = (dish, navigate) => {
         } catch (error) {
             logger.debug('an error occurred', error)
             ending_action(dispatch, SAVING_DISH)
+        }
+    }
+}
+
+export const deleteTheDish = (dish) => {
+    logger = new Logger("[CookAction]", loggerConfig.level)
+    logger.debug("deleting dish", dish)
+    return async (dispatch) => {
+        try {
+            await deleteDish(dish.id, "1")
+        } catch (error) {
+            logger.debug('an error occurred', error)
         }
     }
 }

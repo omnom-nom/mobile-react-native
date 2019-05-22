@@ -90,7 +90,7 @@ export const saveImage = async (
 
 export const deleteImages = async (keys) => {
     const logger = new Logger("[AwsDeleteImageURL]", "DEBUG")
-    logger.debug("removing image url", key)
+    logger.debug("removing image url", keys)
     for (const key of keys) {
         await Storage.remove(key)
     }
