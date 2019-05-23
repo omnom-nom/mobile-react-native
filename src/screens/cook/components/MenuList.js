@@ -37,7 +37,7 @@ class MenuList extends Component {
     renderMenuItem = ({ item }) => {
         return (
             <Swipeout
-                left={this.props.leftSwipe(item)}
+                right={this.props.rightSwipe(item)}
                 autoClose={true}
                 buttonWidth={width * 0.3}
                 style={{

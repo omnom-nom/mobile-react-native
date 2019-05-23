@@ -38,7 +38,7 @@ class NewCookMenuScreen extends Component {
         return <MenuList
             items={this.state.menu}
             navigation={this.props.navigation}
-            leftSwipe={(item) => {
+            rightSwipe={(item) => {
                 swipeComponent = [
                     {
                         backgroundColor: colors.scarlet,
