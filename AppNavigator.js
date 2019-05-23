@@ -23,7 +23,6 @@ import CheckoutScreen from './src/screens/customer/CheckoutScreen';
 import BottomTabBarIcon from './src/components/BottomTabBarIcon';
 import { connect } from 'react-redux';
 import DishScreenNew from './src/screens/customer/DishScreenNew';
-import CookMenuScreen from './src/screens/cook/CookMenuScreen';
 import MainScreen from './src/screens/cook/MainScreen';
 import ReviewsScreen from './src/screens/cook/ReviewsScreen';
 import EarningsScreen from './src/screens/cook/EarningsScreen';

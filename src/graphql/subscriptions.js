@@ -1,6 +1,22 @@
 // eslint-disable
 // this is an auto generated file. This will be overwritten
 
+export const onCreateDish = `subscription OnCreateDish($cookId: ID, $id: ID) {
+  onCreateDish(cookId: $cookId, id: $id) {
+    content
+    cookId
+    description
+    foodType
+    id
+    images
+    name
+    time
+    price
+    spice
+    status
+  }
+}
+`;
 export const onCreateUser = `subscription OnCreateUser(
   $email: AWSEmail
   $name: String
@@ -15,17 +31,19 @@ export const onCreateUser = `subscription OnCreateUser(
   }
 }
 `;
-export const onUpdateUser = `subscription OnUpdateUser(
-  $email: AWSEmail
-  $name: String
-  $phone: AWSPhone
-  $type: String
-) {
-  onUpdateUser(email: $email, name: $name, phone: $phone, type: $type) {
-    email
+export const onDeleteDish = `subscription OnDeleteDish($cookId: ID, $id: ID) {
+  onDeleteDish(cookId: $cookId, id: $id) {
+    content
+    cookId
+    description
+    foodType
+    id
+    images
     name
-    phone
-    type
+    time
+    price
+    spice
+    status
   }
 }
 `;
@@ -43,51 +61,33 @@ export const onDeleteUser = `subscription OnDeleteUser(
   }
 }
 `;
-export const onCreateDish = `subscription OnCreateDish($id: ID, $cookId: ID) {
-  onCreateDish(id: $id, cookId: $cookId) {
-    id
-    cookId
-    spice
-    order
-    foodType
-    status
-    price
-    description
+export const onUpdateDish = `subscription OnUpdateDish($cookId: ID, $id: ID) {
+  onUpdateDish(cookId: $cookId, id: $id) {
     content
+    cookId
+    description
+    foodType
+    id
     images
     name
+    time
+    price
+    spice
+    status
   }
 }
 `;
-export const onUpdateDish = `subscription OnUpdateDish($id: ID, $cookId: ID) {
-  onUpdateDish(id: $id, cookId: $cookId) {
-    id
-    cookId
-    spice
-    order
-    foodType
-    status
-    price
-    description
-    content
-    images
+export const onUpdateUser = `subscription OnUpdateUser(
+  $email: AWSEmail
+  $name: String
+  $phone: AWSPhone
+  $type: String
+) {
+  onUpdateUser(email: $email, name: $name, phone: $phone, type: $type) {
+    email
     name
-  }
-}
-`;
-export const onDeleteDish = `subscription OnDeleteDish($id: ID, $cookId: ID) {
-  onDeleteDish(id: $id, cookId: $cookId) {
-    id
-    cookId
-    spice
-    order
-    foodType
-    status
-    price
-    description
-    content
-    images
-    name
+    phone
+    type
   }
 }
 `;

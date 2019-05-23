@@ -10,18 +10,19 @@ import { style, colors, loggerConfig } from '../../cmn/AppConfig'
 import ScreenHeader from '../../components/ScreenHeader';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { DishOrderTypeEnum, SpiceLevelTypeEnum, spiceColor, FoodTypeEnum, foodColor } from './enums';
+import { SpiceLevelTypeEnum, spiceColor, FoodTypeEnum, foodColor } from './enums';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import _ from 'lodash'
 import LoadingOverlay from '../../components/LoadingOverlay';
+import MenuHeader from './components/MenuHeader';
 
 // TODO: spice level, cuisine, tags [nuts, gluten-free, vegan]
 class NewDishScreen extends Component {
     state = {
         name: "",
+        time: "",
         description: "",
         contents: new Map(),
-        order: DishOrderTypeEnum.ON_DEMAND,
         contentCount: 0,
         price: 0,
         error: "",
@@ -193,6 +194,9 @@ class NewDishScreen extends Component {
         if (_.isEmpty(this.state.name)) {
             missing.push("name")
         }
+        if (this.validateTime()) {
+            missing.push("preparation time")
+        }
         if (_.isEmpty(this.state.description)) {
             missing.push("description")
         }
@@ -220,12 +224,19 @@ class NewDishScreen extends Component {
             name: this.state.name,
             description: this.state.description,
             content: contents,
-            order: this.state.order,
             price: parseFloat(this.state.price),
             images: this.state.images,
             spice: this.state.spice,
-            foodType: this.state.foodType
+            foodType: this.state.foodType,
+            time: this.state.time
         }, this.props.navigation.goBack)
+    }
+
+    validateTime = () => {
+        return _.isEmpty(this.state.time) ||
+            (this.state.time.match(new RegExp('\\.', 'g')) || []).length > 0 ||
+            this.state.time === '0' ||
+            _.isNaN(parseFloat(this.state.time))
     }
 
     validatePrice = () => {
@@ -233,48 +244,6 @@ class NewDishScreen extends Component {
             (this.state.price.match(new RegExp('\\.', 'g')) || []).length > 1 ||
             this.state.price === '0' ||
             _.isNaN(parseFloat(this.state.price))
-    }
-
-    getorderButtonStyle = (type) => {
-        base = {
-            marginVertical: moderateScale(10),
-            width: width * 0.28,
-            borderRadius: moderateScale(10),
-            borderColor: iOSColors.black,
-            borderWidth: 1,
-            backgroundColor: iOSColors.white
-        }
-        if (this.state.order === type) {
-            base = {
-                ...base,
-                borderWidth: 0,
-                backgroundColor: style.secondaryColor
-            }
-        }
-        return base
-    }
-
-    renderorder = () => {
-        return (
-            <View style={{
-                width: width * 0.6,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-            }}>
-                <Button
-                    buttonStyle={styles.orderButtonStyle(this.state.order, DishOrderTypeEnum.ON_DEMAND)}
-                    titleStyle={styles.orderButtonTextStyle(this.state.order, DishOrderTypeEnum.ON_DEMAND)}
-                    title="On Demand"
-                    onPress={() => this.setState({ order: DishOrderTypeEnum.ON_DEMAND })}
-                />
-                <Button
-                    buttonStyle={styles.orderButtonStyle(this.state.order, DishOrderTypeEnum.PRE_ORDER)}
-                    titleStyle={styles.orderButtonTextStyle(this.state.order, DishOrderTypeEnum.PRE_ORDER)}
-                    title="Pre Order"
-                    onPress={() => this.setState({ order: DishOrderTypeEnum.PRE_ORDER })}
-                />
-            </View>
-        )
     }
 
     renderToolTip = (message) => {
@@ -398,21 +367,11 @@ class NewDishScreen extends Component {
         return (
             <View style={styles.container}>
                 <LoadingOverlay visible={this.props.saving} />
-                <ScreenHeader
-                    icon={{
-                        name: 'close',
-                        right: true,
-                        size: 30
-                    }}
-                    header="add a new dish"
-                    headerStyle={{ fontWeight: 'normal', }}
-                    size={20}
-                    back={{
-                        show: true,
-                        navigate: () => {
-                            this.props.navigation.goBack()
-                        }
-                    }}
+                <MenuHeader
+                    onBackPress={() => this.props.navigation.goBack()}
+                    name="New Dish"
+                    backIconName={"close"}
+                    showIcon={'food-croissant'}
                 />
                 <KeyboardAvoidingView
                     keyboardVerticalOffset={height * 0.05}
@@ -439,10 +398,22 @@ class NewDishScreen extends Component {
                             })}
                         {this.renderInfoItem("Spice Level", this.renderSpiceButtonGroup())}
                         {this.renderInfoItem(
-                            "Order Type",
-                            this.renderorder(),
+                            "Prep Time",
+                            <TextInput
+                                maxLength={30}
+                                value={this.state.time}
+                                style={styles.textInputStyle()}
+                                placeholder="Preparation Time"
+                                onChangeText={(time) => {
+                                    let intTime = parseInt(time)
+                                    intTime = _.isNaN(intTime) ? "" : intTime
+                                    this.setState({ time: `${intTime}` })
+                                }}
+                                selectionColor={style.secondaryColor}
+                                keyboardType={'numeric'}
+                            />,
                             {
-                                subTitleComponent: this.renderToolTip("Please select order type On-Demand if you can prepare this dish quickly, select Pre-Order if you need time to prepare this dish. With On-Demand you will have to prepare the dish as soon as you accept the order.")
+                                subTitleComponent: <Text style={style.fontStyle({ color: colors.scarlet })}>in minutes</Text>
                             }
                         )}
                         {this.renderInfoItem("Price", <TextInput
@@ -551,6 +522,7 @@ const styles = {
     container: {
         flex: 1,
         backgroundColor: style.backgroundColor(),
+        paddingTop: moderateScale(20),
     },
     infoItemContainerStyle: (isRow) => {
         return {
@@ -583,31 +555,6 @@ const styles = {
             paddingVertical: moderateScale(10),
             ...style_prop,
         }
-    },
-    orderButtonStyle: (currType, type) => {
-        base = {
-            marginVertical: moderateScale(10),
-            width: width * 0.28,
-            borderRadius: moderateScale(10),
-            borderColor: iOSColors.black,
-            borderWidth: 1,
-            backgroundColor: iOSColors.white
-        }
-        if (currType === type) {
-            base = {
-                ...base,
-                borderWidth: 0,
-                backgroundColor: style.secondaryColor
-            }
-        }
-        return base
-    },
-    orderButtonTextStyle: (currType, type) => {
-        base = style.fontStyle({ color: iOSColors.black, size: 13 })
-        if (currType === type) {
-            base = style.fontStyle({ color: iOSColors.white, size: 13 })
-        }
-        return base
     },
     charLeftTextStyle: {
         ...style.fontStyle({ fontWeight: 'bold' })
