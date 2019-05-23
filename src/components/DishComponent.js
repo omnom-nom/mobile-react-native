@@ -67,12 +67,9 @@ class DishComponent extends Component {
                 <ParallaxImage
                     source={{ uri: item }}
                     containerStyle={{
-                        width: width * 0.8,
-                        height: height * 0.3,
-                        borderRadius: moderateScale(20)
-                    }}
-                    style={{
-                        borderRadius: moderateScale(20)
+                        width: width * 0.995,
+                        height: height * 0.4,
+                        borderRadius: moderateScale(5)
                     }}
                     parallaxFactor={0}
                     {...parallaxProps}
@@ -119,32 +116,41 @@ class DishComponent extends Component {
             return null
         }
         return (
-            <ScrollView style={{
-                marginTop: moderateScale(20)
-            }}>
+            <ScrollView style={{top: moderateScale(20)}}>
                 <Carousel
-                    itemWidth={width * 0.8}
+                    itemWidth={width * 0.995}
                     sliderWidth={width}
-                    itemHeight={height * 0.3}
-                    sliderHeight={height * 0.3}
+                    itemHeight={height * 0.4}
+                    sliderHeight={height * 0.4}
                     data={dish.images}
                     renderItem={this.renderImages}
                     hasParallaxImages={true}
                 />
                 <View style={{
                     width,
-                    paddingHorizontal: moderateScale(20),
-                    borderWidth: 0
+                    paddingHorizontal: moderateScale(10),
+                    paddingVertical: moderateScale(20),
                 }}>
                     <View style={{
-                        flexDirection: 'row',
-                        flexWrap: "wrap",
-                        alignItems: 'center',
+                        position: 'absolute',
+                        right: moderateScale(10),
+                        top: -moderateScale(50),
+                        backgroundColor: iOSColors.white,
+                        borderRadius: width,
+                        height: moderateScale(100),
+                        width: moderateScale(100),
+                        ...style.shadow({ opacity: 0.1 }),
                         justifyContent: 'center',
-                        borderWidth: 0,
-                        marginVertical: moderateScale(10)
+                        alignItems: 'center'
                     }}>
-                        {this.renderTags()}
+                        <Text style={style.fontStyle({ size: 35, fontWeight: 'bold', color: colors.caribbreanGreen })}>
+                            {dish.price} $
+                        </Text>
+                    </View>
+                    <View style={{ width: width * 0.7 }}>
+                        <Text style={style.fontStyle({ size: 35, fontWeight: 'bold', letterSpacing: -1, textAlign: 'left' })}>
+                            {dish.name}
+                        </Text>
                     </View>
                     <View style={{
                         flexDirection: 'row',
@@ -152,21 +158,13 @@ class DishComponent extends Component {
                         alignItems: 'center',
                         marginVertical: moderateScale(2.5)
                     }}>
-                        <Text style={style.fontStyle({ fontWeight: 'bold', color: foodColor(dish.foodType), size: 15 })}>
+                        <Text style={style.fontStyle({ fontWeight: 'bold', color: foodColor(dish.foodType), size: 20 })}>
                             {_.startCase(dish.foodType)}
                         </Text>
-                        <Text style={style.fontStyle({ fontWeight: 'bold', size: 15 })}>
+                        <Text style={style.fontStyle({ fontWeight: 'bold', size: 20 })}>
                             {` . `}
                         </Text>
-                        {spiceImage(dish.spice, 17)}
-                    </View>
-                    <View style={{
-                        justifyContent: 'center',
-                        marginVertical: moderateScale(2.5)
-                    }}>
-                        <Text style={style.fontStyle({ ...styles.sectionHeaderStyle, color: colors.caribbreanGreen })}>
-                            {`${dish.price} $`}
-                        </Text>
+                        {spiceImage(dish.spice, 20)}
                     </View>
                     <View style={{
                         justifyContent: 'center',
@@ -204,9 +202,10 @@ class DishComponent extends Component {
 const styles = {
     sectionTextStyle: {
         size: 15,
+        fontWeight: '500'
     },
     sectionHeaderStyle: {
-        size: 17,
+        size: 18,
         fontWeight: 'bold'
     }
 }

@@ -71,7 +71,7 @@ class MenuList extends Component {
                         width: width * 0.4
                     }}>
                         <View>
-                            <Text style={style.fontStyle({ fontWeight: 'bold', size: 18 })}>
+                            <Text style={style.fontStyle({ fontWeight: 'bold', size: 18, textAlign: 'left' })}>
                                 {item.name}
                             </Text>
                             <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -92,7 +92,7 @@ class MenuList extends Component {
                         {item.price} $
                 </Text>
                 </TouchableOpacity>
-            </Swipeout>
+            </Swipeout >
         )
     }
     render() {
