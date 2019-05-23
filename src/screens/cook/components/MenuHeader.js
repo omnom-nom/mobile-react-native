@@ -43,8 +43,7 @@ class MenuHeader extends Component {
                 flexDirection: 'row',
                 marginBottom: moderateScale(20),
             }}>
-                {this.headerIcon('pizza', { right: 0 })}
-                {/* {this.headerIcon('bowl', { left: -width * 0.1 })} */}
+                {this.headerIcon(this.props.showIcon, { right: 0, top: -moderateScale(20) })}
 
                 <View style={{
                     width: width * 0.15,

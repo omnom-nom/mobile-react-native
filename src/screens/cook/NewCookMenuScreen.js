@@ -112,6 +112,7 @@ class NewCookMenuScreen extends Component {
                     onBackPress={() => this.props.navigation.navigate('main')}
                     name="Menu"
                     backIconName={"arrow-left"}
+                    showIcon={'pizza'}
                 />
                 {this.renderMenu()}
                 <View style={{

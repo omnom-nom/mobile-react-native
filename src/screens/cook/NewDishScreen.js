@@ -14,6 +14,7 @@ import { SpiceLevelTypeEnum, spiceColor, FoodTypeEnum, foodColor } from './enums
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import _ from 'lodash'
 import LoadingOverlay from '../../components/LoadingOverlay';
+import MenuHeader from './components/MenuHeader';
 
 // TODO: spice level, cuisine, tags [nuts, gluten-free, vegan]
 class NewDishScreen extends Component {
@@ -193,7 +194,7 @@ class NewDishScreen extends Component {
         if (_.isEmpty(this.state.name)) {
             missing.push("name")
         }
-        if (this.validateTime() ) {
+        if (this.validateTime()) {
             missing.push("preparation time")
         }
         if (_.isEmpty(this.state.description)) {
@@ -366,21 +367,11 @@ class NewDishScreen extends Component {
         return (
             <View style={styles.container}>
                 <LoadingOverlay visible={this.props.saving} />
-                <ScreenHeader
-                    icon={{
-                        name: 'close',
-                        right: true,
-                        size: 30
-                    }}
-                    header="add a new dish"
-                    headerStyle={{ fontWeight: 'normal', }}
-                    size={20}
-                    back={{
-                        show: true,
-                        navigate: () => {
-                            this.props.navigation.goBack()
-                        }
-                    }}
+                <MenuHeader
+                    onBackPress={() => this.props.navigation.goBack()}
+                    name="New Dish"
+                    backIconName={"close"}
+                    showIcon={'food-croissant'}
                 />
                 <KeyboardAvoidingView
                     keyboardVerticalOffset={height * 0.05}
@@ -410,9 +401,14 @@ class NewDishScreen extends Component {
                             "Prep Time",
                             <TextInput
                                 maxLength={30}
+                                value={this.state.time}
                                 style={styles.textInputStyle()}
                                 placeholder="Preparation Time"
-                                onChangeText={(time) => this.setState({ time })}
+                                onChangeText={(time) => {
+                                    let intTime = parseInt(time)
+                                    intTime = _.isNaN(intTime) ? "" : intTime
+                                    this.setState({ time: `${intTime}` })
+                                }}
                                 selectionColor={style.secondaryColor}
                                 keyboardType={'numeric'}
                             />,
@@ -526,6 +522,7 @@ const styles = {
     container: {
         flex: 1,
         backgroundColor: style.backgroundColor(),
+        paddingTop: moderateScale(20),
     },
     infoItemContainerStyle: (isRow) => {
         return {

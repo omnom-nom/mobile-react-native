@@ -170,6 +170,7 @@ class AllDishesScreen extends Component {
                     onBackPress={() => this.props.navigation.goBack()}
                     name="HISTORY"
                     backIconName={"close"}
+                    showIcon={'bowl'}
                 />
                 {this.renderMenu()}
                 {this.renderDeleteItemModal()}
