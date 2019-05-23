@@ -11,7 +11,7 @@ import { StatusTypeEnum } from "../screens/cook/enums";
 export const addDish = async (dish) => {
     const logger = new Logger("[addNewDish]", loggerConfig.level)
     logger.debug(`adding new dish...`, dish)
-    const { name, price, description, content, images, spice, order, foodType } = dish
+    const { name, price, description, content, images, spice, time, foodType } = dish
     let keys = []
     try {
         const uploads = images.map(async image => {
@@ -34,7 +34,7 @@ export const addDish = async (dish) => {
         content.forEach((c) => {
             contents[c.name] = c.count
         })
-        const input = { cookId: "1", name, price, description, content: JSON.stringify(contents), images: keys, spice, order, foodType, status: StatusTypeEnum.ACTIVE }
+        const input = { cookId: "1", name, price, description, content: JSON.stringify(contents), images: keys, spice, time, foodType, status: StatusTypeEnum.ACTIVE }
         const result = await API.graphql(graphqlOperation(mutations.createDish, { input }));
         return result.data.createDish
     } catch (error) {
@@ -70,7 +70,7 @@ export const getDishes = async (id) => {
     const logger = new Logger("[getDishes]", loggerConfig.level)
     logger.debug(`getting dishes for cook: `, id)
     try {
-        const result = await API.graphql(graphqlOperation(listDishes('description', 'images', 'name', 'foodType', 'spice', 'order', 'content', 'id', 'price', 'status'), {
+        const result = await API.graphql(graphqlOperation(listDishes('description', 'images', 'name', 'foodType', 'spice', 'time', 'content', 'id', 'price', 'status'), {
             filter: {
                 cookId: {
                     eq: id
@@ -87,7 +87,7 @@ export const getDishes = async (id) => {
 
 }
 
-const getDishRaw = async (id, cookId, items = ['description', 'images', 'name', 'foodType', 'spice', 'order', 'content', 'id', 'price', 'status']) => {
+const getDishRaw = async (id, cookId, items = ['description', 'images', 'name', 'foodType', 'spice', 'time', 'content', 'id', 'price', 'status']) => {
     try {
         const result = await API.graphql(graphqlOperation(getDishQuery(items), { cookId, id }));
         return result.data.getDish

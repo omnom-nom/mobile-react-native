@@ -1,19 +1,17 @@
 import { DISHES, UPDATED_DISH, DELETED_DISH } from '../actions/types.js';
 import { loggerConfig } from '../cmn/AppConfig'
 import { Logger } from 'aws-amplify';
-import { DishOrderTypeEnum, StatusTypeEnum } from '../screens/cook/enums';
+import { StatusTypeEnum } from '../screens/cook/enums';
 import { Map, merge } from 'immutable'
 
 import _ from 'lodash'
 
 const initialState = {
     active: {
-        onDemand: Map(),
-        preOrder: Map()
+        menu: Map()
     },
     inactive: {
-        onDemand: Map(),
-        preOrder: Map()
+        menu: Map()
     }
 }
 export default (state = initialState, action) => {
@@ -22,93 +20,53 @@ export default (state = initialState, action) => {
     switch (type) {
         case DISHES:
             if (payload.status === StatusTypeEnum.ACTIVE) {
-                if (payload.order === DishOrderTypeEnum.ON_DEMAND) {
-                    onDemand = state.active.onDemand.set(payload.id, payload)
-                    return {
-                        ...state,
-                        active: {
-                            ...state.active,
-                            onDemand
-                        }
-                    }
-                }
-                if (payload.order === DishOrderTypeEnum.PRE_ORDER) {
-                    preOrder = state.active.preOrder.set(payload.id, payload)
-                    return {
-                        ...state,
-                        active: {
-                            ...state.active,
-                            preOrder
-                        }
+                menu = state.active.menu.set(payload.id, payload)
+                return {
+                    ...state,
+                    active: {
+                        menu
                     }
                 }
             } else {
-                if (payload.order === DishOrderTypeEnum.ON_DEMAND) {
-                    onDemand = state.inactive.onDemand.set(payload.id, payload)
-                    return {
-                        ...state,
-                        inactive: {
-                            ...state.inactive,
-                            onDemand
-                        }
+                menu = state.inactive.menu.set(payload.id, payload)
+                return {
+                    ...state,
+                    inactive: {
+                        menu
                     }
                 }
-                if (payload.order === DishOrderTypeEnum.PRE_ORDER) {
-                    preOrder = state.inactive.preOrder.set(payload.id, payload)
-                    return {
-                        ...state,
-                        inactive: {
-                            ...state.inactive,
-                            preOrder
-                        }
-                    }
-                }
+
             }
 
         case UPDATED_DISH:
-            activeOnDemand = state.active.onDemand
-            activePreOrder = state.active.preOrder
-            inactiveOnDemand = state.inactive.onDemand
-            inactivePreOrder = state.inactive.preOrder
-            if (activeOnDemand.has(payload.id)) activeOnDemand = activeOnDemand.delete(payload.id)
-            if (activePreOrder.has(payload.id)) activePreOrder = activePreOrder.delete(payload.id)
-            if (inactiveOnDemand.has(payload.id)) inactiveOnDemand = inactiveOnDemand.delete(payload.id)
-            if (inactivePreOrder.has(payload.id)) inactivePreOrder = inactivePreOrder.delete(payload.id)
-            if (payload.status === StatusTypeEnum.ACTIVE && payload.order === DishOrderTypeEnum.ON_DEMAND) activeOnDemand = activeOnDemand.set(payload.id, payload)
-            if (payload.status === StatusTypeEnum.ACTIVE && payload.order === DishOrderTypeEnum.PRE_ORDER) activePreOrder = activePreOrder.set(payload.id, payload)
-            if (payload.status === StatusTypeEnum.INACTIVE && payload.order === DishOrderTypeEnum.ON_DEMAND) inactiveOnDemand = inactiveOnDemand.set(payload.id, payload)
-            if (payload.status === StatusTypeEnum.INACTIVE && payload.order === DishOrderTypeEnum.PRE_ORDER) inactivePreOrder = inactivePreOrder.set(payload.id, payload)
-
+            activeMenu = state.active.menu
+            inactiveMenu = state.inactive.menu
+            if (activeMenu.has(payload.id)) activeMenu = activeMenu.delete(payload.id)
+            if (inactiveMenu.has(payload.id)) inactiveMenu = inactiveMenu.delete(payload.id)
+            if (payload.status === StatusTypeEnum.ACTIVE) activeMenu = activeMenu.set(payload.id, payload)
+            if (payload.status === StatusTypeEnum.INACTIVE) inactiveMenu = inactiveMenu.set(payload.id, payload)
             return {
                 ...state,
                 active: {
-                    onDemand: activeOnDemand,
-                    preOrder: activePreOrder
+                    menu: activeMenu
                 },
                 inactive: {
-                    onDemand: inactiveOnDemand,
-                    preOrder: inactivePreOrder
+                    menu: inactiveMenu
                 }
             }
 
         case DELETED_DISH:
-            activeOnDemand = state.active.onDemand
-            activePreOrder = state.active.preOrder
-            inactiveOnDemand = state.inactive.onDemand
-            inactivePreOrder = state.inactive.preOrder
-            if (activeOnDemand.has(payload)) activeOnDemand = activeOnDemand.delete(payload)
-            if (activePreOrder.has(payload)) activePreOrder = activePreOrder.delete(payload)
-            if (inactiveOnDemand.has(payload)) inactiveOnDemand = inactiveOnDemand.delete(payload)
-            if (inactivePreOrder.has(payload)) inactivePreOrder = inactivePreOrder.delete(payload)
+            activeMenu = state.active.menu
+            inactiveMenu = state.inactive.menu
+            if (activeMenu.has(payload)) activeMenu = activeMenu.delete(payload)
+            if (inactiveMenu.has(payload)) inactiveMenu = inactiveMenu.delete(payload)
             return {
                 ...state,
                 active: {
-                    onDemand: activeOnDemand,
-                    preOrder: activePreOrder
+                    menu: activeMenu
                 },
                 inactive: {
-                    onDemand: inactiveOnDemand,
-                    preOrder: inactivePreOrder
+                    menu: inactiveMenu
                 }
             }
 

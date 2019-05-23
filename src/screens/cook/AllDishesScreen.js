@@ -8,7 +8,7 @@ import { iOSColors } from 'react-native-typography'
 import { style, colors, loggerConfig } from '../../cmn/AppConfig'
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { DishOrderTypeEnum, StatusTypeEnum } from './enums';
+import { StatusTypeEnum } from './enums';
 import _ from 'lodash'
 import MenuHeader from './components/MenuHeader';
 import MenuList from './components/MenuList';
@@ -17,9 +17,7 @@ import { Haptic } from 'expo'
 class AllDishesScreen extends Component {
     state = {
         showingAddButtons: false,
-        currMenu: _.upperCase(DishOrderTypeEnum.ON_DEMAND),
-        onDemand: [],
-        preOrder: [],
+        menu: [],
         modalVisible: false,
         deleteDish: null
     }
@@ -31,17 +29,16 @@ class AllDishesScreen extends Component {
     }
 
     componentWillMount = () => {
-        this.setState({ onDemand: this.props.onDemand, preOrder: this.props.preOrder })
+        this.setState({ menu: this.props.menu })
     }
 
     componentWillReceiveProps = (nextProps) => {
-        this.setState({ onDemand: nextProps.onDemand, preOrder: nextProps.preOrder })
+        this.setState({ menu: nextProps.menu })
     }
 
-    renderMenu = (currMenu) => {
-        const items = currMenu === _.upperCase(DishOrderTypeEnum.ON_DEMAND) ? this.state.onDemand : this.state.preOrder
+    renderMenu = () => {
         return <MenuList
-            items={items}
+            items={this.state.menu}
             navigation={this.props.navigation}
             leftSwipe={(item) => {
                 swipeComponent = [
@@ -170,13 +167,11 @@ class AllDishesScreen extends Component {
         return (
             <View style={styles.container}>
                 <MenuHeader
-                    setCurrMenu={(type) => this.setState({ currMenu: type })}
-                    currMenu={this.state.currMenu}
                     onBackPress={() => this.props.navigation.goBack()}
                     name="HISTORY"
                     backIconName={"close"}
                 />
-                {this.renderMenu(this.state.currMenu)}
+                {this.renderMenu()}
                 {this.renderDeleteItemModal()}
             </View>
         );
@@ -196,11 +191,9 @@ const styles = {
 
 mapStateToProps = ({ cook_dishes }) => {
     logger = new Logger("[AllDishScreen]", loggerConfig.level)
-    const onDemand = cook_dishes.inactive.onDemand.toIndexedSeq().toArray()
-    const preOrder = cook_dishes.inactive.preOrder.toIndexedSeq().toArray()
+    const menu = cook_dishes.inactive.menu.toIndexedSeq().toArray()
     return {
-        onDemand,
-        preOrder
+        menu
     }
 }
 

@@ -207,7 +207,7 @@ mapStateToProps = ({ cook_orders, customer_info, cook_dishes }) => {
     return {
         newOrders: numToday + numTomorrow,
         name: _.isUndefined(customer_info) || _.isUndefined(customer_info.name) ? "" : customer_info.name,
-        dishes: cook_dishes.active.onDemand.size + cook_dishes.active.preOrder.size
+        dishes: cook_dishes.active.menu.size
     }
 }
 

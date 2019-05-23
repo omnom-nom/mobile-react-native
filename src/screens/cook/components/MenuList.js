@@ -5,7 +5,7 @@ import { Logger } from 'aws-amplify'
 import { moderateScale, width, verticalScale, height } from '../../../cmn/Scaling';
 import { material, systemWeights, materialColors, iOSColors } from 'react-native-typography'
 import { style, colors, loggerConfig } from '../../../cmn/AppConfig'
-import { DishOrderTypeEnum, foodColor, FoodTypeEnum, spiceColor, spiceImage, SpiceLevelTypeEnum } from '../enums';
+import { foodColor, FoodTypeEnum, spiceColor, spiceImage, SpiceLevelTypeEnum } from '../enums';
 import _ from 'lodash'
 import { Haptic } from 'expo'
 import Swipeout from 'react-native-swipeout';

@@ -8,7 +8,7 @@ import { iOSColors } from 'react-native-typography'
 import { style, colors, loggerConfig } from '../../cmn/AppConfig'
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { DishOrderTypeEnum, foodColor, FoodTypeEnum, spiceColor, spiceImage, SpiceLevelTypeEnum, StatusTypeEnum } from './enums';
+import { StatusTypeEnum } from './enums';
 import _ from 'lodash'
 import MenuHeader from './components/MenuHeader';
 import MenuList from './components/MenuList';
@@ -17,9 +17,7 @@ import { Haptic } from 'expo'
 class NewCookMenuScreen extends Component {
     state = {
         showingAddButtons: false,
-        currMenu: _.upperCase(DishOrderTypeEnum.ON_DEMAND),
-        onDemand: [],
-        preOrder: []
+        menu: []
     }
 
     constructor(props) {
@@ -29,17 +27,16 @@ class NewCookMenuScreen extends Component {
     }
 
     componentWillMount = () => {
-        this.setState({ onDemand: this.props.onDemand, preOrder: this.props.preOrder })
+        this.setState({ menu: this.props.menu })
     }
 
     componentWillReceiveProps = (nextProps) => {
-        this.setState({ onDemand: nextProps.onDemand, preOrder: nextProps.preOrder })
+        this.setState({ menu: nextProps.menu })
     }
 
-    renderMenu = (currMenu) => {
-        const items = currMenu === _.upperCase(DishOrderTypeEnum.ON_DEMAND) ? this.state.onDemand : this.state.preOrder
+    renderMenu = () => {
         return <MenuList
-            items={items}
+            items={this.state.menu}
             navigation={this.props.navigation}
             leftSwipe={(item) => {
                 swipeComponent = [
@@ -112,12 +109,11 @@ class NewCookMenuScreen extends Component {
         return (
             <View style={styles.container}>
                 <MenuHeader
-                    setCurrMenu={(type) => this.setState({ currMenu: type })}
-                    currMenu={this.state.currMenu}
                     onBackPress={() => this.props.navigation.navigate('main')}
-                    name="MENU"
+                    name="Menu"
+                    backIconName={"arrow-left"}
                 />
-                {this.renderMenu(this.state.currMenu)}
+                {this.renderMenu()}
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'flex-end',
@@ -153,11 +149,9 @@ const styles = {
 
 mapStateToProps = ({ cook_dishes }) => {
     logger = new Logger("[NewCookMenuScreen]", loggerConfig.level)
-    const onDemand = cook_dishes.active.onDemand.toIndexedSeq().toArray()
-    const preOrder = cook_dishes.active.preOrder.toIndexedSeq().toArray()
+    const menu = cook_dishes.active.menu.toIndexedSeq().toArray()
     return {
-        onDemand,
-        preOrder
+        menu
     }
 }
 
