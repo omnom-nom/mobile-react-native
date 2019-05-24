@@ -49,8 +49,6 @@ export const deleteDish = async (id, cookId) => {
     logger.debug(`deleting dish...`, id, cookId)
     try {
         let result = await getDishRaw(id, cookId, item = ['images'])
-        deleteImages(result.images)
-
         result = await API.graphql(graphqlOperation(`mutation DeleteDish($input: DeleteDishInput!) {
             deleteDish(input: $input) { id cookId } 
         }`, {
@@ -59,7 +57,7 @@ export const deleteDish = async (id, cookId) => {
                 }
             }
         ));
-        logger.debug(result)
+        deleteImages(result.images)
     } catch (error) {
         logger.debug('an error occurred', error)
         throw error
