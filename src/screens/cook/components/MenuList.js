@@ -95,6 +95,9 @@ class MenuList extends Component {
                                     {` . `}
                                 </Text>
                                 {spiceImage(item.spice)}
+                                <Text style={style.fontStyle({ fontWeight: 'bold', size: 10, color: iOSColors.blue })}>
+                                    {` . ${item.price} mins`}
+                                </Text>
                             </View>
                         </View>
                         <View>

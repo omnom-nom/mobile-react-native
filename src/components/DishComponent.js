@@ -165,6 +165,9 @@ class DishComponent extends Component {
                             {` . `}
                         </Text>
                         {spiceImage(dish.spice, 20)}
+                        <Text style={style.fontStyle({ fontWeight: 'bold', size: 20, color: iOSColors.black })}>
+                            {` . ${dish.price} min`}
+                        </Text>
                     </View>
                     <View style={{
                         justifyContent: 'center',
