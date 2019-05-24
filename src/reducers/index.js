@@ -10,6 +10,7 @@ import DishReducer from './DishReducer';
 import CookOrdersReducers from './CookOrdersReducers';
 import CookDishReducer from './CookDishReducer';
 import NewDishReducer from './NewDishReducer';
+import CookMenuScreenReducer from './CookMenuScreenReducer';
 
 export default combineReducers({
     auth: AuthReducer,
@@ -22,5 +23,7 @@ export default combineReducers({
     dish_info: DishReducer,
     cook_orders: CookOrdersReducers,
     cook_dishes: CookDishReducer,
-    new_dish: NewDishReducer
+    new_dish: NewDishReducer,
+    // screen state
+    cook_menu_screen: CookMenuScreenReducer
 });

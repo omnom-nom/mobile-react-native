@@ -1,5 +1,5 @@
 
-import { NEW_REQUESTS_TODAY, NEW_REQUESTS_TOMORROW, UPDATED_DISH, DISHES, SAVING_DISH, DELETED_DISH } from './types.js';
+import { NEW_REQUESTS_TODAY, NEW_REQUESTS_TOMORROW, UPDATED_DISH, DISHES, SAVING_DISH, DELETED_DISH, COOK_MENU_LOADING } from './types.js';
 import { Logger } from 'aws-amplify'
 import { loggerConfig } from '../cmn/AppConfig'
 import { store } from '../store'
@@ -134,9 +134,12 @@ export const deleteTheDish = (dish) => {
     logger.debug("deleting dish", dish)
     return async (dispatch) => {
         try {
+            starting_action(dispatch, COOK_MENU_LOADING)
             await deleteDish(dish.id, "1")
+            ending_action(dispatch, COOK_MENU_LOADING)
         } catch (error) {
             logger.debug('an error occurred', error)
+            ending_action(dispatch, COOK_MENU_LOADING)
         }
     }
 }
@@ -148,9 +151,12 @@ export const flipDishStatus = (id, status) => {
     return async (dispatch) => {
         try {
             // update dish
+            starting_action(dispatch, COOK_MENU_LOADING)
             await updateDish(id, "1", { status })
+            ending_action(dispatch, COOK_MENU_LOADING)
         } catch (error) {
             logger.debug('an error occurred', error)
+            ending_action(dispatch, COOK_MENU_LOADING)
         }
     }
 }

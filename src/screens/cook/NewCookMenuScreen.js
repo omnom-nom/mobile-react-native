@@ -13,6 +13,7 @@ import _ from 'lodash'
 import MenuHeader from './components/MenuHeader';
 import MenuList from './components/MenuList';
 import { Haptic } from 'expo'
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 class NewCookMenuScreen extends Component {
     state = {
@@ -115,6 +116,7 @@ class NewCookMenuScreen extends Component {
                     backIconName={"arrow-left"}
                     showIcon={'pizza'}
                 />
+                <LoadingOverlay visible={this.props.loading} />
                 {this.renderMenu()}
                 <View style={{
                     flexDirection: 'row',
@@ -149,11 +151,12 @@ const styles = {
     }
 };
 
-mapStateToProps = ({ cook_dishes }) => {
+mapStateToProps = ({ cook_dishes, cook_menu_screen }) => {
     logger = new Logger("[NewCookMenuScreen]", loggerConfig.level)
     const menu = cook_dishes.active.menu.toIndexedSeq().toArray()
     return {
-        menu
+        menu,
+        loading: cook_menu_screen.loading
     }
 }
 

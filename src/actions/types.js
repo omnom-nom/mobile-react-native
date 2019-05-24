@@ -53,3 +53,8 @@ export const DELETED_DISH = "deleted_dish"
 // new dish
 export const SAVING_DISH = "saving_dish"
 export const SAVING_DISH_FAILED = "saving_dish_failed"
+
+
+//screen loading
+export const COOK_MENU_LOADING = "cook_menu_loading"
+export const ALL_MENU_LOADING = "all_menu_loading"

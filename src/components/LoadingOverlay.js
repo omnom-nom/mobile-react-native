@@ -22,6 +22,7 @@ class LoadingOverlay extends Component {
                     source={require('../../assets/loading/circle_loading_basic.json')}
                     autoPlay
                     loop
+                    resizeMode={"contain"}
                     style={{
                         width: moderateScale(200),
                         height: moderateScale(200),
