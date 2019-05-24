@@ -9,25 +9,23 @@ import { style, colors } from '../cmn/AppConfig'
 // create a component
 class NotFoundComponent extends Component {
     render() {
+        animSource = this.props.animSource || require(`../../assets/dog.json`)
+        size= this.props.size || 300
         return (
             <View style={{
                 justifyContent: "center",
                 alignItems: 'center'
             }}>
                 <LottieView
-                    source={require('../../assets/dog.json')}
+                    source={animSource}
                     autoPlay
                     loop
                     style={{
-                        width: moderateScale(300),
-                        height: moderateScale(300),
+                        width: moderateScale(size),
+                        height: moderateScale(size),
                     }}
                 />
-                <Text style={{
-                    ...styles.headerStyle,
-                    textAlign: 'center',
-                    textDecorationLine: 'none',
-                }}>
+                <Text style={style.fontStyle({ size: 17, color: materialColors.blackSecondary, fontWeight: '500', })}>
                     {this.props.message}
                 </Text>
             </View>

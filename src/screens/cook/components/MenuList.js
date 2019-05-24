@@ -9,6 +9,7 @@ import { foodColor, FoodTypeEnum, spiceColor, spiceImage, SpiceLevelTypeEnum } f
 import _ from 'lodash'
 import { Haptic } from 'expo'
 import Swipeout from 'react-native-swipeout';
+import NotFoundComponent from '../../../components/NotFoundComponent';
 
 
 class MenuList extends Component {
@@ -115,9 +116,9 @@ class MenuList extends Component {
         const { items } = this.props
         if (_.isEmpty(items)) {
             return (
-                <Text style={style.fontStyle()}>
-                    No dishes in this menu
-                </Text>
+                <NotFoundComponent
+                    message="No dishes in this menu"
+                />
             )
         }
         return (
