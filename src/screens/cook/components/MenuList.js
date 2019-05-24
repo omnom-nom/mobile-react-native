@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Platform, Image, Animated } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TouchableHighlight, Image, Animated } from 'react-native';
 import { Icon, ListItem, Button } from 'react-native-elements';
 import { Logger } from 'aws-amplify'
 import { moderateScale, width, verticalScale, height } from '../../../cmn/Scaling';
@@ -12,6 +12,10 @@ import Swipeout from 'react-native-swipeout';
 
 
 class MenuList extends Component {
+    state = {
+        listScroll: true,
+        scrollingItem: ""
+    }
     renderContent = (contents) => {
         if (_.isEmpty(contents)) {
             return null
@@ -34,23 +38,25 @@ class MenuList extends Component {
         }
         return contentsView
     }
+
     renderMenuItem = ({ item }) => {
         return (
             <Swipeout
+                key={item.id}
                 right={this.props.rightSwipe(item)}
-                autoClose={true}
                 buttonWidth={width * 0.3}
+                close={this.state.scrollingItem !== item.id}
                 style={{
-                    backgroundColor: 'transparent'
+                    backgroundColor: 'transparent',
                 }}
+                scroll={(enabled) => this.setState({ listScroll: enabled })}
+                onOpen={() => {
+                    this.setState({ scrollingItem: item.id, listScroll: false })
+                }}
+                sensitivity={10}
             >
-                <TouchableOpacity
-                    key={item.id}
-                    onPress={() => {
-                        this.props.navigation.navigate('preview', {
-                            dish: item
-                        })
-                    }}
+                <View
+
                     style={{
                         width: width * 0.95,
                         borderBottomColor: iOSColors.lightGray,
@@ -58,7 +64,7 @@ class MenuList extends Component {
                         padding: moderateScale(10),
                         flexDirection: 'row',
                         justifyContent: 'space-between'
-                    }}>
+                    }} >
                     <Image
                         style={{
                             width: width * 0.3,
@@ -67,9 +73,16 @@ class MenuList extends Component {
                         }}
                         source={{ uri: item.images[0] }}
                     />
-                    <View style={{
-                        width: width * 0.4
-                    }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            Haptic.impact(Haptic.ImpactFeedbackStyle.Medium)
+                            this.props.navigation.navigate('preview', {
+                                dish: item
+                            })
+                        }}
+                        style={{
+                            width: width * 0.4
+                        }}>
                         <View>
                             <Text style={style.fontStyle({ fontWeight: 'bold', size: 18, textAlign: 'left' })}>
                                 {item.name}
@@ -87,11 +100,11 @@ class MenuList extends Component {
                         <View>
                             {this.renderContent(item.content)}
                         </View>
-                    </View>
+                    </TouchableOpacity>
                     <Text style={style.fontStyle({ fontWeight: 'bold', size: 17, color: style.secondaryColor })}>
                         {item.price} $
                 </Text>
-                </TouchableOpacity>
+                </View>
             </Swipeout >
         )
     }
@@ -105,11 +118,18 @@ class MenuList extends Component {
             )
         }
         return (
-            <FlatList
-                keyExtractor={(item) => item.id}
-                data={items}
-                renderItem={this.renderMenuItem}
-            />
+            <TouchableHighlight
+                activeOpacity={1}
+                underlayColor={"transparent"}
+                onPress={() => this.setState({ scrollingItem: "" })}
+            >
+                <FlatList
+                    scrollEnabled={this.state.listScroll}
+                    keyExtractor={(item) => item.id}
+                    data={items}
+                    renderItem={this.renderMenuItem}
+                />
+            </TouchableHighlight>
         )
     }
 }

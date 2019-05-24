@@ -44,8 +44,9 @@ class AllDishesScreen extends Component {
                 swipeComponent = [
                     {
                         backgroundColor: colors.caribbreanGreen,
-                        text: 'Add to menu',
+                        text: <Text style={style.fontStyle({ color: iOSColors.white, size: 16 })}>Add to menu</Text>,
                         type: 'primary',
+                        underlayColor: colors.caribbreanGreen,
                         onPress: () => {
                             Haptic.impact(Haptic.ImpactFeedbackStyle.Medium)
                             this.props.flipDishStatus(item.id, StatusTypeEnum.ACTIVE)
@@ -53,8 +54,9 @@ class AllDishesScreen extends Component {
                     },
                     {
                         backgroundColor: colors.scarlet,
-                        text: 'Delete',
+                        text: <Text style={style.fontStyle({ color: iOSColors.white, size: 16 })}>Delete</Text>,
                         type: 'delete',
+                        underlayColor: colors.scarlet,
                         onPress: () => {
                             Haptic.impact(Haptic.ImpactFeedbackStyle.Medium)
                             this.setState({ modalVisible: true, deleteDish: item })

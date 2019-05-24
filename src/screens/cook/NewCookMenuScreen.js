@@ -42,7 +42,8 @@ class NewCookMenuScreen extends Component {
                 swipeComponent = [
                     {
                         backgroundColor: colors.scarlet,
-                        text: 'Remove',
+                        text: <Text style={style.fontStyle({ color: iOSColors.white, size: 16 })}>Remove</Text>,
+                        underlayColor: colors.scarlet,
                         type: 'delete',
                         onPress: () => {
                             Haptic.impact(Haptic.ImpactFeedbackStyle.Medium)
