@@ -17,7 +17,7 @@
     "aws-amplify-react": "^2.3.8",
     "aws-amplify-react-native": "^2.1.7",
     "aws-sdk": "^2.437.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "email-validator": "^2.0.4",
     "expo": "^32.0.0",
     "gulp-rename": "^1.4.0",
